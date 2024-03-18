@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,5 +54,13 @@ public class BoardController {
     boardService.updateBoard(boardId, requestDto);
     
     return "워크스페이스가 수정되었습니다.";
+  }
+
+  @DeleteMapping("/{boardId}")
+  public String deleteBoard(
+      @PathVariable Long boardId) {
+    boardService.deleteBoard(boardId);
+
+    return "워크스페이스가 삭제되었습니다.";
   }
 }

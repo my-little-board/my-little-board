@@ -57,6 +57,8 @@ public class BoardService {
     return boardResponseDtoList;
   }
 
+  @Transactional(readOnly = true)
+
   public List<BoardResponseDto> getBoardClosing() {
     List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
     for(Board board : boardRepository.findAll()) {
@@ -78,5 +80,10 @@ public class BoardService {
         new IllegalArgumentException("일치하는 작업공간이 없습니다."));
 
     board.update(requestDto);
+  }
+
+  @Transactional
+  public void deleteBoard(Long boardId) {
+    boardRepository.deleteById(boardId);
   }
 }

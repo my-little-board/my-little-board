@@ -56,4 +56,19 @@ public class BoardService {
     }
     return boardResponseDtoList;
   }
+
+  public List<BoardResponseDto> getBoardClosing() {
+    List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
+    for(Board board : boardRepository.findAll()) {
+      if (!board.isClassification()) {
+        boardResponseDtoList.add(
+            new BoardResponseDto(
+                board.getBoardName(),
+                board.getBoardDescription(),
+                board.getBoardColor(),
+                board.getDueDate()));
+      }
+    }
+    return boardResponseDtoList;
+  }
 }

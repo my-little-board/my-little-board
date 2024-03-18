@@ -36,4 +36,11 @@ public class BoardController {
 
     return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
   }
+
+  @GetMapping("/close")
+  public ResponseEntity<List<BoardResponseDto>> getBoardClosing() {
+    List<BoardResponseDto> responseDtoList = boardService.getBoardClosing();
+
+    return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+  }
 }

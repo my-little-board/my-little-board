@@ -29,4 +29,11 @@ public class BoardController {
 
     return "작업공간이 생성되었습니다.";
   }
+
+  @GetMapping("/progress")
+  public ResponseEntity<List<BoardResponseDto>> getBoardProgressing() {
+    List<BoardResponseDto> responseDtoList = boardService.getBoardProgressing();
+
+    return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+  }
 }

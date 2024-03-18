@@ -40,4 +40,20 @@ public class BoardService {
     boardRepository.save(board);
     // todo: 현재 진행상황을 표현하는 방법
   }
+
+  @Transactional(readOnly = true)
+  public List<BoardResponseDto> getBoardProgressing() {
+    List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
+    for (Board board : boardRepository.findAll()) {
+      if (board.isClassification()) {
+        boardResponseDtoList.add(
+            new BoardResponseDto(
+                board.getBoardName(),
+                board.getBoardDescription(),
+                board.getBoardColor(),
+                board.getDueDate()));
+      }
+    }
+    return boardResponseDtoList;
+  }
 }

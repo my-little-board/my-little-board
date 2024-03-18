@@ -1,5 +1,6 @@
 package com.fis.mylittleboard.domain.board.entity;
 
+import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,5 +48,13 @@ public class Board {
     this.userId = userId;
   }
 
+  public void update(BoardRequestDto requestDto) {
+    this.boardName = requestDto.getBoardName();
+    this.boardDescription = requestDto.getBoardDescription();
+    this.boardColor = requestDto.getBoardColor();
+    this.dueDate = LocalDateTime.now();
+  }
+
+  // todo: 수정부분의 마감기한 설정도 생각해보기
   // todo: patch api가 필요 url path에
 }

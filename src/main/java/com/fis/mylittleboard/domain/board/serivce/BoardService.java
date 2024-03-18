@@ -71,4 +71,12 @@ public class BoardService {
     }
     return boardResponseDtoList;
   }
+
+  @Transactional
+  public void updateBoard(Long boardId, BoardRequestDto requestDto) {
+    Board board = boardRepository.findById(boardId).orElseThrow(() ->
+        new IllegalArgumentException("일치하는 작업공간이 없습니다."));
+
+    board.update(requestDto);
+  }
 }

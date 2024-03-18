@@ -9,7 +9,9 @@ import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +44,14 @@ public class BoardController {
     List<BoardResponseDto> responseDtoList = boardService.getBoardClosing();
 
     return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+  }
+
+  @PutMapping("/{boardId}")
+  public String updateBoard(
+      @PathVariable Long boardId,
+      @RequestBody BoardRequestDto requestDto) {
+    boardService.updateBoard(boardId, requestDto);
+    
+    return "워크스페이스가 수정되었습니다.";
   }
 }

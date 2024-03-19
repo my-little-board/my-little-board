@@ -31,6 +31,6 @@ public class CardRequestDto {
 	@NotNull
 	private Long progressId;
 
-	private List<Long> workers;
+	private List<Long> members;
 
 }

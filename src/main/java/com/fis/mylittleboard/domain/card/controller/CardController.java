@@ -1,7 +1,6 @@
 package com.fis.mylittleboard.domain.card.controller;
 
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
-import com.fis.mylittleboard.domain.card.dto.CoworkRequestDto;
 import com.fis.mylittleboard.domain.card.service.CardService;
 import com.fis.mylittleboard.global.common.ResponseDto;
 import jakarta.validation.Valid;

@@ -1,7 +1,6 @@
 package com.fis.mylittleboard.domain.card.service;
 
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
-import com.fis.mylittleboard.domain.card.dto.CoworkRequestDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.entity.Cowork;
 import com.fis.mylittleboard.domain.card.repository.CardRepository;

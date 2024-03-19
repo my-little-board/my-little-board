@@ -1,6 +1,5 @@
 package com.fis.mylittleboard.domain.hahacontent.service;
 
-import com.fis.mylittleboard.domain.board.entity.Board;
 import com.fis.mylittleboard.domain.hahacontent.dto.HahaContentRequestDto;
 import com.fis.mylittleboard.domain.hahacontent.entity.HahaContent;
 import com.fis.mylittleboard.domain.hahacontent.repository.HahaContentRepository;

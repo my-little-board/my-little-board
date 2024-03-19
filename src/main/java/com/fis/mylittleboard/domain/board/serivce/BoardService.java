@@ -1,11 +1,11 @@
 package com.fis.mylittleboard.domain.board.serivce;
 
-import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
-import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.entity.Board;
 import com.fis.mylittleboard.domain.board.repository.BoardRepository;
+import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
+import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.hahaboard.entity.Hahaboard;
 import com.fis.mylittleboard.domain.hahaboard.repository.HahaboardRepository;
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class BoardService {
 
   public List<BoardResponseDto> getBoardClosing() {
     List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
-    for(Board board : boardRepository.findAll()) {
+    for (Board board : boardRepository.findAll()) {
       if (!board.isClassification()) {
         boardResponseDtoList.add(
             new BoardResponseDto(

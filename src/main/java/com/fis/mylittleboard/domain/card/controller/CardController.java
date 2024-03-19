@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -54,6 +55,17 @@ public class CardController {
 	public ResponseEntity<ResponseDto> updateCard(@PathVariable Long cardId,
 		@Valid @RequestBody CardRequestDto cardRequestDto) {
 		cardService.updateCard(cardId, cardRequestDto);
+
+		return ResponseEntity.ok()
+			.body(ResponseDto.builder()
+				.message("카드 수정에 성공하였습니다.")
+				.build());
+	}
+
+	@Transactional
+	@DeleteMapping("/{cardId}")
+	public ResponseEntity<ResponseDto> deleteCard(@PathVariable Long cardId) {
+		cardService.deleteCaard(cardId);
 
 		return ResponseEntity.ok()
 			.body(ResponseDto.builder()

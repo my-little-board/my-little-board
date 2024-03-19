@@ -20,4 +20,9 @@ public class CardRepositoryImpl implements CardRepository{
 	public Optional<Card> findById(Long cardId) {
 		return cardJpaRepository.findById(cardId);
 	}
+
+	@Override
+	public void delete(Card card) {
+		cardJpaRepository.delete(card);
+	}
 }

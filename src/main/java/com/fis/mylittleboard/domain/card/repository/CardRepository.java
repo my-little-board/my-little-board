@@ -10,4 +10,5 @@ public interface CardRepository {
 
 	Optional<Card> findById(Long cardId);
 
+	void delete(Card card);
 }

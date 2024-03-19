@@ -46,4 +46,16 @@ public class CardServiceImpl implements CardService{
 
 		card.update(cardRequestDto);
 	}
+
+	@Override
+	public void deleteCaard(Long cardId) {
+
+		Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new IllegalArgumentException("카드가 존재하지 않습니다."));
+
+		List<Cowork> works = coworkRepository.findByCardId(cardId);
+		works.forEach(coworkRepository::delete);
+
+		cardRepository.delete(card);
+	}
 }

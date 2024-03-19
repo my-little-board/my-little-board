@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,6 +48,17 @@ public class ProgressController {
 				.message("분류 수정에 성공하였습니다.")
 				.build());
 
+	}
+
+	@Transactional
+	@DeleteMapping("/{progressId}")
+	public ResponseEntity<MessageResponseDto> deleteProgress(@PathVariable Long progressId) {
+		progressService.deleteProgress(progressId);
+
+		return ResponseEntity.ok()
+			.body(MessageResponseDto.builder()
+				.message("분류 수정에 성공하였습니다.")
+				.build());
 	}
 
 }

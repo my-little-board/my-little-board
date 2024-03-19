@@ -20,4 +20,9 @@ public class ProgressRepositoryImpl implements ProgressRepository{
 	public Optional<Progress> findById(Long progressId) {
 		return progressJpaRepository.findById(progressId);
 	}
+
+	@Override
+	public void delete(Progress progress) {
+		progressJpaRepository.delete(progress);
+	}
 }

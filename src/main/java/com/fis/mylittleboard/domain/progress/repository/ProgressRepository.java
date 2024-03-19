@@ -9,4 +9,6 @@ public interface ProgressRepository {
 
 	Optional<Progress> findById(Long progressId);
 
+	void delete(Progress progress);
+
 }

@@ -42,4 +42,9 @@ public class CardRepositoryImpl implements CardRepository{
 
 
 	}
+
+	@Override
+	public List<Card> findByProgressId(Long progressId) {
+		return cardJpaRepository.findByProgressId(progressId);
+	}
 }

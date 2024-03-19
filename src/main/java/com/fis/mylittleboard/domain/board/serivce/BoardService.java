@@ -1,24 +1,30 @@
 package com.fis.mylittleboard.domain.board.serivce;
 
+import com.fis.mylittleboard.domain.board.collaboration.entity.Collaboration;
+import com.fis.mylittleboard.domain.board.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.entity.Board;
 import com.fis.mylittleboard.domain.board.repository.BoardRepository;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.text.html.FormView;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.query.NativeQuery.ReturnableResultNode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoardService {
 
   private final BoardRepository boardRepository;
+  private final CollaborationRepository collaborationRepository;
 
   @Transactional
   public void createBoard(BoardRequestDto requestDto) {
@@ -37,7 +43,12 @@ public class BoardService {
         userId
     );
 
-    boardRepository.save(board);
+    Board newBoard = boardRepository.save(board);
+    log.info(String.valueOf(newBoard));
+
+    Collaboration collaboration = new Collaboration(newBoard.getId(), userId);
+
+    collaborationRepository.save(collaboration);
     // todo: 현재 진행상황을 표현하는 방법
   }
 

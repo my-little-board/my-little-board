@@ -25,4 +25,8 @@ public class Collaboration {
   @Column(nullable = false)
   private Long boardId;
 
+  public Collaboration(Long id, Long userId) {
+    this.boardId = id;
+    this.userId = userId;
+  }
 }

@@ -1,4 +1,4 @@
-package com.fis.mylittleboard.domain.board.collaboration.entity;
+package com.fis.mylittleboard.domain.collaboration.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

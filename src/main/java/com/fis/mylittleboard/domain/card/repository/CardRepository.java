@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface CardRepository {
 
-	void save(Card card);
+	Card save(Card card);
 
 	Optional<Card> findById(Long cardId);
 

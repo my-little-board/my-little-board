@@ -12,9 +12,7 @@ public interface CardService {
 
 	void createCard(CardRequestDto cardrequestDto);
 
-	void addWorkers(Long cardId, CoworkRequestDto coworkRequestDto);
-
 	void updateCard(Long cardId, CardRequestDto cardRequestDto);
 
-	void deleteCaard(Long cardId);
+	void deleteCard(Long cardId);
 }

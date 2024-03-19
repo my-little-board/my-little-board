@@ -20,20 +20,13 @@ public class CardServiceImpl implements CardService{
 	@Override
 	public void createCard(CardRequestDto requestDto) {
 		Card card = new Card(requestDto);
-		cardRepository.save(card);
-	}
 
-	@Override
-	public void addWorkers(Long cardId, CoworkRequestDto coworkRequestDto) {
+		List<Long> workers = requestDto.getWorkers();
 
-		List<Long> workers = coworkRequestDto.getWorkers();
-		//userId 검증
-
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("카드가 존재하지 않습니다."));
+		Card savedCard = cardRepository.save(card);
 
 		workers.stream()
-			.map(l -> new Cowork(card.getId(), l))
+			.map(l -> new Cowork(savedCard.getId(), l))
 			.forEach(coworkRepository::save);
 
 	}
@@ -48,7 +41,7 @@ public class CardServiceImpl implements CardService{
 	}
 
 	@Override
-	public void deleteCaard(Long cardId) {
+	public void deleteCard(Long cardId) {
 
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("카드가 존재하지 않습니다."));

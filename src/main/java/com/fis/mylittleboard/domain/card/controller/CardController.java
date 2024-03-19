@@ -2,9 +2,7 @@ package com.fis.mylittleboard.domain.card.controller;
 
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CoworkRequestDto;
-import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.service.CardService;
-import com.fis.mylittleboard.domain.card.service.CardServiceImpl;
 import com.fis.mylittleboard.global.common.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,19 +35,6 @@ public class CardController {
 				.build());
 	}
 
-	//workerId 검증
-	@Transactional
-	@PostMapping("{cardId}/workers")
-	public ResponseEntity<ResponseDto> addWorkers(@PathVariable Long cardId, @Valid @RequestBody
-	CoworkRequestDto coworkRequestDto) {
-		cardService.addWorkers(cardId, coworkRequestDto);
-
-		return ResponseEntity.ok()
-			.body(ResponseDto.builder()
-				.message("작업자 추가에 성공하였습니다.")
-				.build());
-	}
-
 	@Transactional
 	@PutMapping("/{cardId}")
 	public ResponseEntity<ResponseDto> updateCard(@PathVariable Long cardId,
@@ -65,7 +50,7 @@ public class CardController {
 	@Transactional
 	@DeleteMapping("/{cardId}")
 	public ResponseEntity<ResponseDto> deleteCard(@PathVariable Long cardId) {
-		cardService.deleteCaard(cardId);
+		cardService.deleteCard(cardId);
 
 		return ResponseEntity.ok()
 			.body(ResponseDto.builder()

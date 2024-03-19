@@ -12,8 +12,9 @@ public class CardRepositoryImpl implements CardRepository{
 	private final CardJpaRepository cardJpaRepository;
 
 	@Override
-	public void save(Card card) {
+	public Card save(Card card) {
 		cardJpaRepository.save(card);
+		return card;
 	}
 
 	@Override

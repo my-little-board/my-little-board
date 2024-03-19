@@ -3,6 +3,7 @@ package com.fis.mylittleboard.domain.comment.controller;
 import com.fis.mylittleboard.domain.comment.dto.CommentRequestDto;
 import com.fis.mylittleboard.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,5 +33,13 @@ public class CommentController {
     commentService.updateComment(commentId, requestDto);
 
     return "댓글이 수정되었습니다.";
+  }
+
+  @DeleteMapping("/{commentId}")
+  public String deleteComment (
+      @PathVariable Long commentId) {
+    commentService.deleteComment(commentId);
+
+    return "댓글이 삭제되었습니다.";
   }
 }

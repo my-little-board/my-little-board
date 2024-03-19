@@ -31,6 +31,6 @@ public class Progress {
 	}
 
 	public void updateProgress(String newClassification) {
-		this.classification = classification;
+		this.classification = newClassification;
 	}
 }

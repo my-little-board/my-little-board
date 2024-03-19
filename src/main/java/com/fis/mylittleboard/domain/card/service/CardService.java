@@ -1,21 +1,17 @@
 package com.fis.mylittleboard.domain.card.service;
 
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
-import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
-import com.fis.mylittleboard.domain.card.entity.Card;
-import com.fis.mylittleboard.domain.card.repository.CardRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.fis.mylittleboard.domain.card.dto.CoworkRequestDto;
 
-@Service
-@RequiredArgsConstructor
-public class CardService {
+public interface CardService {
 
-	private final CardRepository cardRepository;
+	/**
+	 *
+	 * @param cardrequestDto
+	 */
 
-	public CardResponseDto createCard(CardRequestDto requestDto) {
-		Card card = new Card(requestDto);
-		cardRepository.save(card);
-		return new CardResponseDto(card);
-	}
+	void createCard(CardRequestDto cardrequestDto);
+
+	void addWorkers(Long cardId, CoworkRequestDto coworkRequestDto);
+
 }

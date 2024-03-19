@@ -1,6 +1,7 @@
 package com.fis.mylittleboard.domain.card.repository;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,12 @@ public class CardRepositoryImpl implements CardRepository{
 	private final CardJpaRepository cardJpaRepository;
 
 	@Override
-	public Card save(Card card) {
-		return cardJpaRepository.save(card);
+	public void save(Card card) {
+		cardJpaRepository.save(card);
+	}
+
+	@Override
+	public Optional<Card> findById(Long cardId) {
+		return cardJpaRepository.findById(cardId);
 	}
 }

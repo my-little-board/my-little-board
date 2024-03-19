@@ -37,4 +37,13 @@ public class CardServiceImpl implements CardService{
 			.forEach(coworkRepository::save);
 
 	}
+
+	@Override
+	public void updateCard(Long cardId, CardRequestDto cardRequestDto) {
+
+		Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new IllegalArgumentException("카드가 존재하지 않습니다."));
+
+		card.update(cardRequestDto);
+	}
 }

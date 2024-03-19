@@ -2,14 +2,17 @@ package com.fis.mylittleboard.domain.card.controller;
 
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CoworkRequestDto;
+import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.service.CardService;
 import com.fis.mylittleboard.domain.card.service.CardServiceImpl;
 import com.fis.mylittleboard.global.common.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +25,7 @@ public class CardController {
 	private final CardService cardService;
 
 	//boardId와 progressId 검증
+	@Transactional
 	@PostMapping
 	public ResponseEntity<ResponseDto> createCard(@Valid @RequestBody CardRequestDto requestDto) {
 		cardService.createCard(requestDto);
@@ -33,9 +37,10 @@ public class CardController {
 	}
 
 	//workerId 검증
+	@Transactional
 	@PostMapping("{cardId}/workers")
 	public ResponseEntity<ResponseDto> addWorkers(@PathVariable Long cardId, @Valid @RequestBody
-		CoworkRequestDto coworkRequestDto) {
+	CoworkRequestDto coworkRequestDto) {
 		cardService.addWorkers(cardId, coworkRequestDto);
 
 		return ResponseEntity.ok()
@@ -44,4 +49,15 @@ public class CardController {
 				.build());
 	}
 
+	@Transactional
+	@PutMapping("/{cardId}")
+	public ResponseEntity<ResponseDto> updateCard(@PathVariable Long cardId,
+		@Valid @RequestBody CardRequestDto cardRequestDto) {
+		cardService.updateCard(cardId, cardRequestDto);
+
+		return ResponseEntity.ok()
+			.body(ResponseDto.builder()
+				.message("카드 수정에 성공하였습니다.")
+				.build());
+	}
 }

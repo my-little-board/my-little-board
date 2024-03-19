@@ -14,4 +14,5 @@ public interface CardService {
 
 	void addWorkers(Long cardId, CoworkRequestDto coworkRequestDto);
 
+	void updateCard(Long cardId, CardRequestDto cardRequestDto);
 }

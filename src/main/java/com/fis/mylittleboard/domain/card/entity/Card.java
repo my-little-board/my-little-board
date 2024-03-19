@@ -52,4 +52,14 @@ public class Card {
 		this.boardId = cardRequestDto.getBoardId();
 		this.progressId = cardRequestDto.getProgressId();
 	}
+
+	public void update(CardRequestDto cardRequestDto) {
+		this.name = cardRequestDto.getName();
+		this.description = cardRequestDto.getName();
+		this.color = cardRequestDto.getColor();
+		this.dueDate = cardRequestDto.getDueDate();
+		this.boardId = cardRequestDto.getBoardId();
+		this.progressId = cardRequestDto.getProgressId();
+	}
+
 }

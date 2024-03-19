@@ -22,7 +22,6 @@ public class CardRequestDto {
 	@NotNull(message = "색상을 입력하세요.")
 	private String color;
 
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dueDate;
 

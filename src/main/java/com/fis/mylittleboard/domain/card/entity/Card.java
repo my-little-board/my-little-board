@@ -34,7 +34,7 @@ public class Card {
 	@Column(nullable = false)
 	private String color;
 
-	@Column(nullable = false)
+	@Column
 	private LocalDate dueDate;
 
 	@Column(nullable = false)

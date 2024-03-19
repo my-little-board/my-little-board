@@ -1,6 +1,7 @@
 package com.fis.mylittleboard.domain.card.service;
 
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.entity.Cowork;
 import com.fis.mylittleboard.domain.card.repository.CardRepository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CardServiceImpl implements CardService{
+public class CardServiceImpl implements CardService {
 
 	private final CardRepository cardRepository;
 	private final CoworkRepository coworkRepository;
@@ -49,5 +50,15 @@ public class CardServiceImpl implements CardService{
 		works.forEach(coworkRepository::delete);
 
 		cardRepository.delete(card);
+	}
+
+	@Override
+	public CardResponseDto getCard(Long cardId) {
+		Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new IllegalArgumentException("카드가 존재하지 않습니다."));
+
+		List<Long> workers = cardRepository.getWorkerIds(cardId);
+
+		return new CardResponseDto(card, workers);
 	}
 }

@@ -5,10 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ResponseDto<T> {
+public class MessageResponseDto {
 
 	private String message;
-
-	private T data;
 
 }

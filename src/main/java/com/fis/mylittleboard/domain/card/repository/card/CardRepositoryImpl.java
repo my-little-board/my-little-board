@@ -1,9 +1,10 @@
-package com.fis.mylittleboard.domain.card.repository;
+package com.fis.mylittleboard.domain.card.repository.card;
 
 import static com.fis.mylittleboard.domain.card.entity.QCowork.cowork;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
-import com.fis.mylittleboard.domain.card.entity.QCowork;
+import com.fis.mylittleboard.domain.card.repository.card.CardJpaRepository;
+import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class CardRepositoryImpl implements CardRepository{
+public class CardRepositoryImpl implements CardRepository {
 
 	private final CardJpaRepository cardJpaRepository;
 	private final JPAQueryFactory jpaQueryFactory;

@@ -1,14 +1,15 @@
-package com.fis.mylittleboard.domain.card.repository;
+package com.fis.mylittleboard.domain.card.repository.cowork;
 
 import com.fis.mylittleboard.domain.card.entity.Cowork;
+import com.fis.mylittleboard.domain.card.repository.cowork.CoworkJpaRepository;
+import com.fis.mylittleboard.domain.card.repository.cowork.CoworkRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Repository
 @RequiredArgsConstructor
-public class CoworkRepositoryImpl implements CoworkRepository{
+public class CoworkRepositoryImpl implements CoworkRepository {
 
 	private final CoworkJpaRepository coworkJpaRepository;
 

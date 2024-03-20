@@ -17,4 +17,6 @@ public interface CardService {
 	void deleteCard(Long cardId);
 
 	CardResponseDto getCard(Long cardId);
+
+	void addLabel(Long cardId, Long labelId);
 }

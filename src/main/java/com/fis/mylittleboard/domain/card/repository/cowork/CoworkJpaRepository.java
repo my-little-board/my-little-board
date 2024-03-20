@@ -1,4 +1,4 @@
-package com.fis.mylittleboard.domain.card.repository;
+package com.fis.mylittleboard.domain.card.repository.cowork;
 
 import com.fis.mylittleboard.domain.card.entity.Cowork;
 import java.util.List;

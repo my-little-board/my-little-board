@@ -1,4 +1,4 @@
-package com.fis.mylittleboard.domain.card.repository;
+package com.fis.mylittleboard.domain.card.repository.card;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
 import java.util.List;

@@ -1,8 +1,7 @@
 package com.fis.mylittleboard.domain.progress.service;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
-import com.fis.mylittleboard.domain.card.repository.CardRepository;
-import com.fis.mylittleboard.domain.progress.dto.ProgressRequestDto;
+import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.fis.mylittleboard.domain.progress.entity.Progress;
 import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import java.util.List;

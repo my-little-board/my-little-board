@@ -1,6 +1,7 @@
 package com.fis.mylittleboard.domain.user.entity;
 
 import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
+import com.fis.mylittleboard.domain.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User {
+public class UserEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,31 +48,27 @@ public class User {
   @LastModifiedDate
   private LocalDateTime modifiedAt;
 
-  @Builder
-  public User(Long id,String signupId,String password,String email,String username){
-    this.id = id;
-    this.signupId = signupId;
-    this.password = password;
-    this.email = email;
-    this.username = username;
-    this.createdAt = LocalDateTime.now();
+  public static UserEntity of(String signupId,String password,String email,String username){
+    return UserEntity.builder()
+        .signupId(signupId)
+        .password(password)
+        .email(email)
+        .username(username)
+        .createdAt(LocalDateTime.now())
+        .modifiedAt(LocalDateTime.now())
+        .build();
   }
 
-
-
-  public void User(User user) {
-    this.signupId = user.signupId;
-    this.password = user.password;
-    this.email = user.email;
-    this.username = user.username;
-    this.modifiedAt = user.modifiedAt;
-  }
-  public static User toEntity(UserRequestDto userRequestDto) {
+  public User toModel() {
     return User.builder()
-        .signupId(userRequestDto.getSignupId())
-        .password(userRequestDto.getPassword())
-        .email(userRequestDto.getEmail())
-        .username(userRequestDto.getUsername()).createdAt(LocalDateTime.now()).build();
+        .id(id)
+        .signupId(signupId)
+        .password(password)
+        .email(email)
+        .username(username)
+        .build();
   }
-
 }
+
+
+

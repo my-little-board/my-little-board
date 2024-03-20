@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,21 +15,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "coworks")
-public class Cowork {
+@Table(name = "dates")
+public class Date {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column
 	private Long cardId;
 
 	@Column
-	private Long memberId;
+	private LocalDate dueDate;
 
-	public Cowork(Long cardId, Long memberId) {
+	public Date(Long cardId, LocalDate dueDate) {
 		this.cardId = cardId;
-		this.memberId = memberId;
+		this.dueDate = dueDate;
+	}
+
+	public void updateDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
 	}
 }

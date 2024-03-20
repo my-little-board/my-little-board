@@ -1,21 +1,38 @@
 package com.fis.mylittleboard.domain.card.service;
 
-import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardColorResponseDto;
+import com.fis.mylittleboard.domain.card.dto.CardDatesRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
+import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
+import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
+import com.fis.mylittleboard.domain.card.dto.MemberResDto;
+import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 
 public interface CardService {
 
-	/**
-	 *
-	 * @param cardrequestDto
-	 */
+	void createCard(CardNameRequestDto cardNameRequestDto);
 
-	void createCard(CardRequestDto cardrequestDto);
-
-	void updateCard(Long cardId, CardRequestDto cardRequestDto);
 
 	void deleteCard(Long cardId);
 
 	CardResponseDto getCard(Long cardId);
 
+	CardDescriptionResponseDto updateDescription(Long cardId, String description);
+
+	CardColorResponseDto updateColor(Long cardId, String color);
+
+	CardDatesResDto addDate(Long cardId, CardDatesRequestDto cardDatesRequestDto);
+
+	CardDatesResDto updateDate(Long dateId, CardDatesRequestDto cardDatesRequestDto);
+
+	void deleteDate(Long cardDateId);
+
+	MemberResDto addMember(Long cardId, String username);
+
+	void deleteMember(Long memberId);
+
+	LabelResponseDto addLabel(Long cardId, Long labelId);
+
+	void deleteCardLabel(Long cardLabelId);
 }

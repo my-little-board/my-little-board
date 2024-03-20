@@ -6,7 +6,7 @@ import javax.swing.text.html.Option;
 
 public interface LabelRepository {
 
-	void save(Label label);
+	Label save(Label label);
 
 	Optional<Label> findById(Long labelId);
 

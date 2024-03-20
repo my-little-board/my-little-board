@@ -9,7 +9,6 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
-@AllArgsConstructor
 public class CardResponseDto {
 
 	private Long cardId;
@@ -35,7 +34,6 @@ public class CardResponseDto {
 		this.name = card.getName();
 		this.description = card.getDescription();
 		this.color = card.getColor();
-		this.dueDate = card.getDueDate();
 		this.boardId = card.getBoardId();
 		this.progressId = card.getProgressId();
 		this.members = members;

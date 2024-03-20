@@ -5,9 +5,9 @@ import java.util.Optional;
 
 public interface CardLabelRepository {
 
-	void save(CardLabel cardLabel);
+  void save(CardLabel cardLabel);
 
-	Optional<CardLabel> findById(Long id);
+  Optional<CardLabel> findById(Long id);
 
-	void delete(CardLabel cardLabel);
+  void delete(CardLabel cardLabel);
 }

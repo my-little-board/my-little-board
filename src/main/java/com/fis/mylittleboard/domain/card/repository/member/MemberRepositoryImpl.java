@@ -10,25 +10,25 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepository {
 
-	private final MemberJpaRepository memberJpaRepository;
+  private final MemberJpaRepository memberJpaRepository;
 
-	@Override
-	public void save(Member member) {
-		memberJpaRepository.save(member);
-	}
+  @Override
+  public void save(Member member) {
+    memberJpaRepository.save(member);
+  }
 
-	@Override
-	public List<Member> findByCardId(Long cardId) {
-		return memberJpaRepository.findByCardId(cardId);
-	}
+  @Override
+  public List<Member> findByCardId(Long cardId) {
+    return memberJpaRepository.findByCardId(cardId);
+  }
 
-	@Override
-	public void delete(Member member) {
-		memberJpaRepository.delete(member);
-	}
+  @Override
+  public void delete(Member member) {
+    memberJpaRepository.delete(member);
+  }
 
-	@Override
-	public Optional<Member> findById(Long id) {
-		return memberJpaRepository.findById(id);
-	}
+  @Override
+  public Optional<Member> findById(Long id) {
+    return memberJpaRepository.findById(id);
+  }
 }

@@ -15,19 +15,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "cardlabels")
 public class CardLabel {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false)
-	private Long cardId;
+  @Column(nullable = false)
+  private Long cardId;
 
-	@Column(nullable = false)
-	private Long labelId;
+  @Column(nullable = false)
+  private Long labelId;
 
-	public CardLabel(Long cardId, Long labelId) {
-		this.cardId = cardId;
-		this.labelId = labelId;
-	}
+  public CardLabel(Long cardId, Long labelId) {
+    this.cardId = cardId;
+    this.labelId = labelId;
+  }
 
 }

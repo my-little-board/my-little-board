@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public class MemberResDto {
 
-	private String username;
+  private final String username;
 
-	public MemberResDto(String username) {
-		this.username = username;
-	}
+  public MemberResDto(String username) {
+    this.username = username;
+  }
 
 }

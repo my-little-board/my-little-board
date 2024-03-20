@@ -7,22 +7,22 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class ProgressRepositoryImpl implements ProgressRepository{
+public class ProgressRepositoryImpl implements ProgressRepository {
 
-	private final ProgressJpaRepository progressJpaRepository;
+  private final ProgressJpaRepository progressJpaRepository;
 
-	@Override
-	public void save(Progress progress) {
-		progressJpaRepository.save(progress);
-	}
+  @Override
+  public void save(Progress progress) {
+    progressJpaRepository.save(progress);
+  }
 
-	@Override
-	public Optional<Progress> findById(Long progressId) {
-		return progressJpaRepository.findById(progressId);
-	}
+  @Override
+  public Optional<Progress> findById(Long progressId) {
+    return progressJpaRepository.findById(progressId);
+  }
 
-	@Override
-	public void delete(Progress progress) {
-		progressJpaRepository.delete(progress);
-	}
+  @Override
+  public void delete(Progress progress) {
+    progressJpaRepository.delete(progress);
+  }
 }

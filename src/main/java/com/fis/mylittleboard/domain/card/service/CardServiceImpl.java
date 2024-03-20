@@ -28,130 +28,132 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
 
-	private final CardRepository cardRepository;
-	private final MemberRepository memberRepository;
-	private final LabelRepository labelRepository;
-	private final CardLabelRepository cardLabelRepository;
-	private final DateRepository dateRepository;
-	private final UserRepository userRepository;
+  private final CardRepository cardRepository;
+  private final MemberRepository memberRepository;
+  private final LabelRepository labelRepository;
+  private final CardLabelRepository cardLabelRepository;
+  private final DateRepository dateRepository;
+  private final UserRepository userRepository;
 
-	@Transactional
-	public void createCard(CardNameRequestDto cardNameRequestDto) {
-		Card card = new Card(cardNameRequestDto);
-		cardRepository.save(card);
-	}
+  @Transactional
+  public void createCard(CardNameRequestDto cardNameRequestDto) {
+    Card card = new Card(cardNameRequestDto);
+    cardRepository.save(card);
+  }
 
 
-	@Transactional
-	public void deleteCard(Long cardId) {
+  @Transactional
+  public void deleteCard(Long cardId) {
 
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		List<Member> works = memberRepository.findByCardId(cardId);
-		works.forEach(memberRepository::delete);
+    List<Member> works = memberRepository.findByCardId(cardId);
+    works.forEach(memberRepository::delete);
 
-		cardRepository.delete(card);
-	}
+    cardRepository.delete(card);
+  }
 
-	public CardResponseDto getCard(Long cardId) {
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+  public CardResponseDto getCard(Long cardId) {
+    Card card = cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		List<Long> members = cardRepository.getMemberIds(cardId);
-		List<Long> labels = cardRepository.getLabelIds(cardId);
+    List<Long> members = cardRepository.getMemberIds(cardId);
+    List<Long> labels = cardRepository.getLabelIds(cardId);
 
-		return new CardResponseDto(card, members, labels);
-	}
+    return new CardResponseDto(card, members, labels);
+  }
 
-	@Transactional
-	public CardDescriptionResponseDto updateDescription(Long cardId, String description) {
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+  @Transactional
+  public CardDescriptionResponseDto updateDescription(Long cardId, String description) {
+    Card card = cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		card.updateDescription(description);
-		return new CardDescriptionResponseDto(card);
-	}
+    card.updateDescription(description);
+    return new CardDescriptionResponseDto(card);
+  }
 
-	@Transactional
-	public CardColorResponseDto updateColor(Long cardId, String color) {
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+  @Transactional
+  public CardColorResponseDto updateColor(Long cardId, String color) {
+    Card card = cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		card.updateColor(color);
-		return new CardColorResponseDto(card);
-	}
+    card.updateColor(color);
+    return new CardColorResponseDto(card);
+  }
 
-	@Transactional
-	public CardDatesResDto addDate(Long cardId,
-		CardDatesRequestDto cardDatesRequestDto) {
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+  @Transactional
+  public CardDatesResDto addDate(
+      Long cardId,
+      CardDatesRequestDto cardDatesRequestDto) {
+    Card card = cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		Date date = new Date(card.getId(), cardDatesRequestDto.getDueDate());
-		dateRepository.save(date);
-		return new CardDatesResDto(date);
-	}
+    Date date = new Date(card.getId(), cardDatesRequestDto.getDueDate());
+    dateRepository.save(date);
+    return new CardDatesResDto(date);
+  }
 
-	@Transactional
-	public CardDatesResDto updateDate(Long dateId,
-		CardDatesRequestDto cardDatesRequestDto) {
+  @Transactional
+  public CardDatesResDto updateDate(
+      Long dateId,
+      CardDatesRequestDto cardDatesRequestDto) {
 
-		Date date = dateRepository.findById(dateId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 date는 존재하지 않습니다."));
+    Date date = dateRepository.findById(dateId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 date는 존재하지 않습니다."));
 
-		date.updateDate(cardDatesRequestDto.getDueDate());
-		return new CardDatesResDto(date);
-	}
+    date.updateDate(cardDatesRequestDto.getDueDate());
+    return new CardDatesResDto(date);
+  }
 
-	@Transactional
-	public void deleteDate(Long dateId) {
-		Date date = dateRepository.findById(dateId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 date는 존재하지 않습니다."));
-		dateRepository.delete(date);
-	}
+  @Transactional
+  public void deleteDate(Long dateId) {
+    Date date = dateRepository.findById(dateId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 date는 존재하지 않습니다."));
+    dateRepository.delete(date);
+  }
 
-	@Transactional
-	public MemberResDto addMember(Long cardId, String username) {
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+  @Transactional
+  public MemberResDto addMember(Long cardId, String username) {
+    Card card = cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		//username찾기
+    //username찾기
 
-		Member member = new Member(card.getId(), username);
+    Member member = new Member(card.getId(), username);
 
-		memberRepository.save(member);
-		return new MemberResDto(member.getUsername());
-	}
+    memberRepository.save(member);
+    return new MemberResDto(member.getUsername());
+  }
 
-	@Transactional
-	public void deleteMember(Long memberId) {
-		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드에 존재하는 멤버가 아닙니다."));
+  @Transactional
+  public void deleteMember(Long memberId) {
+    Member member = memberRepository.findById(memberId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드에 존재하는 멤버가 아닙니다."));
 
-		memberRepository.delete(member);
-	}
+    memberRepository.delete(member);
+  }
 
-	@Transactional
-	public LabelResponseDto addLabel(Long cardId, Long labelId) {
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+  @Transactional
+  public LabelResponseDto addLabel(Long cardId, Long labelId) {
+    Card card = cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		Label label = labelRepository.findById(labelId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 라벨이 존재하지 않습니다."));
+    Label label = labelRepository.findById(labelId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 라벨이 존재하지 않습니다."));
 
-		CardLabel cardLabel = new CardLabel(card.getId(), label.getId());
+    CardLabel cardLabel = new CardLabel(card.getId(), label.getId());
 
-		cardLabelRepository.save(cardLabel);
+    cardLabelRepository.save(cardLabel);
 
-		return new LabelResponseDto(label);
-	}
+    return new LabelResponseDto(label);
+  }
 
-	@Transactional
-	public void deleteCardLabel(Long cardLabelId) {
-		CardLabel cardLabel = cardLabelRepository.findById(cardLabelId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드 라벨이 존재하지 않습니다."));
+  @Transactional
+  public void deleteCardLabel(Long cardLabelId) {
+    CardLabel cardLabel = cardLabelRepository.findById(cardLabelId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드 라벨이 존재하지 않습니다."));
 
-		cardLabelRepository.delete(cardLabel);
-	}
+    cardLabelRepository.delete(cardLabel);
+  }
 }

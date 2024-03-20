@@ -1,7 +1,6 @@
 package com.fis.mylittleboard.domain.comment.service;
 
 import com.fis.mylittleboard.domain.comment.dto.CommentRequestDto;
-import org.springframework.stereotype.Service;
 
 public interface CommentService {
 

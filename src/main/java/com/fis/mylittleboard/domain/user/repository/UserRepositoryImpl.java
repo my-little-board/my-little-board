@@ -3,7 +3,6 @@ package com.fis.mylittleboard.domain.user.repository;
 import com.fis.mylittleboard.domain.user.dto.SignupRequestDto;
 import com.fis.mylittleboard.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor

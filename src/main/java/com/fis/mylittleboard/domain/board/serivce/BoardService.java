@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BoardService {
 
-  void createBoard (BoardRequestDto requestDto);
+  void createBoard(BoardRequestDto requestDto);
 
   List<BoardResponseDto> getBoardProgressing();
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class HahaContentServiceImpl implements HahaContentService{
+public class HahaContentServiceImpl implements HahaContentService {
 
   private final HahaContentRepository hahaContentRepository;
 

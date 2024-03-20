@@ -7,12 +7,14 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserResponseDto {
+
   private String signupId;
   private String username;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
 
-  public UserResponseDto(String signupId,String username,LocalDateTime createdAt, LocalDateTime modifiedAt) {
+  public UserResponseDto(
+      String signupId, String username, LocalDateTime createdAt, LocalDateTime modifiedAt) {
     this.signupId = signupId;
     this.username = username;
     this.createdAt = LocalDateTime.now();

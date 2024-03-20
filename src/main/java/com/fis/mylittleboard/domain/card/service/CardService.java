@@ -11,28 +11,28 @@ import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 
 public interface CardService {
 
-	void createCard(CardNameRequestDto cardNameRequestDto);
+  void createCard(CardNameRequestDto cardNameRequestDto);
 
 
-	void deleteCard(Long cardId);
+  void deleteCard(Long cardId);
 
-	CardResponseDto getCard(Long cardId);
+  CardResponseDto getCard(Long cardId);
 
-	CardDescriptionResponseDto updateDescription(Long cardId, String description);
+  CardDescriptionResponseDto updateDescription(Long cardId, String description);
 
-	CardColorResponseDto updateColor(Long cardId, String color);
+  CardColorResponseDto updateColor(Long cardId, String color);
 
-	CardDatesResDto addDate(Long cardId, CardDatesRequestDto cardDatesRequestDto);
+  CardDatesResDto addDate(Long cardId, CardDatesRequestDto cardDatesRequestDto);
 
-	CardDatesResDto updateDate(Long dateId, CardDatesRequestDto cardDatesRequestDto);
+  CardDatesResDto updateDate(Long dateId, CardDatesRequestDto cardDatesRequestDto);
 
-	void deleteDate(Long cardDateId);
+  void deleteDate(Long cardDateId);
 
-	MemberResDto addMember(Long cardId, String username);
+  MemberResDto addMember(Long cardId, String username);
 
-	void deleteMember(Long memberId);
+  void deleteMember(Long memberId);
 
-	LabelResponseDto addLabel(Long cardId, Long labelId);
+  LabelResponseDto addLabel(Long cardId, Long labelId);
 
-	void deleteCardLabel(Long cardLabelId);
+  void deleteCardLabel(Long cardLabelId);
 }

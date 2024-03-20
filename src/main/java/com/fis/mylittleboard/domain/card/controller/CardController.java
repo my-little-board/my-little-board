@@ -31,155 +31,158 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/cards")
 public class CardController {
 
-	private final CardService cardService;
+  private final CardService cardService;
 
-	//boardId와 progressId 검증
+  //boardId와 progressId 검증
 
-	@PostMapping
-	public ResponseEntity<MessageResponseDto> createCard(
-		@Valid @RequestBody CardNameRequestDto cardNameRequestDto) {
-		cardService.createCard(cardNameRequestDto);
+  @PostMapping
+  public ResponseEntity<MessageResponseDto> createCard(
+      @Valid @RequestBody CardNameRequestDto cardNameRequestDto) {
+    cardService.createCard(cardNameRequestDto);
 
-		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
-				.message("카드 생성에 성공하였습니다.")
-				.build());
-	}
-
-
-	@PostMapping("/{cardId}/functions/dates")
-	public ResponseEntity<ResponseDto<CardDatesResDto>> addDate(@PathVariable Long cardId,
-		@RequestBody CardDatesRequestDto cardDatesRequestDto) {
-		CardDatesResDto cardDatesResDto = cardService.addDate(cardId,
-			cardDatesRequestDto);
-
-		return ResponseEntity.ok()
-			.body(ResponseDto.<CardDatesResDto>builder()
-				.message("DueDate 등록에 성공하였습니다.")
-				.data(cardDatesResDto)
-				.build());
-	}
-
-	@PostMapping("/{cardId}/functions/members")
-	public ResponseEntity<ResponseDto<MemberResDto>> addMember(@PathVariable Long cardId,
-		@RequestBody MemberReqDto memberReqDto) {
-		MemberResDto memberResDto = cardService.addMember(cardId, memberReqDto.getUsername());
-
-		return ResponseEntity.ok()
-			.body(ResponseDto.<MemberResDto>builder()
-				.message("DueDate 등록에 성공하였습니다.")
-				.data(memberResDto)
-				.build());
-	}
-
-	@PostMapping("/{cardId}/functions/labels/{labelId}")
-	public ResponseEntity<ResponseDto<LabelResponseDto>> addLabel(@PathVariable Long cardId,
-		@PathVariable Long labelId) {
-		LabelResponseDto labelResponseDto = cardService.addLabel(cardId, labelId);
-
-		return ResponseEntity.ok()
-			.body(ResponseDto.<LabelResponseDto>builder()
-				.message("DueDate 등록에 성공하였습니다.")
-				.data(labelResponseDto)
-				.build());
-	}
+    return ResponseEntity.ok()
+        .body(MessageResponseDto.builder()
+            .message("카드 생성에 성공하였습니다.")
+            .build());
+  }
 
 
-	@PatchMapping("/{cardId}/descriptions")
-	public ResponseEntity<ResponseDto<CardDescriptionResponseDto>> updateDescription(
-		@PathVariable Long cardId, @RequestBody CardDescriptionDto cardDescriptionDto) {
-		String description = cardDescriptionDto.getDescription();
+  @PostMapping("/{cardId}/functions/dates")
+  public ResponseEntity<ResponseDto<CardDatesResDto>> addDate(
+      @PathVariable Long cardId,
+      @RequestBody CardDatesRequestDto cardDatesRequestDto) {
+    CardDatesResDto cardDatesResDto = cardService.addDate(cardId,
+        cardDatesRequestDto);
 
-		CardDescriptionResponseDto cardDescriptionResponseDto = cardService.updateDescription(
-			cardId, description);
+    return ResponseEntity.ok()
+        .body(ResponseDto.<CardDatesResDto>builder()
+            .message("DueDate 등록에 성공하였습니다.")
+            .data(cardDatesResDto)
+            .build());
+  }
 
-		return ResponseEntity.ok()
-			.body(ResponseDto.<CardDescriptionResponseDto>builder()
-				.message("description 수정에 성공하였습니다.")
-				.data(cardDescriptionResponseDto)
-				.build());
-	}
+  @PostMapping("/{cardId}/functions/members")
+  public ResponseEntity<ResponseDto<MemberResDto>> addMember(
+      @PathVariable Long cardId,
+      @RequestBody MemberReqDto memberReqDto) {
+    MemberResDto memberResDto = cardService.addMember(cardId, memberReqDto.getUsername());
 
+    return ResponseEntity.ok()
+        .body(ResponseDto.<MemberResDto>builder()
+            .message("DueDate 등록에 성공하였습니다.")
+            .data(memberResDto)
+            .build());
+  }
 
-	@PatchMapping("/{cardId}/colors")
-	public ResponseEntity<ResponseDto<CardColorResponseDto>> updateColor(
-		@PathVariable Long cardId, @RequestBody CardColorRequestDto cardColorRequestDto) {
-		CardColorResponseDto cardColorResponseDto = cardService.updateColor(cardId,
-			cardColorRequestDto.getColor());
+  @PostMapping("/{cardId}/functions/labels/{labelId}")
+  public ResponseEntity<ResponseDto<LabelResponseDto>> addLabel(
+      @PathVariable Long cardId,
+      @PathVariable Long labelId) {
+    LabelResponseDto labelResponseDto = cardService.addLabel(cardId, labelId);
 
-		return ResponseEntity.ok()
-			.body(ResponseDto.<CardColorResponseDto>builder()
-				.message("color 수정에 성공하였습니다.")
-				.data(cardColorResponseDto)
-				.build());
-	}
-
-
-	@PatchMapping("/functions/dates/{dateId}")
-	public ResponseEntity<ResponseDto<CardDatesResDto>> updateDate(
-		@PathVariable Long dateId, @RequestBody
-	CardDatesRequestDto cardDatesRequestDto) {
-		CardDatesResDto cardDatesResDto = cardService.updateDate(dateId,
-			cardDatesRequestDto);
-
-		return ResponseEntity.ok()
-			.body(ResponseDto.<CardDatesResDto>builder()
-				.message("DueDate 수정에 성공하였습니다.")
-				.data(cardDatesResDto)
-				.build());
-	}
+    return ResponseEntity.ok()
+        .body(ResponseDto.<LabelResponseDto>builder()
+            .message("DueDate 등록에 성공하였습니다.")
+            .data(labelResponseDto)
+            .build());
+  }
 
 
-	@DeleteMapping("/functions/dates/{dateId}")
-	public ResponseEntity<MessageResponseDto> deleteDate(@PathVariable Long dateId) {
-		cardService.deleteDate(dateId);
+  @PatchMapping("/{cardId}/descriptions")
+  public ResponseEntity<ResponseDto<CardDescriptionResponseDto>> updateDescription(
+      @PathVariable Long cardId, @RequestBody CardDescriptionDto cardDescriptionDto) {
+    String description = cardDescriptionDto.getDescription();
 
-		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
-				.message("해당 카드의 date 기능 삭제에 성공하였습니다.")
-				.build());
-	}
+    CardDescriptionResponseDto cardDescriptionResponseDto = cardService.updateDescription(
+        cardId, description);
+
+    return ResponseEntity.ok()
+        .body(ResponseDto.<CardDescriptionResponseDto>builder()
+            .message("description 수정에 성공하였습니다.")
+            .data(cardDescriptionResponseDto)
+            .build());
+  }
 
 
-	@DeleteMapping("/{cardId}")
-	public ResponseEntity<MessageResponseDto> deleteCard(@PathVariable Long cardId) {
-		cardService.deleteCard(cardId);
+  @PatchMapping("/{cardId}/colors")
+  public ResponseEntity<ResponseDto<CardColorResponseDto>> updateColor(
+      @PathVariable Long cardId, @RequestBody CardColorRequestDto cardColorRequestDto) {
+    CardColorResponseDto cardColorResponseDto = cardService.updateColor(cardId,
+        cardColorRequestDto.getColor());
 
-		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
-				.message("카드 삭제에 성공하였습니다.")
-				.build());
-	}
+    return ResponseEntity.ok()
+        .body(ResponseDto.<CardColorResponseDto>builder()
+            .message("color 수정에 성공하였습니다.")
+            .data(cardColorResponseDto)
+            .build());
+  }
 
-	@DeleteMapping("/functions/members/{memberId}")
-	public ResponseEntity<MessageResponseDto> deleteMember(@PathVariable Long memberId) {
-		cardService.deleteMember(memberId);
 
-		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
-				.message("해당 멤버 제거에 성공하였습니다.")
-				.build());
-	}
+  @PatchMapping("/functions/dates/{dateId}")
+  public ResponseEntity<ResponseDto<CardDatesResDto>> updateDate(
+      @PathVariable Long dateId, @RequestBody
+  CardDatesRequestDto cardDatesRequestDto) {
+    CardDatesResDto cardDatesResDto = cardService.updateDate(dateId,
+        cardDatesRequestDto);
 
-	@DeleteMapping("/functions/labels/{cardLabelId}")
-	public ResponseEntity<MessageResponseDto> deleteCardLabel(@PathVariable Long cardLabelId) {
-		cardService.deleteCardLabel(cardLabelId);
+    return ResponseEntity.ok()
+        .body(ResponseDto.<CardDatesResDto>builder()
+            .message("DueDate 수정에 성공하였습니다.")
+            .data(cardDatesResDto)
+            .build());
+  }
 
-		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
-				.message("해당 카드 라벨 제거에 성공하였습니다.")
-				.build());
-	}
 
-	@GetMapping("/{cardId}")
-	public ResponseEntity<ResponseDto<CardResponseDto>> getCard(@PathVariable Long cardId) {
-		CardResponseDto cardResponseDto = cardService.getCard(cardId);
+  @DeleteMapping("/functions/dates/{dateId}")
+  public ResponseEntity<MessageResponseDto> deleteDate(@PathVariable Long dateId) {
+    cardService.deleteDate(dateId);
 
-		return ResponseEntity.ok()
-			.body(ResponseDto.<CardResponseDto>builder()
-				.message("카드 조회에 성공하였습니다.")
-				.data(cardResponseDto)
-				.build());
-	}
+    return ResponseEntity.ok()
+        .body(MessageResponseDto.builder()
+            .message("해당 카드의 date 기능 삭제에 성공하였습니다.")
+            .build());
+  }
+
+
+  @DeleteMapping("/{cardId}")
+  public ResponseEntity<MessageResponseDto> deleteCard(@PathVariable Long cardId) {
+    cardService.deleteCard(cardId);
+
+    return ResponseEntity.ok()
+        .body(MessageResponseDto.builder()
+            .message("카드 삭제에 성공하였습니다.")
+            .build());
+  }
+
+  @DeleteMapping("/functions/members/{memberId}")
+  public ResponseEntity<MessageResponseDto> deleteMember(@PathVariable Long memberId) {
+    cardService.deleteMember(memberId);
+
+    return ResponseEntity.ok()
+        .body(MessageResponseDto.builder()
+            .message("해당 멤버 제거에 성공하였습니다.")
+            .build());
+  }
+
+  @DeleteMapping("/functions/labels/{cardLabelId}")
+  public ResponseEntity<MessageResponseDto> deleteCardLabel(@PathVariable Long cardLabelId) {
+    cardService.deleteCardLabel(cardLabelId);
+
+    return ResponseEntity.ok()
+        .body(MessageResponseDto.builder()
+            .message("해당 카드 라벨 제거에 성공하였습니다.")
+            .build());
+  }
+
+  @GetMapping("/{cardId}")
+  public ResponseEntity<ResponseDto<CardResponseDto>> getCard(@PathVariable Long cardId) {
+    CardResponseDto cardResponseDto = cardService.getCard(cardId);
+
+    return ResponseEntity.ok()
+        .body(ResponseDto.<CardResponseDto>builder()
+            .message("카드 조회에 성공하였습니다.")
+            .data(cardResponseDto)
+            .build());
+  }
 
 }

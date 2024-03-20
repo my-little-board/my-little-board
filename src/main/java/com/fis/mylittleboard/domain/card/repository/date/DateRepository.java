@@ -5,11 +5,10 @@ import java.util.Optional;
 
 public interface DateRepository {
 
-	void save(Date date);
+  void save(Date date);
 
 
+  Optional<Date> findById(Long id);
 
-	Optional<Date> findById(Long id);
-
-	void delete(Date date);
+  void delete(Date date);
 }

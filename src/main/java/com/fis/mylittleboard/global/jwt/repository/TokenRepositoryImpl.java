@@ -11,7 +11,6 @@ public class TokenRepositoryImpl implements TokenRepository {
   private final RefreshTokenJpaRepository refreshTokenJpaRepository;
 
 
-
   @Override
   public void deleteToken(RefreshTokenEntity token) {
     refreshTokenJpaRepository.deleteByToken(token.getToken());

@@ -8,8 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 public class CardDatesRequestDto {
 
-	@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dueDate;
+  @NotNull
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private LocalDate dueDate;
 
 }

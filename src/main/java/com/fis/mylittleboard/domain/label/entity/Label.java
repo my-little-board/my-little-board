@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,17 +15,25 @@ import lombok.NoArgsConstructor;
 @Table(name = "labels")
 public class Label {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
 
-	@Column(nullable = false)
-	private String label;
+  @Column
+  private String title;
 
-	public Label(String label) {
-		this.label = label;
-	}
+  @Column(nullable = false)
+  private String color;
 
+  public Label(String title, String color) {
+    this.title = title;
+    this.color = color;
+  }
+
+  public void updateLabel(String title, String color) {
+    this.title = title;
+    this.color = color;
+  }
 
 }

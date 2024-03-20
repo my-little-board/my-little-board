@@ -17,7 +17,7 @@ public class HahaContentController {
   private final HahaContentService hahaContentService;
 
   @PostMapping("/hahaboards/{hahaboardId}")
-  public String createHahaContent (
+  public String createHahaContent(
       @PathVariable Long hahaboardId,
       @RequestBody HahaContentRequestDto requestDto) {
     hahaContentService.createHahaContent(hahaboardId, requestDto);

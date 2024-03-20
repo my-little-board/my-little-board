@@ -15,10 +15,7 @@ public enum CustomError {
   ERROR_LOGIN("로그인에 실패하였습니다."),
 
   // JWT 토큰 에러
-  EXPIRED_TOKEN("모든 토큰이 만료되었습니다.")
-
-
-  ;
+  EXPIRED_TOKEN("모든 토큰이 만료되었습니다.");
 
   private final String message;
 

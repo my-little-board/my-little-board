@@ -12,34 +12,34 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProgressServiceImpl implements ProgressService {
 
-	private final ProgressRepository progressRepository;
-	private final CardRepository cardRepository;
+  private final ProgressRepository progressRepository;
+  private final CardRepository cardRepository;
 
-	@Override
-	public void createProgress(String classification) {
-		Progress progress = new Progress(classification);
+  @Override
+  public void createProgress(String classification) {
+    Progress progress = new Progress(classification);
 
-		progressRepository.save(progress);
-	}
+    progressRepository.save(progress);
+  }
 
-	@Override
-	public void updateProgress(Long progressId, String classification) {
+  @Override
+  public void updateProgress(Long progressId, String classification) {
 
-		Progress progress = progressRepository.findById(progressId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
+    Progress progress = progressRepository.findById(progressId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
 
-		progress.updateProgress(classification);
-	}
+    progress.updateProgress(classification);
+  }
 
-	@Override
-	public void deleteProgress(Long progressId) {
+  @Override
+  public void deleteProgress(Long progressId) {
 
-		Progress progress = progressRepository.findById(progressId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
+    Progress progress = progressRepository.findById(progressId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
 
-		List<Card> cards = cardRepository.findByProgressId(progressId);
+    List<Card> cards = cardRepository.findByProgressId(progressId);
 
-		cards.forEach(cardRepository::delete);
-		progressRepository.delete(progress);
-	}
+    cards.forEach(cardRepository::delete);
+    progressRepository.delete(progress);
+  }
 }

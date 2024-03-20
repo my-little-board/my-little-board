@@ -7,22 +7,22 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class LabelRepositoryImpl implements LabelRepository{
+public class LabelRepositoryImpl implements LabelRepository {
 
-	private final LabelJpaRepository labelJpaRepository;
+  private final LabelJpaRepository labelJpaRepository;
 
-	@Override
-	public void save(Label label) {
-		labelJpaRepository.save(label);
-	}
+  @Override
+  public Label save(Label label) {
+    return labelJpaRepository.save(label);
+  }
 
-	@Override
-	public Optional<Label> findById(Long labelId) {
-		return labelJpaRepository.findById(labelId);
-	}
+  @Override
+  public Optional<Label> findById(Long labelId) {
+    return labelJpaRepository.findById(labelId);
+  }
 
-	@Override
-	public void delete(Label label) {
-		labelJpaRepository.delete(label);
-	}
+  @Override
+  public void delete(Label label) {
+    labelJpaRepository.delete(label);
+  }
 }

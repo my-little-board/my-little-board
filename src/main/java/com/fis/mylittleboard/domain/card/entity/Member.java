@@ -14,21 +14,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "coworks")
-public class Cowork {
+@Table(name = "members")
+public class Member {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false)
-	private Long cardId;
+  @Column(nullable = false)
+  private Long cardId;
 
-	@Column
-	private Long memberId;
+  @Column
+  private String username;
 
-	public Cowork(Long cardId, Long memberId) {
-		this.cardId = cardId;
-		this.memberId = memberId;
-	}
+  public Member(Long cardId, String username) {
+    this.cardId = cardId;
+    this.username = username;
+  }
 }

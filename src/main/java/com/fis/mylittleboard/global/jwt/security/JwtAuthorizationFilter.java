@@ -56,7 +56,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
           TokenState refreshState = jwtProvider.validateToken(refreshToken.getToken());
 
-          if(refreshState.equals(TokenState.VALID)) {
+          if (refreshState.equals(TokenState.VALID)) {
             String newAccessToken = jwtProvider.generateRefreshToken(userDetails.getUsername());
             res.addHeader(JwtProvider.AUTHORIZATION_ACCESS_TOKEN_HEADER_KEY, newAccessToken);
             res.setStatus(HttpServletResponse.SC_OK);
@@ -83,7 +83,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
           log.error(e.getMessage());
           return;
         }
-      } else if(state.equals(TokenState.INVALID)) {
+      } else if (state.equals(TokenState.INVALID)) {
         log.error("Token Error");
         return;
       }

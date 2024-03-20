@@ -7,15 +7,15 @@ import java.util.Optional;
 
 public interface CardRepository {
 
-	Card save(Card card);
+  Card save(Card card);
 
-	Optional<Card> findById(Long cardId);
+  Optional<Card> findById(Long cardId);
 
-	void delete(Card card);
+  void delete(Card card);
 
-	List<Long> getMemberIds(Long cardId);
+  List<Long> getMemberIds(Long cardId);
 
-	List<Long> getLabelIds(Long cardId);
+  List<Long> getLabelIds(Long cardId);
 
-	List<Card> findByProgressId(Long progressId);
+  List<Card> findByProgressId(Long progressId);
 }

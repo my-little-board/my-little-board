@@ -12,10 +12,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class TimeStamp {
 
-	@CreatedDate
-	private LocalDateTime createdAt;
+  @CreatedDate
+  private LocalDateTime createdAt;
 
-	@CreatedDate
-	private LocalDateTime modifiedAt;
+  @CreatedDate
+  private LocalDateTime modifiedAt;
 
 }

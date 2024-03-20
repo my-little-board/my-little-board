@@ -19,7 +19,7 @@ public class CommentController {
   private final CommentService commentService;
 
   @PostMapping
-  public String createComment (
+  public String createComment(
       @RequestBody CommentRequestDto requestDto) {
     commentService.createCommnet(requestDto);
 
@@ -27,7 +27,7 @@ public class CommentController {
   }
 
   @PutMapping("/{commentId}")
-  public String updateComment (
+  public String updateComment(
       @PathVariable Long commentId,
       @RequestBody CommentRequestDto requestDto) {
     commentService.updateComment(commentId, requestDto);
@@ -36,7 +36,7 @@ public class CommentController {
   }
 
   @DeleteMapping("/{commentId}")
-  public String deleteComment (
+  public String deleteComment(
       @PathVariable Long commentId) {
     commentService.deleteComment(commentId);
 

@@ -1,44 +1,39 @@
 package com.fis.mylittleboard.domain.card.dto;
 
-import com.fis.mylittleboard.domain.card.controller.CardController;
 import com.fis.mylittleboard.domain.card.entity.Card;
 import java.time.LocalDate;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
-@AllArgsConstructor
 public class CardResponseDto {
 
-	private Long cardId;
+  private final Long cardId;
 
-	private String name;
+  private final String name;
 
-	private String description;
+  private final String description;
 
-	private String color;
+  private final String color;
 
-	private LocalDate dueDate;
+  private LocalDate dueDate;
 
-	private Long boardId;
+  private final Long boardId;
 
-	private Long progressId;
+  private final Long progressId;
 
-	private List<Long> members;
+  private final List<Long> members;
 
-	private List<Long> labels;
+  private final List<Long> labels;
 
-	public CardResponseDto(Card card, List<Long> members, List<Long> labels) {
-		this.cardId = card.getId();
-		this.name = card.getName();
-		this.description = card.getDescription();
-		this.color = card.getColor();
-		this.dueDate = card.getDueDate();
-		this.boardId = card.getBoardId();
-		this.progressId = card.getProgressId();
-		this.members = members;
-		this.labels = labels;
-	}
+  public CardResponseDto(Card card, List<Long> members, List<Long> labels) {
+    this.cardId = card.getId();
+    this.name = card.getName();
+    this.description = card.getDescription();
+    this.color = card.getColor();
+    this.boardId = card.getBoardId();
+    this.progressId = card.getProgressId();
+    this.members = members;
+    this.labels = labels;
+  }
 }

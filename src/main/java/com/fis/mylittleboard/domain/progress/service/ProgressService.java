@@ -2,9 +2,9 @@ package com.fis.mylittleboard.domain.progress.service;
 
 public interface ProgressService {
 
-	void createProgress(String classification);
+  void createProgress(String classification);
 
-	void updateProgress(Long progressId, String classification);
+  void updateProgress(Long progressId, String classification);
 
-	void deleteProgress(Long progressId);
+  void deleteProgress(Long progressId);
 }

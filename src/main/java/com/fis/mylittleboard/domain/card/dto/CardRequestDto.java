@@ -33,4 +33,6 @@ public class CardRequestDto {
 
 	private List<Long> members;
 
+	private List<Long> labels;
+
 }

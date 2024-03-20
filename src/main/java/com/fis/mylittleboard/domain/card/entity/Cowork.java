@@ -9,8 +9,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 @Getter
 @NoArgsConstructor
@@ -27,10 +25,10 @@ public class Cowork {
 	private Long cardId;
 
 	@Column
-	private Long workerId;
+	private Long memberId;
 
-	public Cowork(Long cardId, Long workerId) {
+	public Cowork(Long cardId, Long memberId) {
 		this.cardId = cardId;
-		this.workerId = workerId;
+		this.memberId = memberId;
 	}
 }

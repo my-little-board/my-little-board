@@ -18,5 +18,4 @@ public interface CardService {
 
 	CardResponseDto getCard(Long cardId);
 
-	void addLabel(Long cardId, Long labelId);
 }

@@ -13,7 +13,9 @@ public interface CardRepository {
 
 	void delete(Card card);
 
-	List<Long> getWorkerIds(Long cardId);
+	List<Long> getMemberIds(Long cardId);
+
+	List<Long> getLabelIds(Long cardId);
 
 	List<Card> findByProgressId(Long progressId);
 }

@@ -32,6 +32,7 @@ public class CardController {
 		@Valid @RequestBody CardRequestDto requestDto) {
 		cardService.createCard(requestDto);
 
+
 		return ResponseEntity.ok()
 			.body(MessageResponseDto.builder()
 				.message("카드 생성에 성공하였습니다.")
@@ -69,17 +70,6 @@ public class CardController {
 			.body(ResponseDto.<CardResponseDto>builder()
 				.message("카드 조회에 성공하였습니다.")
 				.data(cardResponseDto)
-				.build());
-	}
-
-	@PostMapping("{cardId}/labels/{labelId}")
-	public ResponseEntity<MessageResponseDto> addLabel(@PathVariable Long cardId,
-		@PathVariable Long labelId) {
-		cardService.addLabel(cardId, labelId);
-
-		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
-				.message("카드에 라벨을 추가하였습니다.")
 				.build());
 	}
 }

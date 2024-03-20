@@ -8,7 +8,6 @@ import com.fis.mylittleboard.domain.card.entity.Cowork;
 import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.fis.mylittleboard.domain.card.repository.cardlabel.CardLabelRepository;
 import com.fis.mylittleboard.domain.card.repository.cowork.CoworkRepository;
-import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +27,25 @@ public class CardServiceImpl implements CardService {
 		Card card = new Card(requestDto);
 
 		List<Long> workers = requestDto.getMembers();
+		List<Long> labels = requestDto.getLabels();
 
 		Card savedCard = cardRepository.save(card);
 
-		workers.stream()
-			.map(l -> new Cowork(savedCard.getId(), l))
-			.forEach(coworkRepository::save);
+		if (!workers.isEmpty()) {
+			workers.stream()
+				.map(l -> new Cowork(savedCard.getId(), l))
+				.forEach(coworkRepository::save);
+		}
+
+		if (!labels.isEmpty()) {
+			labels.stream()
+				.map(labelRepository::findById)
+				.map(optLabel -> optLabel.orElseThrow(
+					() -> new IllegalArgumentException("해당 라벨은 존재하지 않습니다.")))
+				.forEach(label -> cardLabelRepository.save(
+					new CardLabel(savedCard.getId(), label.getId())));
+		}
+
 
 	}
 
@@ -63,21 +75,9 @@ public class CardServiceImpl implements CardService {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		List<Long> workers = cardRepository.getWorkerIds(cardId);
+		List<Long> members = cardRepository.getMemberIds(cardId);
+		List<Long> labels = cardRepository.getLabelIds(cardId);
 
-		return new CardResponseDto(card, workers);
-	}
-
-	@Override
-	public void addLabel(Long cardId, Long labelId) {
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
-
-		Label label = labelRepository.findById(labelId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 라벨은 존재하지 않습니다."));
-
-		CardLabel cardLabel = new CardLabel(card.getId(), label.getId());
-
-		cardLabelRepository.save(cardLabel);
+		return new CardResponseDto(card, members, labels);
 	}
 }

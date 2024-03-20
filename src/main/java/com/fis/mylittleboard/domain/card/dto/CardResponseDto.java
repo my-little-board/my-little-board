@@ -28,7 +28,9 @@ public class CardResponseDto {
 
 	private List<Long> members;
 
-	public CardResponseDto(Card card, List<Long> workers) {
+	private List<Long> labels;
+
+	public CardResponseDto(Card card, List<Long> members, List<Long> labels) {
 		this.cardId = card.getId();
 		this.name = card.getName();
 		this.description = card.getDescription();
@@ -36,6 +38,7 @@ public class CardResponseDto {
 		this.dueDate = card.getDueDate();
 		this.boardId = card.getBoardId();
 		this.progressId = card.getProgressId();
-		this.members = workers;
+		this.members = members;
+		this.labels = labels;
 	}
 }

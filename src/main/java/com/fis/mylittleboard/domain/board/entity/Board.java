@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -40,7 +41,7 @@ public class Board extends TimeStamp {
   private LocalDateTime dueDate = LocalDateTime.now();
 
   @Column(nullable = false)
-  private boolean classification;
+  private boolean classification = true;
 
   public Board(String boardName, String boardDescription, String boardColor, Long userId) {
     this.boardName = boardName;

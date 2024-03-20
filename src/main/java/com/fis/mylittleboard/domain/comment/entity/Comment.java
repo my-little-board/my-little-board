@@ -27,8 +27,9 @@ public class Comment extends TimeStamp {
   @Column(nullable = false)
   private Long cardId;
 
-  public Comment(CommentRequestDto requestDto) {
+  public Comment(CommentRequestDto requestDto, Long cardId) {
     this.content = requestDto.getContent();
+    this.cardId = cardId;
   }
 
   public void update(CommentRequestDto requestDto) {

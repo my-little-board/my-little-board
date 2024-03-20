@@ -27,7 +27,7 @@ public class HahaContentController {
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()
-            .message("하하 워크스페이스가 생성되었습니다.")
+            .message("하하 워크스페이스의 잡담글이 생성되었습니다.")
             .build());
   }
 

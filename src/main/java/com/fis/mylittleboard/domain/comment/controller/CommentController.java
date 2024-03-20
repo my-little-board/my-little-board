@@ -15,15 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/comments")
+@RequestMapping("/api/cards")
 public class CommentController {
 
   private final CommentService commentService;
 
-  @PostMapping
+  @PostMapping("/{cardId}/comments")
   public ResponseEntity<MessageResponseDto> createComment(
-      @RequestBody CommentRequestDto requestDto) {
-    commentService.createCommnet(requestDto);
+      @RequestBody CommentRequestDto requestDto,
+      @PathVariable Long cardId) {
+    commentService.createCommnet(requestDto, cardId);
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()
@@ -31,7 +32,7 @@ public class CommentController {
             .build());
   }
 
-  @PutMapping("/{commentId}")
+  @PutMapping("/comments/{commentId}")
   public ResponseEntity<MessageResponseDto> updateComment(
       @PathVariable Long commentId,
       @RequestBody CommentRequestDto requestDto) {
@@ -43,7 +44,7 @@ public class CommentController {
             .build());
   }
 
-  @DeleteMapping("/{commentId}")
+  @DeleteMapping("/comments/{commentId}")
   public ResponseEntity<MessageResponseDto> deleteComment(
       @PathVariable Long commentId) {
     commentService.deleteComment(commentId);

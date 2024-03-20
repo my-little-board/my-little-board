@@ -11,35 +11,34 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LabelServiceImpl implements LabelService {
 
-	private final LabelRepository labelRepository;
+  private final LabelRepository labelRepository;
 
-	@Transactional
-	@Override
-	public LabelResponseDto createLabel(String title, String color) {
-		Label label = new Label(title, color);
+  @Transactional
+  @Override
+  public LabelResponseDto createLabel(String title, String color) {
+    Label label = new Label(title, color);
 
-		Label savedLabel = labelRepository.save(label);
-		return new LabelResponseDto(savedLabel);
-	}
+    Label savedLabel = labelRepository.save(label);
+    return new LabelResponseDto(savedLabel);
+  }
 
 
+  @Transactional
+  @Override
+  public void deleteLabel(Long labelId) {
+    Label label = labelRepository.findById(labelId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 라벨은 존재하지 않습니다."));
 
-	@Transactional
-	@Override
-	public void deleteLabel(Long labelId) {
-		Label label = labelRepository.findById(labelId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 라벨은 존재하지 않습니다."));
+    labelRepository.delete(label);
+  }
 
-		labelRepository.delete(label);
-	}
+  @Transactional
+  @Override
+  public LabelResponseDto updateLabel(Long labelId, String title, String color) {
+    Label label = labelRepository.findById(labelId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 라벨은 존재하지 않습니다."));
+    label.updateLabel(title, color);
 
-	@Transactional
-	@Override
-	public LabelResponseDto updateLabel(Long labelId, String title, String color) {
-		Label label = labelRepository.findById(labelId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 라벨은 존재하지 않습니다."));
-		label.updateLabel(title, color);
-
-		return new LabelResponseDto(label);
-	}
+    return new LabelResponseDto(label);
+  }
 }

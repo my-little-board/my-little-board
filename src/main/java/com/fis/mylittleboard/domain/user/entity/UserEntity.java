@@ -1,6 +1,5 @@
 package com.fis.mylittleboard.domain.user.entity;
 
-import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
 import com.fis.mylittleboard.domain.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,7 +47,7 @@ public class UserEntity {
   @LastModifiedDate
   private LocalDateTime modifiedAt;
 
-  public static UserEntity of(String signupId,String password,String email,String username){
+  public static UserEntity of(String signupId, String password, String email, String username) {
     return UserEntity.builder()
         .signupId(signupId)
         .password(password)

@@ -1,7 +1,7 @@
 package com.fis.mylittleboard.domain.comment.entity;
 
 import com.fis.mylittleboard.domain.comment.dto.CommentRequestDto;
-import com.fis.mylittleboard.domain.common.TimeStamp;
+import com.fis.mylittleboard.global.common.TimeStamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "comments")
-public class Comment extends TimeStamp{
+public class Comment extends TimeStamp {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

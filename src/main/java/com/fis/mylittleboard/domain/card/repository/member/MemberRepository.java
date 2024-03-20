@@ -6,12 +6,12 @@ import java.util.Optional;
 
 public interface MemberRepository {
 
-	void save(Member member);
+  void save(Member member);
 
-	List<Member> findByCardId(Long cardId);
+  List<Member> findByCardId(Long cardId);
 
-	void delete(Member member);
+  void delete(Member member);
 
-	Optional<Member> findById(Long id);
+  Optional<Member> findById(Long id);
 
 }

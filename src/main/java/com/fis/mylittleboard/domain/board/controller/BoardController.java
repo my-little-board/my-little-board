@@ -3,7 +3,6 @@ package com.fis.mylittleboard.domain.board.controller;
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.serivce.BoardService;
-import com.fis.mylittleboard.domain.board.serivce.BoardServiceImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

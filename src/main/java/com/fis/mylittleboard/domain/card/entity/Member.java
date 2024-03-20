@@ -17,18 +17,18 @@ import lombok.NoArgsConstructor;
 @Table(name = "members")
 public class Member {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false)
-	private Long cardId;
+  @Column(nullable = false)
+  private Long cardId;
 
-	@Column
-	private String username;
+  @Column
+  private String username;
 
-	public Member(Long cardId, String username) {
-		this.cardId = cardId;
-		this.username = username;
-	}
+  public Member(Long cardId, String username) {
+    this.cardId = cardId;
+    this.username = username;
+  }
 }

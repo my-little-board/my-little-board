@@ -1,7 +1,6 @@
 package com.fis.mylittleboard.domain.card.repository.cardlabel;
 
 import com.fis.mylittleboard.domain.card.entity.CardLabel;
-import com.fis.mylittleboard.domain.card.repository.cardlabel.CardLabelRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,20 +9,20 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class CardLabelRepositoryImpl implements CardLabelRepository {
 
-	private final CardLabelJpaRepository cardLabelJpaRepository;
+  private final CardLabelJpaRepository cardLabelJpaRepository;
 
-	@Override
-	public void save(CardLabel cardLabel) {
-		cardLabelJpaRepository.save(cardLabel);
-	}
+  @Override
+  public void save(CardLabel cardLabel) {
+    cardLabelJpaRepository.save(cardLabel);
+  }
 
-	@Override
-	public Optional<CardLabel> findById(Long id) {
-		return cardLabelJpaRepository.findById(id);
-	}
+  @Override
+  public Optional<CardLabel> findById(Long id) {
+    return cardLabelJpaRepository.findById(id);
+  }
 
-	@Override
-	public void delete(CardLabel cardLabel) {
-		cardLabelJpaRepository.delete(cardLabel);
-	}
+  @Override
+  public void delete(CardLabel cardLabel) {
+    cardLabelJpaRepository.delete(cardLabel);
+  }
 }

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DateJpaRepository extends JpaRepository<Date, Long> {
 
-	Optional<Date> findById(Long id);
+  Optional<Date> findById(Long id);
 }

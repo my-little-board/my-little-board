@@ -7,8 +7,8 @@ import lombok.Getter;
 @Builder
 public class ResponseDto<T> {
 
-	private String message;
+  private String message;
 
-	private T data;
+  private T data;
 
 }

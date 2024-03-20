@@ -18,19 +18,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "progresses")
 public class Progress {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false)
-	private String classification;
+  @Column(nullable = false)
+  private String classification;
 
-	@Builder
-	public Progress(String classification) {
-		this.classification = classification;
-	}
+  @Builder
+  public Progress(String classification) {
+    this.classification = classification;
+  }
 
-	public void updateProgress(String newClassification) {
-		this.classification = newClassification;
-	}
+  public void updateProgress(String newClassification) {
+    this.classification = newClassification;
+  }
 }

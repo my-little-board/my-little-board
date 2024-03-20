@@ -18,22 +18,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "dates")
 public class Date {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column
-	private Long cardId;
+  @Column
+  private Long cardId;
 
-	@Column
-	private LocalDate dueDate;
+  @Column
+  private LocalDate dueDate;
 
-	public Date(Long cardId, LocalDate dueDate) {
-		this.cardId = cardId;
-		this.dueDate = dueDate;
-	}
+  public Date(Long cardId, LocalDate dueDate) {
+    this.cardId = cardId;
+    this.dueDate = dueDate;
+  }
 
-	public void updateDate(LocalDate dueDate) {
-		this.dueDate = dueDate;
-	}
+  public void updateDate(LocalDate dueDate) {
+    this.dueDate = dueDate;
+  }
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface TokenRepository {
 
 
-
   void signup(Long id, String refreshToken);
 
   RefreshTokenEntity findByUserId(Long id);

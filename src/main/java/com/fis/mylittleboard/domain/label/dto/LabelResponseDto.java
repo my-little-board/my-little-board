@@ -6,14 +6,14 @@ import lombok.Getter;
 @Getter
 public class LabelResponseDto {
 
-	private String title;
+  private final String title;
 
-	private String color;
+  private final String color;
 
-	public LabelResponseDto(Label label) {
-		this.title = label.getTitle();
-		this.color = label.getColor();
-	}
+  public LabelResponseDto(Label label) {
+    this.title = label.getTitle();
+    this.color = label.getColor();
+  }
 
 
 }

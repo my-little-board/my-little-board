@@ -5,10 +5,10 @@ import java.util.Optional;
 
 public interface ProgressRepository {
 
-	void save(Progress progress);
+  void save(Progress progress);
 
-	Optional<Progress> findById(Long progressId);
+  Optional<Progress> findById(Long progressId);
 
-	void delete(Progress progress);
+  void delete(Progress progress);
 
 }

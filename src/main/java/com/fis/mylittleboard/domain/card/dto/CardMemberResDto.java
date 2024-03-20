@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 public class CardMemberResDto {
 
-	List<Long> members;
+  List<Long> members;
 
 }

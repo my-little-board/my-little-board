@@ -1,7 +1,6 @@
 package com.fis.mylittleboard.domain.card.entity;
 
-import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
-import com.fis.mylittleboard.global.common.TimeStamp;
+import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,11 +30,8 @@ public class Card {
 	@Column
 	private String description;
 
-	@Column(nullable = false)
-	private String color;
-
 	@Column
-	private LocalDate dueDate;
+	private String color;
 
 	@Column(nullable = false)
 	private Long boardId;
@@ -45,22 +41,18 @@ public class Card {
 
 
 	@Builder
-	public Card(CardRequestDto cardRequestDto) {
-		this.name = cardRequestDto.getName();
-		this.description = cardRequestDto.getName();
-		this.color = cardRequestDto.getColor();
-		this.dueDate = cardRequestDto.getDueDate();
-		this.boardId = cardRequestDto.getBoardId();
-		this.progressId = cardRequestDto.getProgressId();
+	public Card(CardNameRequestDto cardNameRequestDto) {
+		this.name = cardNameRequestDto.getName();
+		this.color = "default color";
+		this.boardId = cardNameRequestDto.getBoardId();
+		this.progressId = cardNameRequestDto.getProgressId();
 	}
 
-	public void update(CardRequestDto cardRequestDto) {
-		this.name = cardRequestDto.getName();
-		this.description = cardRequestDto.getName();
-		this.color = cardRequestDto.getColor();
-		this.dueDate = cardRequestDto.getDueDate();
-		this.boardId = cardRequestDto.getBoardId();
-		this.progressId = cardRequestDto.getProgressId();
+	public void updateDescription(String description) {
+		this.description = description;
 	}
 
+	public void updateColor(String color) {
+		this.color = color;
+	}
 }

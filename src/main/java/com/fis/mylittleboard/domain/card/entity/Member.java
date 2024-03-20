@@ -1,4 +1,4 @@
-package com.fis.mylittleboard.domain.label.entity;
+package com.fis.mylittleboard.domain.card.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,34 +6,29 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "labels")
-public class Label {
+@Table(name = "members")
+public class Member {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
+	private Long cardId;
 
 	@Column
-	private String title;
+	private String username;
 
-	@Column(nullable = false)
-	private String color;
-
-	public Label(String title, String color) {
-		this.title = title;
-		this.color = color;
+	public Member(Long cardId, String username) {
+		this.cardId = cardId;
+		this.username = username;
 	}
-
-	public void updateLabel(String title, String color) {
-		this.title = title;
-		this.color = color;
-	}
-
 }

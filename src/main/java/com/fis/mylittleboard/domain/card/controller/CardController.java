@@ -2,6 +2,8 @@ package com.fis.mylittleboard.domain.card.controller;
 
 import com.fis.mylittleboard.domain.card.dto.CardColorRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardColorResponseDto;
+import com.fis.mylittleboard.domain.card.dto.CardDatesRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
@@ -45,6 +47,21 @@ public class CardController {
 	}
 
 	@Transactional
+	@PostMapping("/{cardId}/functions/{functionId}")
+	public ResponseEntity<ResponseDto<CardDatesResDto>> addDate(@PathVariable Long cardId,
+		@PathVariable Long functionId, @RequestBody
+	CardDatesRequestDto cardDatesRequestDto) {
+		CardDatesResDto cardDatesResDto = cardService.addDate(cardId, functionId,
+			cardDatesRequestDto);
+
+		return ResponseEntity.ok()
+			.body(ResponseDto.<CardDatesResDto>builder()
+				.message("DueDate 등록에 성공하였습니다.")
+				.data(cardDatesResDto)
+				.build());
+	}
+
+	@Transactional
 	@PatchMapping("/{cardId}/descriptions")
 	public ResponseEntity<ResponseDto<CardDescriptionResponseDto>> updateDescription(
 		@PathVariable Long cardId, @RequestBody CardDescriptionDto cardDescriptionDto) {
@@ -75,6 +92,32 @@ public class CardController {
 	}
 
 	@Transactional
+	@PatchMapping("/functions/dates/{cardDateId}")
+	public ResponseEntity<ResponseDto<CardDatesResDto>> updateDate(
+		@PathVariable Long cardDateId, @RequestBody
+	CardDatesRequestDto cardDatesRequestDto) {
+		CardDatesResDto cardDatesResDto = cardService.updateDate(cardDateId,
+			cardDatesRequestDto);
+
+		return ResponseEntity.ok()
+			.body(ResponseDto.<CardDatesResDto>builder()
+				.message("DueDate 수정에 성공하였습니다.")
+				.data(cardDatesResDto)
+				.build());
+	}
+
+	@Transactional
+	@DeleteMapping("/functions/dates/{cardDateId}")
+	public ResponseEntity<MessageResponseDto> delete(@PathVariable Long cardDateId) {
+		cardService.deleteDate(cardDateId);
+
+		return ResponseEntity.ok()
+			.body(MessageResponseDto.builder()
+				.message("해당 카드의 date 기능 삭제에 성공하였습니다.")
+				.build());
+	}
+
+	@Transactional
 	@DeleteMapping("/{cardId}")
 	public ResponseEntity<MessageResponseDto> deleteCard(@PathVariable Long cardId) {
 		cardService.deleteCard(cardId);
@@ -95,4 +138,5 @@ public class CardController {
 				.data(cardResponseDto)
 				.build());
 	}
+
 }

@@ -1,8 +1,6 @@
 package com.fis.mylittleboard.domain.card.entity;
 
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
-import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
-import com.fis.mylittleboard.global.common.TimeStamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -61,4 +59,7 @@ public class Card {
 		this.color = color;
 	}
 
+	public void updateDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
+	}
 }

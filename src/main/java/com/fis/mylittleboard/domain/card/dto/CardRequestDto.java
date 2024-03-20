@@ -21,8 +21,8 @@ public class CardRequestDto {
 //	@NotNull(message = "색상을 입력하세요.")
 //	private String color;
 
-//	@DateTimeFormat(pattern = "yyyy-MM-dd")
-//	private LocalDate dueDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dueDate;
 
 	@NotNull
 	private Long boardId;

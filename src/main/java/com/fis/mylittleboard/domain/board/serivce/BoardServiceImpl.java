@@ -8,11 +8,15 @@ import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
 import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.hahaboard.entity.Hahaboard;
 import com.fis.mylittleboard.domain.hahaboard.repository.HahaboardRepository;
+import com.fis.mylittleboard.global.common.MessageResponseDto;
+import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,20 +32,18 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   @Transactional
-  public void createBoard(BoardRequestDto requestDto) {
-
-    Long userId = 1L;
-
+  public void createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
     String boardName = requestDto.getBoardName();
-    Optional<Board> checkBoardName = boardRepository.findByBoardName(boardName);
-    if (checkBoardName.isPresent()) {
+    Optional<Board> checkBoard = boardRepository.findByBoardName(boardName);
+    if (checkBoard.isPresent() &&
+        Objects.equals(checkBoard.get().getUserId(), userDetails.getUser().getId())) {
       throw new IllegalArgumentException("사용중인 작업공간입니다.");
     }
     Board board = new Board(
         requestDto.getBoardName(),
         requestDto.getBoardDescription(),
         requestDto.getBoardColor(),
-        userId
+        userDetails.getUser().getId()
     );
 
     Board newBoard = boardRepository.save(board); // 워크스페이스 생성
@@ -50,7 +52,8 @@ public class BoardServiceImpl implements BoardService {
 
     hahaboardRepository.save(hahaboard); // 생성된 워크스페이스와 같은 하하 워크스페이스 생성
 
-    Collaboration collaboration = new Collaboration(newBoard.getId(), userId);
+    Collaboration collaboration = new Collaboration(
+        newBoard.getId(), userDetails.getUser().getId());
 
     collaborationRepository.save(collaboration); // 워크스페이스에 있는 유저들 관리공간 생성
   }
@@ -91,16 +94,28 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   @Transactional
-  public void updateBoard(Long boardId, BoardRequestDto requestDto) {
-    Board board = boardRepository.findById(boardId).orElseThrow(() ->
-        new IllegalArgumentException("일치하는 작업공간이 없습니다."));
+  public void updateBoard(Long boardId, BoardRequestDto requestDto, UserDetailsImpl userDetails) {
+    Board board = findBoard(boardId);
+    if (!Objects.equals(board.getUserId(), userDetails.getUser().getId())) {
+      throw new IllegalArgumentException("워크스페이스 생성자만 수정할 수 있습니다.");
+    }
 
     board.update(requestDto);
   }
 
   @Override
   @Transactional
-  public void deleteBoard(Long boardId) {
+  public void deleteBoard(Long boardId, UserDetailsImpl userDetails) {
+    Board board = findBoard(boardId);
+    if (!Objects.equals(board.getUserId(), userDetails.getUser().getId())) {
+      throw new IllegalArgumentException("워크스페이스 생성자만 삭제할 수 있습니다.");
+    }
+
     boardRepository.deleteById(boardId);
+  }
+
+  private Board findBoard (Long boardId) {
+    return boardRepository.findById(boardId).orElseThrow(() ->
+        new IllegalArgumentException("작업공간이 존재하지 않습니다."));
   }
 }

@@ -5,11 +5,11 @@ import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.serivce.BoardService;
 import com.fis.mylittleboard.global.common.MessageResponseDto;
 import com.fis.mylittleboard.global.common.ResponseDto;
+import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import java.util.List;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +28,9 @@ public class BoardController {
 
   @PostMapping
   public ResponseEntity<MessageResponseDto> createBoard(
-      @RequestBody BoardRequestDto requestDto) {
-    boardService.createBoard(requestDto);
+      @RequestBody BoardRequestDto requestDto,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    boardService.createBoard(requestDto, userDetails);
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()
@@ -62,8 +63,9 @@ public class BoardController {
   @PutMapping("/{boardId}")
   public ResponseEntity<MessageResponseDto> updateBoard(
       @PathVariable Long boardId,
-      @RequestBody BoardRequestDto requestDto) {
-    boardService.updateBoard(boardId, requestDto);
+      @RequestBody BoardRequestDto requestDto,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    boardService.updateBoard(boardId, requestDto, userDetails);
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()
@@ -73,8 +75,9 @@ public class BoardController {
 
   @DeleteMapping("/{boardId}")
   public ResponseEntity<MessageResponseDto> deleteBoard(
-      @PathVariable Long boardId) {
-    boardService.deleteBoard(boardId);
+      @PathVariable Long boardId,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    boardService.deleteBoard(boardId, userDetails);
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()

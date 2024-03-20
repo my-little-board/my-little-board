@@ -1,5 +1,6 @@
 package com.fis.mylittleboard.domain.hahacontent.entity;
 
+import com.fis.mylittleboard.domain.common.TimeStamp;
 import com.fis.mylittleboard.domain.hahacontent.dto.HahaContentRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +18,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 @NoArgsConstructor
 @Getter
 @Table(name = "hahacontents")
-public class HahaContent {
+public class HahaContent extends TimeStamp {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -28,16 +30,8 @@ public class HahaContent {
   @Column
   private Long hahaboardId;
 
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @LastModifiedDate
-  private LocalDateTime modifiedAt;
-
   public HahaContent(Long hahaboardId, HahaContentRequestDto requestDto) {
     this.content = requestDto.getContent();
     this.hahaboardId = hahaboardId;
-    this.createdAt = LocalDateTime.now();
-    this.modifiedAt = LocalDateTime.now();
   }
 }

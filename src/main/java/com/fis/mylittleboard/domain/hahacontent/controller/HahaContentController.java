@@ -2,6 +2,7 @@ package com.fis.mylittleboard.domain.hahacontent.controller;
 
 import com.fis.mylittleboard.domain.hahacontent.dto.HahaContentRequestDto;
 import com.fis.mylittleboard.domain.hahacontent.service.HahaContentService;
+import com.fis.mylittleboard.domain.hahacontent.service.HahaContentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class HahaContentController {
   private final HahaContentService hahaContentService;
 
   @PostMapping("/hahaboards/{hahaboardId}")
-  public String createHahaContent (
+  public String createHahaContent(
       @PathVariable Long hahaboardId,
       @RequestBody HahaContentRequestDto requestDto) {
     hahaContentService.createHahaContent(hahaboardId, requestDto);

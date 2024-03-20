@@ -3,6 +3,7 @@ package com.fis.mylittleboard.domain.board.controller;
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.serivce.BoardService;
+import com.fis.mylittleboard.domain.board.serivce.BoardServiceImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class BoardController {
   private final BoardService boardService;
 
   @PostMapping
-  public String createBoard (
+  public String createBoard(
       @RequestBody BoardRequestDto requestDto) {
     // todo: 기능구현 후 마감기한 설정하는 부분 dto와 같이 생각해서 설정
     boardService.createBoard(requestDto);
@@ -51,7 +52,7 @@ public class BoardController {
       @PathVariable Long boardId,
       @RequestBody BoardRequestDto requestDto) {
     boardService.updateBoard(boardId, requestDto);
-    
+
     return "워크스페이스가 수정되었습니다.";
   }
 

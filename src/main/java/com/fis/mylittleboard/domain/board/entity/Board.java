@@ -1,6 +1,7 @@
 package com.fis.mylittleboard.domain.board.entity;
 
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
+import com.fis.mylittleboard.domain.common.TimeStamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +17,8 @@ import org.springframework.data.annotation.CreatedDate;
 @Getter
 @NoArgsConstructor
 @Table(name = "boards")
-public class Board {
+public class Board extends TimeStamp {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

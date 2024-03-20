@@ -3,10 +3,8 @@ package com.fis.mylittleboard.domain.board.controller;
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.serivce.BoardService;
-import com.fis.mylittleboard.domain.function.FunctionService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,15 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class BoardController {
 
   private final BoardService boardService;
-  private final FunctionService functionService;
 
   @PostMapping
   public String createBoard (
       @RequestBody BoardRequestDto requestDto) {
     // todo: 기능구현 후 마감기한 설정하는 부분 dto와 같이 생각해서 설정
     boardService.createBoard(requestDto);
-
-    functionService.createFunctions();
 
     return "작업공간이 생성되었습니다.";
   }

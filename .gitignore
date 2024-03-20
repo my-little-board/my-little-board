@@ -37,4 +37,10 @@ out/
 .vscode/
 
 /src/main/resources/application.properties
+
+
+#### yml ####
+*.yml
+
 /src/main/resources/banner.txt
+

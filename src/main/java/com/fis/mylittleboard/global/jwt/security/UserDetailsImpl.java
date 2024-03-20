@@ -1,6 +1,5 @@
 package com.fis.mylittleboard.global.jwt.security;
 
-import com.fis.mylittleboard.domain.user.entity.UserEntity;
 import com.fis.mylittleboard.domain.user.model.User;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;

@@ -5,7 +5,6 @@ import com.fis.mylittleboard.domain.card.dto.CardDatesRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
-import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 
 public interface CardService {
@@ -21,9 +20,9 @@ public interface CardService {
 
 	CardColorResponseDto updateColor(Long cardId, String color);
 
-	CardDatesResDto addDate(Long cardId, Long functionId, CardDatesRequestDto cardDatesRequestDto);
+	CardDatesResDto addDate(Long cardId, CardDatesRequestDto cardDatesRequestDto);
 
-	CardDatesResDto updateDate(Long cardfunctionId, CardDatesRequestDto cardDatesRequestDto);
+	CardDatesResDto updateDate(Long dateId, CardDatesRequestDto cardDatesRequestDto);
 
 	void deleteDate(Long cardDateId);
 }

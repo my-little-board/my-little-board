@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "coworks")
-public class CardMember {
+@Table(name = "members")
+public class Member {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class CardMember {
 	@Column
 	private Long memberId;
 
-	public CardMember(Long cardId, Long memberId) {
+	public Member(Long cardId, Long memberId) {
 		this.cardId = cardId;
 		this.memberId = memberId;
 	}

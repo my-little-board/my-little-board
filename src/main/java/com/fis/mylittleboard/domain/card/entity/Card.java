@@ -33,9 +33,6 @@ public class Card {
 	@Column
 	private String color;
 
-	@Column
-	private LocalDate dueDate;
-
 	@Column(nullable = false)
 	private Long boardId;
 
@@ -57,9 +54,5 @@ public class Card {
 
 	public void updateColor(String color) {
 		this.color = color;
-	}
-
-	public void updateDueDate(LocalDate dueDate) {
-		this.dueDate = dueDate;
 	}
 }

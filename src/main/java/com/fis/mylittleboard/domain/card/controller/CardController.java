@@ -34,7 +34,7 @@ public class CardController {
 	private final CardService cardService;
 
 	//boardId와 progressId 검증
-	@Transactional
+
 	@PostMapping
 	public ResponseEntity<MessageResponseDto> createCard(
 		@Valid @RequestBody CardNameRequestDto cardNameRequestDto) {
@@ -46,12 +46,11 @@ public class CardController {
 				.build());
 	}
 
-	@Transactional
-	@PostMapping("/{cardId}/functions/{functionId}")
+
+	@PostMapping("/{cardId}/functions/dates")
 	public ResponseEntity<ResponseDto<CardDatesResDto>> addDate(@PathVariable Long cardId,
-		@PathVariable Long functionId, @RequestBody
-	CardDatesRequestDto cardDatesRequestDto) {
-		CardDatesResDto cardDatesResDto = cardService.addDate(cardId, functionId,
+		@RequestBody CardDatesRequestDto cardDatesRequestDto) {
+		CardDatesResDto cardDatesResDto = cardService.addDate(cardId,
 			cardDatesRequestDto);
 
 		return ResponseEntity.ok()
@@ -61,7 +60,7 @@ public class CardController {
 				.build());
 	}
 
-	@Transactional
+
 	@PatchMapping("/{cardId}/descriptions")
 	public ResponseEntity<ResponseDto<CardDescriptionResponseDto>> updateDescription(
 		@PathVariable Long cardId, @RequestBody CardDescriptionDto cardDescriptionDto) {
@@ -77,7 +76,7 @@ public class CardController {
 				.build());
 	}
 
-	@Transactional
+
 	@PatchMapping("/{cardId}/colors")
 	public ResponseEntity<ResponseDto<CardColorResponseDto>> updateColor(
 		@PathVariable Long cardId, @RequestBody CardColorRequestDto cardColorRequestDto) {
@@ -91,12 +90,12 @@ public class CardController {
 				.build());
 	}
 
-	@Transactional
-	@PatchMapping("/functions/dates/{cardDateId}")
+
+	@PatchMapping("/functions/dates/{dateId}")
 	public ResponseEntity<ResponseDto<CardDatesResDto>> updateDate(
-		@PathVariable Long cardDateId, @RequestBody
+		@PathVariable Long dateId, @RequestBody
 	CardDatesRequestDto cardDatesRequestDto) {
-		CardDatesResDto cardDatesResDto = cardService.updateDate(cardDateId,
+		CardDatesResDto cardDatesResDto = cardService.updateDate(dateId,
 			cardDatesRequestDto);
 
 		return ResponseEntity.ok()
@@ -106,7 +105,7 @@ public class CardController {
 				.build());
 	}
 
-	@Transactional
+
 	@DeleteMapping("/functions/dates/{cardDateId}")
 	public ResponseEntity<MessageResponseDto> delete(@PathVariable Long cardDateId) {
 		cardService.deleteDate(cardDateId);
@@ -117,7 +116,7 @@ public class CardController {
 				.build());
 	}
 
-	@Transactional
+
 	@DeleteMapping("/{cardId}")
 	public ResponseEntity<MessageResponseDto> deleteCard(@PathVariable Long cardId) {
 		cardService.deleteCard(cardId);

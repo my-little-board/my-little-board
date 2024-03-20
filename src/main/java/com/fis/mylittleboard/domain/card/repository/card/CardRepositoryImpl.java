@@ -1,11 +1,13 @@
 package com.fis.mylittleboard.domain.card.repository.card;
 
 import static com.fis.mylittleboard.domain.card.entity.QCardLabel.cardLabel;
-import static com.fis.mylittleboard.domain.card.entity.QCardMember.cardMember;
+
+import static com.fis.mylittleboard.domain.card.entity.QMember.member;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.entity.QCardLabel;
-import com.fis.mylittleboard.domain.card.entity.QCardMember;
+
+import com.fis.mylittleboard.domain.card.entity.QMember;
 import com.fis.mylittleboard.domain.card.repository.card.CardJpaRepository;
 import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -39,9 +41,9 @@ public class CardRepositoryImpl implements CardRepository {
 
 	@Override
 	public List<Long> getMemberIds(Long cardId) {
-		return jpaQueryFactory.select(cardMember.memberId)
-			.from(cardMember)
-			.where(cardMember.cardId.eq(cardId))
+		return jpaQueryFactory.select(member.memberId)
+			.from(member)
+			.where(member.cardId.eq(cardId))
 			.fetch();
 
 

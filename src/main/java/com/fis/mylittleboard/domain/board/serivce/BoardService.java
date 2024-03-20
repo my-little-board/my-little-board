@@ -1,24 +1,30 @@
 package com.fis.mylittleboard.domain.board.serivce;
 
+import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
+import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.entity.Board;
 import com.fis.mylittleboard.domain.board.repository.BoardRepository;
-import java.text.Normalizer.Form;
+import com.fis.mylittleboard.domain.hahaboard.entity.Hahaboard;
+import com.fis.mylittleboard.domain.hahaboard.repository.HahaboardRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.swing.text.html.FormView;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.NativeQuery.ReturnableResultNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoardService {
 
   private final BoardRepository boardRepository;
+  private final CollaborationRepository collaborationRepository;
+  private final HahaboardRepository hahaboardRepository;
+
 
   @Transactional
   public void createBoard(BoardRequestDto requestDto) {
@@ -37,8 +43,15 @@ public class BoardService {
         userId
     );
 
-    boardRepository.save(board);
-    // todo: 현재 진행상황을 표현하는 방법
+    Board newBoard = boardRepository.save(board); // 워크스페이스 생성
+
+    Hahaboard hahaboard = new Hahaboard(newBoard.getId());
+
+    hahaboardRepository.save(hahaboard); // 생성된 워크스페이스와 같은 하하 워크스페이스 생성
+
+    Collaboration collaboration = new Collaboration(newBoard.getId(), userId);
+
+    collaborationRepository.save(collaboration); // 워크스페이스에 있는 유저들 관리공간 생성
   }
 
   @Transactional(readOnly = true)
@@ -86,4 +99,13 @@ public class BoardService {
   public void deleteBoard(Long boardId) {
     boardRepository.deleteById(boardId);
   }
+
+  /*
+  todo: 워크스페이스는 생성 시 진행상황은 무조건 진행중인 상황이 될테니 default로 true를 주는게 맞나?
+  todo: 워크스페이스에 다른 유저 초대하는 기능 구현
+  todo: 배경색상 처리하는 방법
+  todo: 마감기한 설정 및 마감기한 지나면 진행상황 false로 바꾸는 방법
+  todo: 워크스페이스 수정 및 삭제는 생성자만 할 수 있게 처리
+
+   */
 }

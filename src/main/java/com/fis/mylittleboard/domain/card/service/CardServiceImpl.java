@@ -21,7 +21,7 @@ public class CardServiceImpl implements CardService {
 	public void createCard(CardRequestDto requestDto) {
 		Card card = new Card(requestDto);
 
-		List<Long> workers = requestDto.getWorkers();
+		List<Long> workers = requestDto.getMembers();
 
 		Card savedCard = cardRepository.save(card);
 

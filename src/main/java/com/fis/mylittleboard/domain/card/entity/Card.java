@@ -43,6 +43,7 @@ public class Card {
 	@Column(nullable = false)
 	private Long progressId;
 
+
 	@Builder
 	public Card(CardRequestDto cardRequestDto) {
 		this.name = cardRequestDto.getName();

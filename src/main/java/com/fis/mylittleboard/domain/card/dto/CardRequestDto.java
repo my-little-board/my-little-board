@@ -10,7 +10,6 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
-@AllArgsConstructor
 public class CardRequestDto {
 
 	@NotNull(message = "내용을 입력하세요.")
@@ -19,11 +18,11 @@ public class CardRequestDto {
 
 	private String description;
 
-	@NotNull(message = "색상을 입력하세요.")
-	private String color;
+//	@NotNull(message = "색상을 입력하세요.")
+//	private String color;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dueDate;
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	private LocalDate dueDate;
 
 	@NotNull
 	private Long boardId;
@@ -31,8 +30,8 @@ public class CardRequestDto {
 	@NotNull
 	private Long progressId;
 
-	private List<Long> members;
-
-	private List<Long> labels;
+//	private List<Long> members;
+//
+//	private List<Long> labels;
 
 }

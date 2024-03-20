@@ -9,7 +9,6 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
-@AllArgsConstructor
 public class CardResponseDto {
 
 	private Long cardId;

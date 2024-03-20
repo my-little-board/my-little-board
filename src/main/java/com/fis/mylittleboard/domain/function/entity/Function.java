@@ -1,4 +1,4 @@
-package com.fis.mylittleboard.domain.card.entity;
+package com.fis.mylittleboard.domain.function.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,29 +6,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "coworks")
-public class Cowork {
+@Table(name = "functions")
+public class Function {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false)
-	private Long cardId;
+	private String name;
 
-	@Column
-	private Long memberId;
-
-	public Cowork(Long cardId, Long memberId) {
-		this.cardId = cardId;
-		this.memberId = memberId;
+	public Function(String name) {
+		this.name = name;
 	}
 }

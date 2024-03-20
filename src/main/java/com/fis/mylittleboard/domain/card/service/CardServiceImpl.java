@@ -1,14 +1,19 @@
 package com.fis.mylittleboard.domain.card.service;
 
+import com.fis.mylittleboard.domain.card.dto.CardColorResponseDto;
+import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
+import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.entity.CardLabel;
-import com.fis.mylittleboard.domain.card.entity.Cowork;
+import com.fis.mylittleboard.domain.card.entity.CardMember;
 import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.fis.mylittleboard.domain.card.repository.cardlabel.CardLabelRepository;
 import com.fis.mylittleboard.domain.card.repository.cowork.CoworkRepository;
+import com.fis.mylittleboard.domain.function.entity.Function;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,41 +27,14 @@ public class CardServiceImpl implements CardService {
 	private final LabelRepository labelRepository;
 	private final CardLabelRepository cardLabelRepository;
 
-	@Override
-	public void createCard(CardRequestDto requestDto) {
-		Card card = new Card(requestDto);
 
-		List<Long> workers = requestDto.getMembers();
-		List<Long> labels = requestDto.getLabels();
-
-		Card savedCard = cardRepository.save(card);
-
-		if (!workers.isEmpty()) {
-			workers.stream()
-				.map(l -> new Cowork(savedCard.getId(), l))
-				.forEach(coworkRepository::save);
-		}
-
-		if (!labels.isEmpty()) {
-			labels.stream()
-				.map(labelRepository::findById)
-				.map(optLabel -> optLabel.orElseThrow(
-					() -> new IllegalArgumentException("해당 라벨은 존재하지 않습니다.")))
-				.forEach(label -> cardLabelRepository.save(
-					new CardLabel(savedCard.getId(), label.getId())));
-		}
-
-
-	}
 
 	@Override
-	public void updateCard(Long cardId, CardRequestDto cardRequestDto) {
-
-		Card card = cardRepository.findById(cardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
-
-		card.update(cardRequestDto);
+	public void createCard(CardNameRequestDto cardNameRequestDto) {
+		Card card = new Card(cardNameRequestDto);
+		cardRepository.save(card);
 	}
+
 
 	@Override
 	public void deleteCard(Long cardId) {
@@ -64,7 +42,7 @@ public class CardServiceImpl implements CardService {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		List<Cowork> works = coworkRepository.findByCardId(cardId);
+		List<CardMember> works = coworkRepository.findByCardId(cardId);
 		works.forEach(coworkRepository::delete);
 
 		cardRepository.delete(card);
@@ -79,5 +57,23 @@ public class CardServiceImpl implements CardService {
 		List<Long> labels = cardRepository.getLabelIds(cardId);
 
 		return new CardResponseDto(card, members, labels);
+	}
+
+	@Override
+	public CardDescriptionResponseDto updateDescription(Long cardId, String description) {
+		Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+
+		card.updateDescription(description);
+		return new CardDescriptionResponseDto(card);
+	}
+
+	@Override
+	public CardColorResponseDto updateColor(Long cardId, String color) {
+		Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+
+		card.updateColor(color);
+		return new CardColorResponseDto(card);
 	}
 }

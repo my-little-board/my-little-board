@@ -1,10 +1,10 @@
 package com.fis.mylittleboard.domain.card.repository.cowork;
 
-import com.fis.mylittleboard.domain.card.entity.Cowork;
+import com.fis.mylittleboard.domain.card.entity.CardMember;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CoworkJpaRepository extends JpaRepository<Cowork, Long> {
+public interface CoworkJpaRepository extends JpaRepository<CardMember, Long> {
 
-	List<Cowork> findByCardId(Long cardId);
+	List<CardMember> findByCardId(Long cardId);
 }

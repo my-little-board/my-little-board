@@ -1,5 +1,10 @@
 package com.fis.mylittleboard.domain.card.controller;
 
+import com.fis.mylittleboard.domain.card.dto.CardColorRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardColorResponseDto;
+import com.fis.mylittleboard.domain.card.dto.CardDescriptionDto;
+import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
+import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.service.CardService;
@@ -11,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,9 +35,8 @@ public class CardController {
 	@Transactional
 	@PostMapping
 	public ResponseEntity<MessageResponseDto> createCard(
-		@Valid @RequestBody CardRequestDto requestDto) {
-		cardService.createCard(requestDto);
-
+		@Valid @RequestBody CardNameRequestDto cardNameRequestDto) {
+		cardService.createCard(cardNameRequestDto);
 
 		return ResponseEntity.ok()
 			.body(MessageResponseDto.builder()
@@ -40,14 +45,32 @@ public class CardController {
 	}
 
 	@Transactional
-	@PutMapping("/{cardId}")
-	public ResponseEntity<MessageResponseDto> updateCard(@PathVariable Long cardId,
-		@Valid @RequestBody CardRequestDto cardRequestDto) {
-		cardService.updateCard(cardId, cardRequestDto);
+	@PatchMapping("/{cardId}/descriptions")
+	public ResponseEntity<ResponseDto<CardDescriptionResponseDto>> updateDescription(
+		@PathVariable Long cardId, @RequestBody CardDescriptionDto cardDescriptionDto) {
+		String description = cardDescriptionDto.getDescription();
+
+		CardDescriptionResponseDto cardDescriptionResponseDto = cardService.updateDescription(
+			cardId, description);
 
 		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
-				.message("카드 수정에 성공하였습니다.")
+			.body(ResponseDto.<CardDescriptionResponseDto>builder()
+				.message("description 수정에 성공하였습니다.")
+				.data(cardDescriptionResponseDto)
+				.build());
+	}
+
+	@Transactional
+	@PatchMapping("/{cardId}/colors")
+	public ResponseEntity<ResponseDto<CardColorResponseDto>> updateColor(
+		@PathVariable Long cardId, @RequestBody CardColorRequestDto cardColorRequestDto) {
+		CardColorResponseDto cardColorResponseDto = cardService.updateColor(cardId,
+			cardColorRequestDto.getColor());
+
+		return ResponseEntity.ok()
+			.body(ResponseDto.<CardColorResponseDto>builder()
+				.message("color 수정에 성공하였습니다.")
+				.data(cardColorResponseDto)
 				.build());
 	}
 

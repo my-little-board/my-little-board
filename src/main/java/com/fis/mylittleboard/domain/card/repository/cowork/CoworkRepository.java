@@ -1,14 +1,14 @@
 package com.fis.mylittleboard.domain.card.repository.cowork;
 
-import com.fis.mylittleboard.domain.card.entity.Cowork;
+import com.fis.mylittleboard.domain.card.entity.CardMember;
 import java.util.List;
 
 public interface CoworkRepository {
 
-	void save(Cowork cowork);
+	void save(CardMember cardMember);
 
-	List<Cowork> findByCardId(Long cardId);
+	List<CardMember> findByCardId(Long cardId);
 
-	void delete(Cowork cowork);
+	void delete(CardMember cardMember);
 
 }

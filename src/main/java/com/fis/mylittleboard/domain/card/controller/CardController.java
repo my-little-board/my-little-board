@@ -9,6 +9,8 @@ import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
+import com.fis.mylittleboard.domain.card.dto.MemberReqDto;
+import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.card.service.CardService;
 import com.fis.mylittleboard.global.common.MessageResponseDto;
 import com.fis.mylittleboard.global.common.ResponseDto;
@@ -60,6 +62,18 @@ public class CardController {
 				.build());
 	}
 
+	@PostMapping("/{cardId}/functions/members")
+	public ResponseEntity<ResponseDto<MemberResDto>> addMember(@PathVariable Long cardId,
+		@RequestBody MemberReqDto memberReqDto) {
+		MemberResDto memberResDto = cardService.addMember(cardId, memberReqDto.getUsername());
+
+		return ResponseEntity.ok()
+			.body(ResponseDto.<MemberResDto>builder()
+				.message("DueDate 등록에 성공하였습니다.")
+				.data(memberResDto)
+				.build());
+	}
+
 
 	@PatchMapping("/{cardId}/descriptions")
 	public ResponseEntity<ResponseDto<CardDescriptionResponseDto>> updateDescription(
@@ -106,9 +120,9 @@ public class CardController {
 	}
 
 
-	@DeleteMapping("/functions/dates/{cardDateId}")
-	public ResponseEntity<MessageResponseDto> delete(@PathVariable Long cardDateId) {
-		cardService.deleteDate(cardDateId);
+	@DeleteMapping("/functions/dates/{dateId}")
+	public ResponseEntity<MessageResponseDto> deleteDate(@PathVariable Long dateId) {
+		cardService.deleteDate(dateId);
 
 		return ResponseEntity.ok()
 			.body(MessageResponseDto.builder()
@@ -124,6 +138,16 @@ public class CardController {
 		return ResponseEntity.ok()
 			.body(MessageResponseDto.builder()
 				.message("카드 삭제에 성공하였습니다.")
+				.build());
+	}
+
+	@DeleteMapping("/functions/members/{memberId}")
+	public ResponseEntity<MessageResponseDto> deleteMember(@PathVariable Long memberId) {
+		cardService.deleteMember(memberId);
+
+		return ResponseEntity.ok()
+			.body(MessageResponseDto.builder()
+				.message("해당 멤버 제거에 성공하였습니다.")
 				.build());
 	}
 

@@ -25,10 +25,10 @@ public class Member {
 	private Long cardId;
 
 	@Column
-	private Long memberId;
+	private String username;
 
-	public Member(Long cardId, Long memberId) {
+	public Member(Long cardId, String username) {
 		this.cardId = cardId;
-		this.memberId = memberId;
+		this.username = username;
 	}
 }

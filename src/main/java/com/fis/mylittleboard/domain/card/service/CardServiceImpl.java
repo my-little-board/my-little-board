@@ -6,17 +6,17 @@ import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
+import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
-import com.fis.mylittleboard.domain.card.entity.CardFunction;
 import com.fis.mylittleboard.domain.card.entity.Date;
 import com.fis.mylittleboard.domain.card.entity.Member;
 import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.fis.mylittleboard.domain.card.repository.cardlabel.CardLabelRepository;
-import com.fis.mylittleboard.domain.card.repository.cowork.CoworkRepository;
+import com.fis.mylittleboard.domain.card.repository.member.MemberRepository;
 import com.fis.mylittleboard.domain.card.repository.date.DateRepository;
-import com.fis.mylittleboard.domain.function.entity.Function;
-import com.fis.mylittleboard.domain.function.repository.FunctionRepository;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
+import com.fis.mylittleboard.domain.user.entity.User;
+import com.fis.mylittleboard.domain.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,10 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CardServiceImpl implements CardService {
 
 	private final CardRepository cardRepository;
-	private final CoworkRepository coworkRepository;
+	private final MemberRepository memberRepository;
 	private final LabelRepository labelRepository;
 	private final CardLabelRepository cardLabelRepository;
 	private final DateRepository dateRepository;
+	private final UserRepository userRepository;
 
 	@Transactional
 	@Override
@@ -47,8 +48,8 @@ public class CardServiceImpl implements CardService {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		List<Member> works = coworkRepository.findByCardId(cardId);
-		works.forEach(coworkRepository::delete);
+		List<Member> works = memberRepository.findByCardId(cardId);
+		works.forEach(memberRepository::delete);
 
 		cardRepository.delete(card);
 	}
@@ -91,7 +92,8 @@ public class CardServiceImpl implements CardService {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-		Date date = new Date(cardId, cardDatesRequestDto.getDueDate());
+		Date date = new Date(card.getId(), cardDatesRequestDto.getDueDate());
+		dateRepository.save(date);
 		return new CardDatesResDto(date);
 	}
 
@@ -113,5 +115,28 @@ public class CardServiceImpl implements CardService {
 		Date date = dateRepository.findById(dateId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 date는 존재하지 않습니다."));
 		dateRepository.delete(date);
+	}
+
+	@Transactional
+	@Override
+	public MemberResDto addMember(Long cardId, String username) {
+		Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+
+		//username찾기
+
+		Member member = new Member(card.getId(), username);
+
+		memberRepository.save(member);
+		return new MemberResDto(member.getUsername());
+	}
+
+	@Transactional
+	@Override
+	public void deleteMember(Long memberId) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 카드에 존재하는 멤버가 아닙니다."));
+
+		memberRepository.delete(member);
 	}
 }

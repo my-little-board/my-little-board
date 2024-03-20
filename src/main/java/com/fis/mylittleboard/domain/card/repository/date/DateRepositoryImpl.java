@@ -12,6 +12,11 @@ public class DateRepositoryImpl implements DateRepository{
 	private final DateJpaRepository dateJpaRepository;
 
 	@Override
+	public void save(Date date) {
+		dateJpaRepository.save(date);
+	}
+
+	@Override
 	public Optional<Date> findById(Long id) {
 		return dateJpaRepository.findById(id);
 	}

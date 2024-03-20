@@ -6,6 +6,7 @@ import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
+import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 
 public interface CardService {
 
@@ -25,4 +26,8 @@ public interface CardService {
 	CardDatesResDto updateDate(Long dateId, CardDatesRequestDto cardDatesRequestDto);
 
 	void deleteDate(Long cardDateId);
+
+	MemberResDto addMember(Long cardId, String username);
+
+	void deleteMember(Long memberId);
 }

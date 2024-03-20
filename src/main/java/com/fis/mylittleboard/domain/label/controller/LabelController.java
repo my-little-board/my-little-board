@@ -26,7 +26,7 @@ public class LabelController {
 	@PostMapping
 	public ResponseEntity<MessageResponseDto> createLabel(
 		@Valid @RequestBody LabelRequestDto labelRequestDto) {
-		labelService.createLabel(labelRequestDto.getLabel());
+		labelService.createLabel(labelRequestDto.getTitle(), labelRequestDto.getColor());
 
 		return ResponseEntity.ok()
 			.body(MessageResponseDto.builder()

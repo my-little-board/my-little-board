@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,10 +21,14 @@ public class Label {
 
 
 	@Column(nullable = false)
-	private String label;
+	private String title;
 
-	public Label(String label) {
-		this.label = label;
+	@Column(nullable = false)
+	private String color;
+
+	public Label(String title, String color) {
+		this.title = title;
+		this.color = color;
 	}
 
 

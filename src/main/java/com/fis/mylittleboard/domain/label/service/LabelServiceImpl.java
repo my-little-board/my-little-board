@@ -12,8 +12,8 @@ public class LabelServiceImpl implements LabelService {
 	private final LabelRepository labelRepository;
 
 	@Override
-	public void createLabel(String labelname) {
-		Label label = new Label(labelname);
+	public void createLabel(String title, String color) {
+		Label label = new Label(title, color);
 
 		labelRepository.save(label);
 	}

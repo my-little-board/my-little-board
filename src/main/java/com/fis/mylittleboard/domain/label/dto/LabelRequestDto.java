@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 public class LabelRequestDto {
 
 	@NotNull(message = "만들고자 하는 label을 입력하세요.")
-	private String label;
+	private String title;
+
+	@NotNull(message = "만들고자 하는 label의 색상을 입력하세요.")
+	private String color;
 
 }

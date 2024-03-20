@@ -2,6 +2,7 @@ package com.fis.mylittleboard.domain.hahacontent.controller;
 
 import com.fis.mylittleboard.domain.hahacontent.dto.HahaContentRequestDto;
 import com.fis.mylittleboard.domain.hahacontent.service.HahaContentService;
+import com.fis.mylittleboard.domain.hahacontent.service.HahaContentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

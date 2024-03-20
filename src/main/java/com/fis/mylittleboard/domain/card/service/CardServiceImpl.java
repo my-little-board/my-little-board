@@ -8,14 +8,16 @@ import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
+import com.fis.mylittleboard.domain.card.entity.CardLabel;
 import com.fis.mylittleboard.domain.card.entity.Date;
 import com.fis.mylittleboard.domain.card.entity.Member;
 import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.fis.mylittleboard.domain.card.repository.cardlabel.CardLabelRepository;
-import com.fis.mylittleboard.domain.card.repository.member.MemberRepository;
 import com.fis.mylittleboard.domain.card.repository.date.DateRepository;
+import com.fis.mylittleboard.domain.card.repository.member.MemberRepository;
+import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
+import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
-import com.fis.mylittleboard.domain.user.entity.User;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,6 @@ public class CardServiceImpl implements CardService {
 	private final UserRepository userRepository;
 
 	@Transactional
-	@Override
 	public void createCard(CardNameRequestDto cardNameRequestDto) {
 		Card card = new Card(cardNameRequestDto);
 		cardRepository.save(card);
@@ -42,7 +43,6 @@ public class CardServiceImpl implements CardService {
 
 
 	@Transactional
-	@Override
 	public void deleteCard(Long cardId) {
 
 		Card card = cardRepository.findById(cardId)
@@ -54,7 +54,6 @@ public class CardServiceImpl implements CardService {
 		cardRepository.delete(card);
 	}
 
-	@Override
 	public CardResponseDto getCard(Long cardId) {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
@@ -66,7 +65,6 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Transactional
-	@Override
 	public CardDescriptionResponseDto updateDescription(Long cardId, String description) {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
@@ -76,7 +74,6 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Transactional
-	@Override
 	public CardColorResponseDto updateColor(Long cardId, String color) {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
@@ -86,7 +83,6 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Transactional
-	@Override
 	public CardDatesResDto addDate(Long cardId,
 		CardDatesRequestDto cardDatesRequestDto) {
 		Card card = cardRepository.findById(cardId)
@@ -98,7 +94,6 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Transactional
-	@Override
 	public CardDatesResDto updateDate(Long dateId,
 		CardDatesRequestDto cardDatesRequestDto) {
 
@@ -110,7 +105,6 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Transactional
-	@Override
 	public void deleteDate(Long dateId) {
 		Date date = dateRepository.findById(dateId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 date는 존재하지 않습니다."));
@@ -118,7 +112,6 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Transactional
-	@Override
 	public MemberResDto addMember(Long cardId, String username) {
 		Card card = cardRepository.findById(cardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
@@ -132,11 +125,33 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Transactional
-	@Override
 	public void deleteMember(Long memberId) {
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 카드에 존재하는 멤버가 아닙니다."));
 
 		memberRepository.delete(member);
+	}
+
+	@Transactional
+	public LabelResponseDto addLabel(Long cardId, Long labelId) {
+		Card card = cardRepository.findById(cardId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+
+		Label label = labelRepository.findById(labelId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 라벨이 존재하지 않습니다."));
+
+		CardLabel cardLabel = new CardLabel(card.getId(), label.getId());
+
+		cardLabelRepository.save(cardLabel);
+
+		return new LabelResponseDto(label);
+	}
+
+	@Transactional
+	public void deleteCardLabel(Long cardLabelId) {
+		CardLabel cardLabel = cardLabelRepository.findById(cardLabelId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 카드 라벨이 존재하지 않습니다."));
+
+		cardLabelRepository.delete(cardLabel);
 	}
 }

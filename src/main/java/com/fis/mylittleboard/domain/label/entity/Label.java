@@ -20,7 +20,7 @@ public class Label {
 	private Long id;
 
 
-	@Column(nullable = false)
+	@Column
 	private String title;
 
 	@Column(nullable = false)
@@ -31,5 +31,9 @@ public class Label {
 		this.color = color;
 	}
 
+	public void updateLabel(String title, String color) {
+		this.title = title;
+		this.color = color;
+	}
 
 }

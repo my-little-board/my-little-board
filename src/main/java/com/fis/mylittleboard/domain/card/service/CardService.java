@@ -7,6 +7,7 @@ import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
+import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 
 public interface CardService {
 
@@ -30,4 +31,8 @@ public interface CardService {
 	MemberResDto addMember(Long cardId, String username);
 
 	void deleteMember(Long memberId);
+
+	LabelResponseDto addLabel(Long cardId, Long labelId);
+
+	void deleteCardLabel(Long cardLabelId);
 }

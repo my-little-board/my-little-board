@@ -12,8 +12,8 @@ public class LabelRepositoryImpl implements LabelRepository{
 	private final LabelJpaRepository labelJpaRepository;
 
 	@Override
-	public void save(Label label) {
-		labelJpaRepository.save(label);
+	public Label save(Label label) {
+		return labelJpaRepository.save(label);
 	}
 
 	@Override

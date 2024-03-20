@@ -1,8 +1,12 @@
 package com.fis.mylittleboard.domain.label.service;
 
+import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
+
 public interface LabelService {
 
-	void createLabel(String label, String color);
+	LabelResponseDto createLabel(String label, String color);
 
 	void deleteLabel(Long labelId);
+
+	LabelResponseDto updateLabel(Long labelId, String title, String color);
 }

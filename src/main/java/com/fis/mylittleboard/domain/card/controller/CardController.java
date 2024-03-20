@@ -7,23 +7,21 @@ import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
-import com.fis.mylittleboard.domain.card.dto.CardRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberReqDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.card.service.CardService;
+import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 import com.fis.mylittleboard.global.common.MessageResponseDto;
 import com.fis.mylittleboard.global.common.ResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -71,6 +69,18 @@ public class CardController {
 			.body(ResponseDto.<MemberResDto>builder()
 				.message("DueDate 등록에 성공하였습니다.")
 				.data(memberResDto)
+				.build());
+	}
+
+	@PostMapping("/{cardId}/functions/labels/{labelId}")
+	public ResponseEntity<ResponseDto<LabelResponseDto>> addLabel(@PathVariable Long cardId,
+		@PathVariable Long labelId) {
+		LabelResponseDto labelResponseDto = cardService.addLabel(cardId, labelId);
+
+		return ResponseEntity.ok()
+			.body(ResponseDto.<LabelResponseDto>builder()
+				.message("DueDate 등록에 성공하였습니다.")
+				.data(labelResponseDto)
 				.build());
 	}
 
@@ -148,6 +158,16 @@ public class CardController {
 		return ResponseEntity.ok()
 			.body(MessageResponseDto.builder()
 				.message("해당 멤버 제거에 성공하였습니다.")
+				.build());
+	}
+
+	@DeleteMapping("/functions/labels/{cardLabelId}")
+	public ResponseEntity<MessageResponseDto> deleteCardLabel(@PathVariable Long cardLabelId) {
+		cardService.deleteCardLabel(cardLabelId);
+
+		return ResponseEntity.ok()
+			.body(MessageResponseDto.builder()
+				.message("해당 카드 라벨 제거에 성공하였습니다.")
 				.build());
 	}
 

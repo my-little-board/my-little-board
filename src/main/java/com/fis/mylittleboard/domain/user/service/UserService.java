@@ -4,5 +4,12 @@ import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
 import com.fis.mylittleboard.domain.user.dto.UserResponseDto;
 
 public interface UserService{
-  UserResponseDto createUser(UserRequestDto userRequestDto);
+
+  /**
+   *
+   * @param userRequestDto
+   *
+   */
+
+  UserResponseDto signup(UserRequestDto userRequestDto);
 }

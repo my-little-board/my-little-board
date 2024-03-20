@@ -24,6 +24,9 @@ public class Comment extends TimeStamp {
   @Column(nullable = false)
   private String content;
 
+  @Column(nullable = false)
+  private Long cardId;
+
   public Comment(CommentRequestDto requestDto) {
     this.content = requestDto.getContent();
   }

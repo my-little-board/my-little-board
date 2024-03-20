@@ -103,13 +103,4 @@ public class BoardServiceImpl implements BoardService {
   public void deleteBoard(Long boardId) {
     boardRepository.deleteById(boardId);
   }
-
-  /*
-  todo: 워크스페이스는 생성 시 진행상황은 무조건 진행중인 상황이 될테니 default로 true를 주는게 맞나?
-  todo: 워크스페이스에 다른 유저 초대하는 기능 구현
-  todo: 배경색상 처리하는 방법
-  todo: 마감기한 설정 및 마감기한 지나면 진행상황 false로 바꾸는 방법
-  todo: 워크스페이스 수정 및 삭제는 생성자만 할 수 있게 처리
-
-   */
 }

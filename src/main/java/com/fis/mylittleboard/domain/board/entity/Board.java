@@ -38,7 +38,6 @@ public class Board extends TimeStamp {
   @CreatedDate
   @Column(nullable = false)
   private LocalDateTime dueDate = LocalDateTime.now();
-  // todo: 마감기한 설정하는 방법은 나중에 기능구현이 끝나면 생각해보기..
 
   @Column(nullable = false)
   private boolean classification;
@@ -56,7 +55,4 @@ public class Board extends TimeStamp {
     this.boardColor = requestDto.getBoardColor();
     this.dueDate = LocalDateTime.now();
   }
-
-  // todo: 수정부분의 마감기한 설정도 생각해보기
-  // todo: patch api가 필요 url path에
 }

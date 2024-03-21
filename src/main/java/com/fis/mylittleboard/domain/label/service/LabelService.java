@@ -4,7 +4,7 @@ import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 
 public interface LabelService {
 
-  LabelResponseDto createLabel(String label, String color);
+  LabelResponseDto createLabel(Long boardId, String label, String color);
 
   void deleteLabel(Long labelId);
 

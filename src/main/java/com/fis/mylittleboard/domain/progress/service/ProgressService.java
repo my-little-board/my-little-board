@@ -1,5 +1,7 @@
 package com.fis.mylittleboard.domain.progress.service;
 
+import com.fis.mylittleboard.domain.progress.dto.ProgressAllList;
+import com.fis.mylittleboard.domain.progress.dto.ProgressListResDto;
 import com.fis.mylittleboard.domain.progress.dto.ProgressResDto;
 
 public interface ProgressService {
@@ -11,4 +13,6 @@ public interface ProgressService {
   void deleteProgress(Long progressId);
 
   void move(Long progressId, Long boardId, Long position);
+
+  ProgressAllList getProgresses(Long boardId);
 }

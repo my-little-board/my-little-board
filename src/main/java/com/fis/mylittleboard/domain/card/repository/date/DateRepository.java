@@ -11,4 +11,6 @@ public interface DateRepository {
   Optional<Date> findById(Long id);
 
   void delete(Date date);
+
+  Optional<Date> findByCardId(Long cardId);
 }

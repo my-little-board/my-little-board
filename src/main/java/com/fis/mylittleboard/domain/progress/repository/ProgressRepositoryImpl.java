@@ -3,6 +3,7 @@ package com.fis.mylittleboard.domain.progress.repository;
 import com.fis.mylittleboard.domain.progress.entity.Progress;
 import com.fis.mylittleboard.domain.progress.entity.QProgress;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -39,5 +40,15 @@ public class ProgressRepositoryImpl implements ProgressRepository {
   @Override
   public Optional<Progress> findByPosition(Long position) {
     return progressJpaRepository.findByPosition(position);
+  }
+
+  public List<Long> getProgressIds(Long boardId) {
+
+    return jpaQueryFactory.select(QProgress.progress.id)
+        .from(QProgress.progress)
+        .where(QProgress.progress.boardId.eq(boardId))
+        .orderBy(QProgress.progress.position.asc())
+        .fetch();
+
   }
 }

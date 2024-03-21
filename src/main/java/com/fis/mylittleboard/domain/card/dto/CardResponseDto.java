@@ -29,11 +29,12 @@ public class CardResponseDto {
   private final List<Long> labels;
 
   @Builder
-  public CardResponseDto(Card card, List<Long> members, List<Long> labels) {
+  public CardResponseDto(Card card, List<Long> members, List<Long> labels, LocalDate dueDate) {
     this.cardId = card.getId();
     this.name = card.getName();
     this.description = card.getDescription();
     this.color = card.getColor();
+    this.dueDate = dueDate;
     this.boardId = card.getBoardId();
     this.progressId = card.getProgressId();
     this.members = members;

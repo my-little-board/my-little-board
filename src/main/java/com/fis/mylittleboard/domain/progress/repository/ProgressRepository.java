@@ -1,6 +1,7 @@
 package com.fis.mylittleboard.domain.progress.repository;
 
 import com.fis.mylittleboard.domain.progress.entity.Progress;
+import java.util.List;
 import java.util.Optional;
 
 public interface ProgressRepository {
@@ -14,4 +15,6 @@ public interface ProgressRepository {
   Long find();
 
   Optional<Progress> findByPosition(Long position);
+
+  List<Long> getProgressIds(Long boardId);
 }

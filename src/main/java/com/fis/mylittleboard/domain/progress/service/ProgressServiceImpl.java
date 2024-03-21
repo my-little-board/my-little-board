@@ -2,12 +2,24 @@ package com.fis.mylittleboard.domain.progress.service;
 
 import com.fis.mylittleboard.domain.board.entity.Board;
 import com.fis.mylittleboard.domain.board.repository.BoardRepository;
+import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
+import com.fis.mylittleboard.domain.card.entity.Date;
 import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
+import com.fis.mylittleboard.domain.card.repository.date.DateRepository;
+import com.fis.mylittleboard.domain.card.service.CardService;
+import com.fis.mylittleboard.domain.card.service.CardServiceImpl;
+import com.fis.mylittleboard.domain.progress.dto.ProgressAllList;
+import com.fis.mylittleboard.domain.progress.dto.ProgressListResDto;
 import com.fis.mylittleboard.domain.progress.dto.ProgressResDto;
 import com.fis.mylittleboard.domain.progress.entity.Progress;
 import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +31,9 @@ public class ProgressServiceImpl implements ProgressService {
 	private final ProgressRepository progressRepository;
 	private final CardRepository cardRepository;
 	private final BoardRepository boardRepository;
+	private final DateRepository dateRepository;
 
-	private Progress getProgress(Long progressId) {
+	public Progress getProgress(Long progressId) {
 		return progressRepository.findById(progressId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
 	}
@@ -72,5 +85,31 @@ public class ProgressServiceImpl implements ProgressService {
 		progress2.movePosition(progress1position);
 		progress1.moveBoard(board.getId());
 
+	}
+
+	@Transactional(readOnly = true)
+	public ProgressAllList getProgresses(Long boardId) {
+
+		List<ProgressListResDto> progressListResDtos = progressRepository.getProgressIds(boardId)
+			.stream()
+			.map(progressId -> {
+				Progress progress = getProgress(progressId);
+				List<CardResponseDto> cardResDtos = cardRepository.findByProgressId(
+						progress.getId()).stream()
+					.map(card -> {
+						List<Long> members = cardRepository.getMemberIds(card.getId());
+						List<Long> labels = cardRepository.getLabelIds(card.getId());
+						Optional<Date> dateEntityOptional = dateRepository.findByCardId(
+							card.getId());
+						LocalDate dueDate =
+							dateEntityOptional.map(Date::getDueDate).orElse(null);
+						return new CardResponseDto(card, members, labels, dueDate);
+					})
+					.toList();
+				return new ProgressListResDto(progress.getClassification(), cardResDtos);
+			})
+			.toList();
+
+		return new ProgressAllList(progressListResDtos);
 	}
 }

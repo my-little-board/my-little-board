@@ -21,6 +21,7 @@ import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
 import com.fis.mylittleboard.domain.user.model.User;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,8 +67,9 @@ public class CardServiceImpl implements CardService {
 
     List<Long> members = cardRepository.getMemberIds(cardId);
     List<Long> labels = cardRepository.getLabelIds(cardId);
+    LocalDate dueDate = dateRepository.findByCardId(card.getId()).get().getDueDate();
 
-    return new CardResponseDto(card, members, labels);
+    return new CardResponseDto(card, members, labels, dueDate);
   }
 
   @Transactional

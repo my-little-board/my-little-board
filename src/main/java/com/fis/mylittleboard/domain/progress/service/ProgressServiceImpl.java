@@ -20,35 +20,57 @@ public class ProgressServiceImpl implements ProgressService {
 	private final CardRepository cardRepository;
 	private final BoardRepository boardRepository;
 
+	private Progress getProgress(Long progressId) {
+		return progressRepository.findById(progressId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
+	}
+
 	@Transactional
 	public ProgressResDto createProgress(Long boardId, String classification) {
 		Board board = boardRepository.findById(boardId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 보드는 존재하지 않습니다."));
 		Long count = progressRepository.find();
-		Progress progress = new Progress(classification, board.getId(), count+1);
+		Progress progress = new Progress(classification, board.getId(), count + 1);
 
 		return new ProgressResDto(progressRepository.save(progress));
 
 	}
 
-	@Override
+	@Transactional
 	public void updateProgress(Long progressId, String classification) {
 
-		Progress progress = progressRepository.findById(progressId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
+		Progress progress = getProgress(progressId);
 
 		progress.updateProgress(classification);
 	}
 
-	@Override
+	@Transactional
 	public void deleteProgress(Long progressId) {
 
-		Progress progress = progressRepository.findById(progressId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
+		Progress progress = getProgress(progressId);
 
 		List<Card> cards = cardRepository.findByProgressId(progressId);
 
 		cards.forEach(cardRepository::delete);
 		progressRepository.delete(progress);
+	}
+
+	@Transactional
+	public void move(Long progressId, Long boardId, Long position) {
+		Progress progress1 = getProgress(progressId);
+
+		Progress progress2 = progressRepository.findByPosition(position)
+			.orElseThrow(() -> new IllegalArgumentException("해당 위치의 분류는 존재하지 않습니다."));
+
+		Board board = boardRepository.findById(boardId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 보드는 존재하지 않습니다."));
+
+		Long progress1position = progress1.getPosition();
+		Long progress2position = progress2.getPosition();
+
+		progress1.movePosition(progress2position);
+		progress2.movePosition(progress1position);
+		progress1.moveBoard(board.getId());
+
 	}
 }

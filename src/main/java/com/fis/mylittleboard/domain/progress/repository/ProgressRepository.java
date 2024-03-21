@@ -12,4 +12,6 @@ public interface ProgressRepository {
   void delete(Progress progress);
 
   Long find();
+
+  Optional<Progress> findByPosition(Long position);
 }

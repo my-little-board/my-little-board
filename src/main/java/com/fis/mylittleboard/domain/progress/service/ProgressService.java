@@ -9,4 +9,6 @@ public interface ProgressService {
   void updateProgress(Long progressId, String classification);
 
   void deleteProgress(Long progressId);
+
+  void move(Long progressId, Long boardId, Long position);
 }

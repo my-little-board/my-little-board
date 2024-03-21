@@ -1,5 +1,6 @@
 package com.fis.mylittleboard.domain.progress.controller;
 
+import com.fis.mylittleboard.domain.progress.dto.ProgressMoveDto;
 import com.fis.mylittleboard.domain.progress.dto.ProgressRequestDto;
 import com.fis.mylittleboard.domain.progress.service.ProgressService;
 import com.fis.mylittleboard.global.common.MessageResponseDto;
@@ -35,7 +36,6 @@ public class ProgressController {
             .build());
   }
 
-  @Transactional
   @PutMapping("/api/progresses/{progressId}")
   public ResponseEntity<MessageResponseDto> updateProgress(
       @PathVariable Long progressId,
@@ -50,7 +50,19 @@ public class ProgressController {
 
   }
 
-  @Transactional
+  @PostMapping("api/progresses/{progressId}")
+  public ResponseEntity<MessageResponseDto> move(@PathVariable Long progressId, @RequestBody
+      ProgressMoveDto progressMoveDto) {
+
+    progressService.move(progressId, progressMoveDto.getBoardId(), progressMoveDto.getPosition());
+
+    return ResponseEntity.ok()
+        .body(MessageResponseDto.builder()
+            .message("move 성공하였습니다.")
+            .build());
+
+  }
+
   @DeleteMapping("/api/progresses/{progressId}")
   public ResponseEntity<MessageResponseDto> deleteProgress(@PathVariable Long progressId) {
     progressService.deleteProgress(progressId);

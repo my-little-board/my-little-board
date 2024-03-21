@@ -35,4 +35,9 @@ public class ProgressRepositoryImpl implements ProgressRepository {
         .from(QProgress.progress)
         .fetchFirst();
   }
+
+  @Override
+  public Optional<Progress> findByPosition(Long position) {
+    return progressJpaRepository.findByPosition(position);
+  }
 }

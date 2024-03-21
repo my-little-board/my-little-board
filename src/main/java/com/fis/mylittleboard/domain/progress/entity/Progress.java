@@ -41,4 +41,12 @@ public class Progress {
   public void updateProgress(String newClassification) {
     this.classification = newClassification;
   }
+
+  public void movePosition(Long position) {
+    this.position = position;
+  }
+
+  public void moveBoard(Long boardId) {
+    this.boardId = boardId;
+  }
 }

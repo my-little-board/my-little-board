@@ -8,7 +8,6 @@ import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
 import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.hahaboard.entity.Hahaboard;
 import com.fis.mylittleboard.domain.hahaboard.repository.HahaboardRepository;
-import com.fis.mylittleboard.global.common.MessageResponseDto;
 import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -115,7 +113,6 @@ public class BoardServiceImpl implements BoardService {
   }
 
   private Board findBoard (Long boardId) {
-    return boardRepository.findById(boardId).orElseThrow(() ->
-        new IllegalArgumentException("작업공간이 존재하지 않습니다."));
+    return boardRepository.findById(boardId);
   }
 }

@@ -18,4 +18,6 @@ public interface CardRepository {
   List<Long> getLabelIds(Long cardId);
 
   List<Card> findByProgressId(Long progressId);
+
+  List<Card> getCardByboard(Long boardId, Long cardId);
 }

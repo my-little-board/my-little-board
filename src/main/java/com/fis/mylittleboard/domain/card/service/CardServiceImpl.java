@@ -20,7 +20,9 @@ import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
 import com.fis.mylittleboard.domain.user.model.User;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,4 +159,16 @@ public class CardServiceImpl implements CardService {
 
     cardLabelRepository.delete(cardLabel);
   }
+
+  @Transactional
+  public List<CardResponseDto> filterLabel(Long boardId, List<Long> filters) {
+
+	  return filters.stream()
+        .flatMap(l -> labelRepository.findByIds(boardId, l).stream())
+        .flatMap(m -> cardLabelRepository.findByLabelId(m).stream())
+        .map(this::getCard)
+          .distinct()
+          .collect(Collectors.toList());
+  }
+
 }

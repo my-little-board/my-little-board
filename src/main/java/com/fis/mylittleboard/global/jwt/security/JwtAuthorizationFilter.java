@@ -7,7 +7,7 @@ import com.fis.mylittleboard.global.jwt.dto.CommonResponseDto;
 import com.fis.mylittleboard.global.jwt.entity.RefreshTokenEntity;
 import com.fis.mylittleboard.global.jwt.exception.CustomError;
 import com.fis.mylittleboard.global.jwt.repository.TokenRepository;
-import com.sparta.outsourcing.global.success.SuccessCode;
+import com.fis.mylittleboard.global.jwt.success.SuccessCode;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

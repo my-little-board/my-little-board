@@ -8,6 +8,7 @@ import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
+import java.util.List;
 
 public interface CardService {
 
@@ -35,4 +36,6 @@ public interface CardService {
   LabelResponseDto addLabel(Long cardId, Long labelId);
 
   void deleteCardLabel(Long cardLabelId);
+
+  List<CardResponseDto> filterLabel(Long boardId, List<Long> filters);
 }

@@ -3,6 +3,8 @@ package com.fis.mylittleboard.domain.card.dto;
 import com.fis.mylittleboard.domain.card.entity.Card;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -26,6 +28,7 @@ public class CardResponseDto {
 
   private final List<Long> labels;
 
+  @Builder
   public CardResponseDto(Card card, List<Long> members, List<Long> labels) {
     this.cardId = card.getId();
     this.name = card.getName();
@@ -35,5 +38,18 @@ public class CardResponseDto {
     this.progressId = card.getProgressId();
     this.members = members;
     this.labels = labels;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    CardResponseDto that = (CardResponseDto) o;
+    return Objects.equals(cardId, that.cardId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(cardId);
   }
 }

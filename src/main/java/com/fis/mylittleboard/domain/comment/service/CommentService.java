@@ -4,7 +4,7 @@ import com.fis.mylittleboard.domain.comment.dto.CommentRequestDto;
 
 public interface CommentService {
 
-  void createCommnet(CommentRequestDto requestDto);
+  void createCommnet(CommentRequestDto requestDto, Long cardId);
 
   void updateComment(Long commentId, CommentRequestDto requestDto);
 

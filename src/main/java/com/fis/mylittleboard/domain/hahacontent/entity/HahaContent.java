@@ -2,6 +2,7 @@ package com.fis.mylittleboard.domain.hahacontent.entity;
 
 import com.fis.mylittleboard.domain.hahacontent.dto.HahaContentRequestDto;
 import com.fis.mylittleboard.global.common.TimeStamp;
+import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,8 +28,13 @@ public class HahaContent extends TimeStamp {
   @Column
   private Long hahaboardId;
 
-  public HahaContent(Long hahaboardId, HahaContentRequestDto requestDto) {
+  @Column
+  private Long userId;
+
+  public HahaContent(Long hahaboardId, HahaContentRequestDto requestDto, Long userId) {
     this.content = requestDto.getContent();
     this.hahaboardId = hahaboardId;
+    this.userId = userId;
+
   }
 }

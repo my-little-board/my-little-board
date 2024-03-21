@@ -43,4 +43,5 @@ out/
 #### yml ####
 *.yml
 
-
+### 메모장 ###
+/src/main/java/com/fis/mylittleboard/memo.java

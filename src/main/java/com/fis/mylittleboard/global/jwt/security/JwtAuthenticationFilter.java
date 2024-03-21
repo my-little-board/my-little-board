@@ -1,7 +1,5 @@
 package com.fis.mylittleboard.global.jwt.security;
 
-
-
 import static com.fis.mylittleboard.global.jwt.success.SuccessCode.SUCCESS_LOGIN;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

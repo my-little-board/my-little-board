@@ -1,6 +1,8 @@
 package com.fis.mylittleboard.domain.progress.repository;
 
 import com.fis.mylittleboard.domain.progress.entity.Progress;
+import com.fis.mylittleboard.domain.progress.entity.QProgress;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,10 +12,11 @@ import org.springframework.stereotype.Repository;
 public class ProgressRepositoryImpl implements ProgressRepository {
 
   private final ProgressJpaRepository progressJpaRepository;
+  private final JPAQueryFactory jpaQueryFactory;
 
   @Override
-  public void save(Progress progress) {
-    progressJpaRepository.save(progress);
+  public Progress save(Progress progress) {
+    return progressJpaRepository.save(progress);
   }
 
   @Override
@@ -24,5 +27,12 @@ public class ProgressRepositoryImpl implements ProgressRepository {
   @Override
   public void delete(Progress progress) {
     progressJpaRepository.delete(progress);
+  }
+
+  @Override
+  public Long find() {
+    return jpaQueryFactory.select(QProgress.progress.count())
+        .from(QProgress.progress)
+        .fetchFirst();
   }
 }

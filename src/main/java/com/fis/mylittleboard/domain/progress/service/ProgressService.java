@@ -1,8 +1,10 @@
 package com.fis.mylittleboard.domain.progress.service;
 
+import com.fis.mylittleboard.domain.progress.dto.ProgressResDto;
+
 public interface ProgressService {
 
-  void createProgress(String classification);
+  ProgressResDto createProgress(Long boardId, String classification);
 
   void updateProgress(Long progressId, String classification);
 

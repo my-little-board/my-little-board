@@ -18,6 +18,7 @@ import com.fis.mylittleboard.domain.card.repository.member.MemberRepository;
 import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
+import com.fis.mylittleboard.domain.user.model.User;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -118,9 +119,9 @@ public class CardServiceImpl implements CardService {
     Card card = cardRepository.findById(cardId)
         .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
 
-    //username찾기
+	  User user = userRepository.findByUsername(username);
 
-    Member member = new Member(card.getId(), username);
+    Member member = new Member(card.getId(), user.getUsername());
 
     memberRepository.save(member);
     return new MemberResDto(member.getUsername());

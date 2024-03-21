@@ -26,7 +26,11 @@ public class Label {
   @Column(nullable = false)
   private String color;
 
-  public Label(String title, String color) {
+  @Column(nullable = false)
+  private Long boardId;
+
+  public Label(Long boardId, String title, String color) {
+    this.boardId = boardId;
     this.title = title;
     this.color = color;
   }

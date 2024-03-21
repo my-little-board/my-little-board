@@ -5,6 +5,7 @@ import com.fis.mylittleboard.domain.card.dto.CardDatesRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardNameResDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
@@ -18,8 +19,12 @@ import com.fis.mylittleboard.domain.card.repository.member.MemberRepository;
 import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
+import com.fis.mylittleboard.domain.user.model.User;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,18 +40,21 @@ public class CardServiceImpl implements CardService {
   private final DateRepository dateRepository;
   private final UserRepository userRepository;
 
-  @Transactional
-  public void createCard(CardNameRequestDto cardNameRequestDto) {
-    Card card = new Card(cardNameRequestDto);
-    cardRepository.save(card);
+  public Card findCard(Long cardId) {
+    return cardRepository.findById(cardId)
+        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
   }
-
+  @Transactional
+  public CardNameResDto createCard(CardNameRequestDto cardNameRequestDto) {
+    Card card = new Card(cardNameRequestDto);
+    Card savedCard = cardRepository.save(card);
+    return new CardNameResDto(savedCard.getName());
+  }
 
   @Transactional
   public void deleteCard(Long cardId) {
 
-    Card card = cardRepository.findById(cardId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = findCard(cardId);
 
     List<Member> works = memberRepository.findByCardId(cardId);
     works.forEach(memberRepository::delete);
@@ -55,19 +63,18 @@ public class CardServiceImpl implements CardService {
   }
 
   public CardResponseDto getCard(Long cardId) {
-    Card card = cardRepository.findById(cardId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = findCard(cardId);
 
     List<Long> members = cardRepository.getMemberIds(cardId);
     List<Long> labels = cardRepository.getLabelIds(cardId);
+    LocalDate dueDate = dateRepository.findByCardId(card.getId()).get().getDueDate();
 
-    return new CardResponseDto(card, members, labels);
+    return new CardResponseDto(card, members, labels, dueDate);
   }
 
   @Transactional
   public CardDescriptionResponseDto updateDescription(Long cardId, String description) {
-    Card card = cardRepository.findById(cardId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = findCard(cardId);
 
     card.updateDescription(description);
     return new CardDescriptionResponseDto(card);
@@ -75,8 +82,7 @@ public class CardServiceImpl implements CardService {
 
   @Transactional
   public CardColorResponseDto updateColor(Long cardId, String color) {
-    Card card = cardRepository.findById(cardId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = findCard(cardId);
 
     card.updateColor(color);
     return new CardColorResponseDto(card);
@@ -86,8 +92,7 @@ public class CardServiceImpl implements CardService {
   public CardDatesResDto addDate(
       Long cardId,
       CardDatesRequestDto cardDatesRequestDto) {
-    Card card = cardRepository.findById(cardId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = findCard(cardId);
 
     Date date = new Date(card.getId(), cardDatesRequestDto.getDueDate());
     dateRepository.save(date);
@@ -115,12 +120,11 @@ public class CardServiceImpl implements CardService {
 
   @Transactional
   public MemberResDto addMember(Long cardId, String username) {
-    Card card = cardRepository.findById(cardId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = findCard(cardId);
 
-    //username찾기
+    User user = userRepository.findByUsername(username);
 
-    Member member = new Member(card.getId(), username);
+    Member member = new Member(card.getId(), user.getUsername());
 
     memberRepository.save(member);
     return new MemberResDto(member.getUsername());
@@ -136,8 +140,7 @@ public class CardServiceImpl implements CardService {
 
   @Transactional
   public LabelResponseDto addLabel(Long cardId, Long labelId) {
-    Card card = cardRepository.findById(cardId)
-        .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
+    Card card = findCard(cardId);
 
     Label label = labelRepository.findById(labelId)
         .orElseThrow(() -> new IllegalArgumentException("해당 라벨이 존재하지 않습니다."));
@@ -156,4 +159,16 @@ public class CardServiceImpl implements CardService {
 
     cardLabelRepository.delete(cardLabel);
   }
+
+  @Transactional
+  public List<CardResponseDto> filterLabel(Long boardId, List<Long> filters) {
+
+	  return filters.stream()
+        .flatMap(l -> labelRepository.findByIds(boardId, l).stream())
+        .flatMap(m -> cardLabelRepository.findByLabelId(m).stream())
+        .map(this::getCard)
+          .distinct()
+          .collect(Collectors.toList());
+  }
+
 }

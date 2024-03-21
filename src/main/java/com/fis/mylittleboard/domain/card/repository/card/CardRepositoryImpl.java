@@ -4,6 +4,7 @@ import static com.fis.mylittleboard.domain.card.entity.QCardLabel.cardLabel;
 import static com.fis.mylittleboard.domain.card.entity.QMember.member;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
+import com.fis.mylittleboard.domain.card.entity.QCard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
@@ -54,5 +55,12 @@ public class CardRepositoryImpl implements CardRepository {
   @Override
   public List<Card> findByProgressId(Long progressId) {
     return cardJpaRepository.findByProgressId(progressId);
+  }
+
+  @Override
+  public List<Card> getCardByboard(Long boardId, Long cardId) {
+    return jpaQueryFactory.selectFrom(QCard.card)
+        .where(QCard.card.boardId.eq(boardId), QCard.card.id.eq(cardId))
+        .fetch();
   }
 }

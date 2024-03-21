@@ -15,4 +15,8 @@ public class CollaborationRepositoryImpl implements CollaborationRepository{
     collaborationJpaRepository.save(collaboration);
   }
 
+  @Override
+  public void deleteById (Long boardId) {
+    collaborationJpaRepository.deleteById(boardId);
+  }
 }

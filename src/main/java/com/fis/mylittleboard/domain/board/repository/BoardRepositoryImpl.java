@@ -34,8 +34,7 @@ public class BoardRepositoryImpl implements BoardRepository{
 
   @Override
   public Board findById(Long boardId) {
-    boardJpaRepository.findById(boardId).orElseThrow(() ->
+    return boardJpaRepository.findById(boardId).orElseThrow(() ->
         new IllegalArgumentException("작업공간이 존재하지 않습니다."));
-    return null;
   }
 }

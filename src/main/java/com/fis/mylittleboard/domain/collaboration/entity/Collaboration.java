@@ -1,5 +1,6 @@
 package com.fis.mylittleboard.domain.collaboration.entity;
 
+import com.fis.mylittleboard.global.common.TimeStamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Table(name = "collaborations")
-public class Collaboration {
+public class Collaboration extends TimeStamp {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

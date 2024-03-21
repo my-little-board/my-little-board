@@ -8,10 +8,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HahaboardRepositoryImpl implements HahaboardRepository {
 
-  private HahaboardJpaRepository hahaboardJpaRepository;
+  private final HahaboardJpaRepository hahaboardJpaRepository;
 
   @Override
   public Hahaboard save(Hahaboard hahaboard) {
     return hahaboardJpaRepository.save(hahaboard);
+  }
+
+  @Override
+  public void deleteById (Long boardId) {
+    hahaboardJpaRepository.deleteById(boardId);
   }
 }

@@ -8,4 +8,6 @@ public interface HahaboardRepository {
 
   Hahaboard save (Hahaboard hahaboard);
 
+  void deleteById (Long boardId);
+
 }

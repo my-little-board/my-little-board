@@ -97,6 +97,9 @@ public class BoardServiceImpl implements BoardService {
     if (!Objects.equals(board.getUserId(), userDetails.getUser().getId())) {
       throw new IllegalArgumentException("워크스페이스 생성자만 수정할 수 있습니다.");
     }
+    if (!board.isClassification()) {
+      throw new IllegalArgumentException("마감된 워크스페이스는 수정할 수 없습니다.");
+    }
 
     board.update(requestDto);
   }
@@ -110,6 +113,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     boardRepository.deleteById(boardId);
+    collaborationRepository.deleteById(boardId);
+    hahaboardRepository.deleteById(boardId);
   }
 
   private Board findBoard (Long boardId) {

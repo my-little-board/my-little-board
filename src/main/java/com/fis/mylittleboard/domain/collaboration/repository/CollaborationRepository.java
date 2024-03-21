@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CollaborationRepository {
 
   void save (Collaboration collaboration);
+
+  void deleteById(Long BoardId);
 }

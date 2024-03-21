@@ -5,6 +5,7 @@ import com.fis.mylittleboard.domain.card.dto.CardDatesRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardNameResDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.card.entity.Card;
@@ -43,9 +44,10 @@ public class CardServiceImpl implements CardService {
         .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
   }
   @Transactional
-  public void createCard(CardNameRequestDto cardNameRequestDto) {
+  public CardNameResDto createCard(CardNameRequestDto cardNameRequestDto) {
     Card card = new Card(cardNameRequestDto);
-    cardRepository.save(card);
+    Card savedCard = cardRepository.save(card);
+    return new CardNameResDto(savedCard.getName());
   }
 
   @Transactional

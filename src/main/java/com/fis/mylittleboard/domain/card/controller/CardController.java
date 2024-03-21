@@ -9,9 +9,11 @@ import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardLabelReqDto;
 import com.fis.mylittleboard.domain.card.dto.CardListResDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardNameResDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberReqDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
+import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.service.CardService;
 import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 import com.fis.mylittleboard.global.common.MessageResponseDto;
@@ -38,13 +40,14 @@ public class CardController {
 	//boardId와 progressId 검증
 
 	@PostMapping("/api/cards")
-	public ResponseEntity<MessageResponseDto> createCard(
+	public ResponseEntity<ResponseDto<CardNameResDto>> createCard(
 		@Valid @RequestBody CardNameRequestDto cardNameRequestDto) {
-		cardService.createCard(cardNameRequestDto);
+		CardNameResDto cardNameResDto = cardService.createCard(cardNameRequestDto);
 
 		return ResponseEntity.ok()
-			.body(MessageResponseDto.builder()
+			.body(ResponseDto.<CardNameResDto>builder()
 				.message("카드 생성에 성공하였습니다.")
+				.data(cardNameResDto)
 				.build());
 	}
 

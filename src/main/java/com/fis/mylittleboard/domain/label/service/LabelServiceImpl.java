@@ -19,8 +19,7 @@ public class LabelServiceImpl implements LabelService {
 	@Transactional
 	@Override
 	public LabelResponseDto createLabel(Long boardId, String title, String color) {
-		Board board = boardRepository.findById(boardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 보드가 존재하지 않습니다."));
+		Board board = boardRepository.findById(boardId);
 
 		Label label = new Label(board.getId(), title, color);
 

@@ -13,6 +13,7 @@ import com.fis.mylittleboard.domain.progress.dto.ProgressAllList;
 import com.fis.mylittleboard.domain.progress.dto.ProgressListResDto;
 import com.fis.mylittleboard.domain.progress.dto.ProgressResDto;
 import com.fis.mylittleboard.domain.progress.entity.Progress;
+import com.fis.mylittleboard.domain.progress.repository.ProgressJpaRepository;
 import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,8 +41,7 @@ public class ProgressServiceImpl implements ProgressService {
 
 	@Transactional
 	public ProgressResDto createProgress(Long boardId, String classification) {
-		Board board = boardRepository.findById(boardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 보드는 존재하지 않습니다."));
+		Board board = boardRepository.findById(boardId);
 		Long count = progressRepository.find();
 		Progress progress = new Progress(classification, board.getId(), count + 1);
 
@@ -75,8 +75,7 @@ public class ProgressServiceImpl implements ProgressService {
 		Progress progress2 = progressRepository.findByPosition(position)
 			.orElseThrow(() -> new IllegalArgumentException("해당 위치의 분류는 존재하지 않습니다."));
 
-		Board board = boardRepository.findById(boardId)
-			.orElseThrow(() -> new IllegalArgumentException("해당 보드는 존재하지 않습니다."));
+		Board board = boardRepository.findById(boardId);
 
 		Long progress1position = progress1.getPosition();
 		Long progress2position = progress2.getPosition();

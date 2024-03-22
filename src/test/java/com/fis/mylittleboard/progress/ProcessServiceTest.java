@@ -21,7 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class ProcessServiceTest {
+public class ProcessServiceTest implements CommonTest{
 
 
 	@Autowired
@@ -40,7 +40,7 @@ public class ProcessServiceTest {
 		LongStream.range(0L, 5L)
 			.forEach(i -> {
 				Progress progress = new Progress();
-				ProgressTestUtils.setProgress(progress, "Todo", 1L, i);
+				ProgressTestUtils.setProgress(progress, Progress_Name, Board_Id);
 				progressRepository.save(progress);
 			});
 

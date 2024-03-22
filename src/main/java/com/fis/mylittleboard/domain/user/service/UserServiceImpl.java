@@ -3,6 +3,8 @@ package com.fis.mylittleboard.domain.user.service;
 import static com.fis.mylittleboard.global.jwt.exception.CustomError.MEMBER_EXISTS;
 
 import com.fis.mylittleboard.domain.user.dto.PasswordRequestDto;
+import com.fis.mylittleboard.domain.user.dto.UserEmailRequestDto;
+import com.fis.mylittleboard.domain.user.dto.UserEmailResponseDto;
 import com.fis.mylittleboard.domain.user.dto.UserPasswordResponseDto;
 import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
 import com.fis.mylittleboard.domain.user.dto.UserResponseDto;
@@ -49,13 +51,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserPasswordResponseDto updatePassword(Long id,PasswordRequestDto passwordRequestDto) {
+  public UserPasswordResponseDto updatePassword(Long id, PasswordRequestDto passwordRequestDto) {
 
     UserEntity user = userJpaRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 없습니다."));
 
     if (!passwordEncoder.matches(passwordRequestDto.getPassword(), user.getPassword())) {
-      throw new IllegalArgumentException("이전 비밀번호가 일치하지 않습니다.");
+      throw new IllegalArgumentException("변경전 비밀번호와 일치하지 않습니다.");
     }
 
     String newEncodedPassword = passwordEncoder.encode(passwordRequestDto.getNewPassword());
@@ -66,6 +68,22 @@ public class UserServiceImpl implements UserService {
     return UserPasswordResponseDto.builder()
         .newPassword(passwordRequestDto.getNewPassword())
         .build();
+  }
+
+  @Override
+  public UserEmailResponseDto updateEmail(Long id, UserEmailRequestDto userEmailRequestDto) {
+    UserEntity user = userJpaRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 없습니다."));
+
+    if (!userEmailRequestDto.getEmail().matches(user.getEmail())) {
+      throw new IllegalArgumentException("변경전 이메일과 일치하지 않습니다.");
+    }
+    String newEmail = userEmailRequestDto.getNewEmail();
+    user.changeEmail(newEmail);
+
+    userJpaRepository.save(user);
+
+    return UserEmailResponseDto.builder().newEmail(userEmailRequestDto.getNewEmail()).build();
   }
 
 

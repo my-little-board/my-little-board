@@ -1,7 +1,7 @@
 package com.fis.mylittleboard.domain.user.controller;
 
 import com.fis.mylittleboard.domain.user.dto.PasswordRequestDto;
-import com.fis.mylittleboard.domain.user.dto.UserPasswordResponseDto;
+import com.fis.mylittleboard.domain.user.dto.UserEmailRequestDto;
 import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
 import com.fis.mylittleboard.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +23,20 @@ public class UserController {
   public String signup(@RequestBody UserRequestDto userRequestDto) {
 
     userService.signup(userRequestDto);
-    return "유저를 생성하였습니다";
+    return "회원가입 완료";
   }
 
   @PutMapping("/users/{id}/password")
-  public UserPasswordResponseDto updatePassword(@PathVariable Long id,@RequestBody PasswordRequestDto passwordRequestDto)
+  public String updatePassword(@PathVariable Long id,@RequestBody PasswordRequestDto passwordRequestDto)
   {
-    UserPasswordResponseDto userResponseDto = userService.updatePassword(id,passwordRequestDto);
-    return userResponseDto;
+    userService.updatePassword(id,passwordRequestDto);
+    return "비밀번호 변경 성공";
   }
-//  @PutMaaping("/users/email")
+  @PutMapping("/users/{id}/email")
+  public String updateEmail(@PathVariable Long id,@RequestBody UserEmailRequestDto userEmailRequestDto){
+    userService.updateEmail(id,userEmailRequestDto);
+    return "이메일 변경 성공";
+  }
 
 
 }

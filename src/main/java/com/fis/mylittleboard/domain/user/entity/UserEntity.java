@@ -61,6 +61,9 @@ public class UserEntity extends TimeStamp {
   public void changePassword(String newPassword) {
     this.password = newPassword;
   }
+  public void changeEmail(String newEmail){
+    this.email = newEmail;
+  }
 }
 
 

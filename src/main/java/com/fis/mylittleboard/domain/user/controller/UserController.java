@@ -5,6 +5,7 @@ import com.fis.mylittleboard.domain.user.dto.UserEmailRequestDto;
 import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
 import com.fis.mylittleboard.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +38,10 @@ public class UserController {
     userService.updateEmail(id,userEmailRequestDto);
     return "이메일 변경 성공";
   }
-
+  @DeleteMapping("/users/{id}/secession")
+  public String deleteUser(@PathVariable Long id){
+    userService.deleteUser(id);
+    return "회원이 탈퇴 되었습니다";
+  }
 
 }

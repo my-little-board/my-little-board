@@ -12,6 +12,7 @@ import com.fis.mylittleboard.domain.user.entity.UserEntity;
 import com.fis.mylittleboard.domain.user.model.User;
 import com.fis.mylittleboard.domain.user.repository.UserJpaRepository;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
+import com.fis.mylittleboard.global.jwt.exception.CustomError;
 import com.fis.mylittleboard.global.jwt.exception.CustomException;
 import com.fis.mylittleboard.global.jwt.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +54,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserPasswordResponseDto updatePassword(Long id, PasswordRequestDto passwordRequestDto) {
 
-    UserEntity user = userJpaRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 없습니다."));
+    UserEntity user = findByUserId(id);
 
     if (!passwordEncoder.matches(passwordRequestDto.getPassword(), user.getPassword())) {
       throw new IllegalArgumentException("변경전 비밀번호와 일치하지 않습니다.");
@@ -72,8 +72,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserEmailResponseDto updateEmail(Long id, UserEmailRequestDto userEmailRequestDto) {
-    UserEntity user = userJpaRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("해당 id의 사용자가 없습니다."));
+    UserEntity user = findByUserId(id);
 
     if (!userEmailRequestDto.getEmail().matches(user.getEmail())) {
       throw new IllegalArgumentException("변경전 이메일과 일치하지 않습니다.");
@@ -85,6 +84,20 @@ public class UserServiceImpl implements UserService {
 
     return UserEmailResponseDto.builder().newEmail(userEmailRequestDto.getNewEmail()).build();
   }
+
+  @Override
+  public void deleteUser(Long id) {
+
+    UserEntity user = findByUserId(id);
+    userJpaRepository.deleteById(user.getId());
+    tokenRepository.deleteTokenByUserId(id);
+  }
+
+  private UserEntity findByUserId(Long id) {
+    return userJpaRepository.findById(id)
+        .orElseThrow(() -> new CustomException(CustomError.MEMBER_NOT_EXISTS));
+  }
+
 
 
 }

@@ -6,8 +6,9 @@ import com.fis.mylittleboard.global.jwt.TokenState;
 import com.fis.mylittleboard.global.jwt.dto.CommonResponseDto;
 import com.fis.mylittleboard.global.jwt.entity.RefreshTokenEntity;
 import com.fis.mylittleboard.global.jwt.exception.CustomError;
+import com.fis.mylittleboard.global.jwt.repository.RefreshTokenJpaRepository;
 import com.fis.mylittleboard.global.jwt.repository.TokenRepository;
-import com.sparta.outsourcing.global.success.SuccessCode;
+import com.fis.mylittleboard.global.jwt.success.SuccessCode;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,9 +33,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
   private final JwtProvider jwtProvider;
   private final TokenRepository tokenRepository;
+  private final RefreshTokenJpaRepository tokenJpaRepository;
   private final UserDetailsServiceImpl userDetailsService;
 
   ObjectMapper objectMapper = new ObjectMapper();
+
 
   @Override
   protected void doFilterInternal(
@@ -43,7 +46,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     String tokenValue = jwtProvider.getAccessTokenFromRequest(req);
 
-    if (StringUtils.hasText(tokenValue)) {
+    if (StringUtils.hasText(tokenValue)) { // 공백 x , null x
       TokenState state = jwtProvider.validateToken(tokenValue);
 
       if (state.equals(TokenState.EXPIRED)) {
@@ -53,26 +56,24 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
               info.getSubject());
           RefreshTokenEntity refreshToken = tokenRepository.findByUserId(
               userDetails.getUser().getId());
+          log.info("RefreshToken : {}",refreshToken.getToken());
 
           TokenState refreshState = jwtProvider.validateToken(refreshToken.getToken());
-
           if (refreshState.equals(TokenState.VALID)) {
             String newAccessToken = jwtProvider.generateRefreshToken(userDetails.getUsername());
             res.addHeader(JwtProvider.AUTHORIZATION_ACCESS_TOKEN_HEADER_KEY, newAccessToken);
-            res.setStatus(HttpServletResponse.SC_OK);
+              res.setStatus(HttpServletResponse.SC_OK);
             String jsonResponse = objectMapper.writeValueAsString(
                 CommonResponseDto.ok(SuccessCode.SUCCESS_NEW_TOKEN, null));
 
             res.setContentType("application/json");
             res.setCharacterEncoding("UTF-8");
             res.getWriter().write(jsonResponse);
-            return;
           } else {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
             String jsonResponse = objectMapper.writeValueAsString(
                 CommonResponseDto.unauthorizedRequest(CustomError.EXPIRED_TOKEN.getMessage()));
-            tokenRepository.deleteToken(refreshToken);
 
             res.setContentType("application/json");
             res.setCharacterEncoding("UTF-8");
@@ -80,7 +81,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             return;
           }
         } catch (Exception e) {
-          log.error(e.getMessage());
+          e.printStackTrace();
           return;
         }
       } else if (state.equals(TokenState.INVALID)) {
@@ -105,14 +106,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   public void setAuthentication(String signupId) {
     SecurityContext context = SecurityContextHolder.createEmptyContext();
     Authentication authentication = createAuthentication(signupId);
-    context.setAuthentication(authentication);
+    context.setAuthentication(authentication);  // principle 정보저장
 
-    SecurityContextHolder.setContext(context);
+    SecurityContextHolder.setContext(context);  // jwttoken 저장 및 검증을 위해서 필요
+
   }
 
   // 인증 객체 생성
   private Authentication createAuthentication(String signupId) {
     UserDetails userDetails = userDetailsService.loadUserByUsername(signupId);
-    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
   }
 }

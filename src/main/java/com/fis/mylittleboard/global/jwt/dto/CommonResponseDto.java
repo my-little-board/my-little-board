@@ -1,7 +1,7 @@
 package com.fis.mylittleboard.global.jwt.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sparta.outsourcing.global.success.SuccessCode;
+import com.fis.mylittleboard.global.jwt.success.SuccessCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

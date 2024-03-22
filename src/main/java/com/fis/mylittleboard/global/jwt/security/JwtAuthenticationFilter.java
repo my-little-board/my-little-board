@@ -1,9 +1,9 @@
 package com.fis.mylittleboard.global.jwt.security;
 
-import static com.sparta.outsourcing.global.success.SuccessCode.SUCCESS_LOGIN;
+import static com.fis.mylittleboard.global.jwt.success.SuccessCode.SUCCESS_LOGIN;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fis.mylittleboard.domain.user.dto.LoginRequestDto;
+import com.fis.mylittleboard.domain.user.dto.UserLoginRequestDto;
 import com.fis.mylittleboard.domain.user.model.User;
 import com.fis.mylittleboard.global.jwt.JwtProvider;
 import com.fis.mylittleboard.global.jwt.dto.CommonResponseDto;
@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StringUtils;
 
 @Slf4j(topic = "로그인 및 JWT 생성")
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -33,20 +34,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     setFilterProcessesUrl("/api/users/login");
 
   }
-
   @Override
   public Authentication attemptAuthentication(
       HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
     try {
-      LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(),
-          LoginRequestDto.class);
-
+      UserLoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(),
+          UserLoginRequestDto.class);
+      log.info("test입니다");
       return getAuthenticationManager().authenticate(
           new UsernamePasswordAuthenticationToken(
               requestDto.getSignupId(),
               requestDto.getPassword(),
               null
           )
+          // 수정필요
       );
     } catch (IOException e) {
       log.error(e.getMessage());
@@ -64,8 +65,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String token = jwtUtil.generateAccessToken(user.getSignupId());
     String refreshToken = jwtUtil.generateRefreshToken(user.getSignupId());
     refreshToken = jwtUtil.substringToken(refreshToken);
+    log.info("refreshToken입니다 : {}",refreshToken);
+    // access token 유효시간이 끝나면 실행되도록
 
-    tokenRepository.signup(user.getId(), refreshToken);
+    if (StringUtils.isEmpty(tokenRepository.findByUserId(user.getId()))){
+      tokenRepository.addRefreshToken(null,user.getId(), refreshToken);
+    }
 
     response.addHeader(JwtProvider.AUTHORIZATION_ACCESS_TOKEN_HEADER_KEY, token);
     response.setStatus(HttpServletResponse.SC_OK);

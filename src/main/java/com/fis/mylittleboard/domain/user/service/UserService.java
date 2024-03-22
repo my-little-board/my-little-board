@@ -16,4 +16,6 @@ public interface UserService {
   UserPasswordResponseDto updatePassword(Long id,PasswordRequestDto passwordRequestDto);
 
   UserEmailResponseDto updateEmail(Long id, UserEmailRequestDto userEmailRequestDto);
+
+  void deleteUser(Long id);
 }

@@ -1,8 +1,6 @@
 package com.fis.mylittleboard.domain.progress.dto;
 
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
-import com.fis.mylittleboard.domain.card.entity.Card;
-import java.util.HashMap;
 import java.util.List;
 import lombok.Getter;
 

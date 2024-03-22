@@ -2,7 +2,6 @@ package com.fis.mylittleboard.domain.hahacontent.entity;
 
 import com.fis.mylittleboard.domain.hahacontent.dto.HahaContentRequestDto;
 import com.fis.mylittleboard.global.common.TimeStamp;
-import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

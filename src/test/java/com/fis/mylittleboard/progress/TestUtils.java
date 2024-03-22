@@ -1,11 +1,13 @@
 package com.fis.mylittleboard.progress;
 
 
-import java.time.LocalDate;
+import com.fis.mylittleboard.domain.card.entity.Card;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.test.util.ReflectionTestUtils;
 
-public class ProgressTestUtils {
+public class TestUtils implements CommonTest{
 	//String boardName, String boardDescription, String boardColor, Long userId
 
 
@@ -23,6 +25,13 @@ public class ProgressTestUtils {
 		ReflectionTestUtils.setField(entity, "boardColor", boardColor);
 		ReflectionTestUtils.setField(entity, "userId", userId);
 		ReflectionTestUtils.setField(entity, "dueDate", LocalDateTime.now());
+	}
+
+	public static List<Card> getCards() {
+		List<Card> cards = new ArrayList<>();
+		cards.add(Test_Card);
+		cards.add(Another_Test_Card);
+		return cards;
 	}
 
 }

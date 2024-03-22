@@ -9,8 +9,6 @@ import com.fis.mylittleboard.domain.progress.entity.Progress;
 import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import com.fis.mylittleboard.domain.progress.service.ProgressServiceImpl;
 import java.util.Optional;
-import java.util.stream.LongStream;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,13 +18,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.springframework.test.context.ActiveProfiles;
@@ -50,7 +47,7 @@ public class ProgressServiceUnitTest implements CommonTest {
 
 	Board testBoard() {
 		Board board = new Board();
-		ProgressTestUtils.setBoard(board, "workspaceA", "내용", "skyblue", 1L);
+		TestUtils.setBoard(board, "workspaceA", "내용", "skyblue", 1L);
 		return board;
 	}
 
@@ -65,7 +62,7 @@ public class ProgressServiceUnitTest implements CommonTest {
 		// given
 		Board board = testBoard();
 		Progress progress = new Progress();
-		ProgressTestUtils.setProgress(progress, Progress_Name, Board_Id);
+		TestUtils.setProgress(progress, Progress_Name, Board_Id);
 		given(boardRepository.findById(any(Long.class))).willReturn(board);
 		given(progressRepository.save(any(Progress.class))).willReturn(progress);
 
@@ -83,7 +80,7 @@ public class ProgressServiceUnitTest implements CommonTest {
 	void 컬럼_생성_실패() {
 		// given
 		Progress progress = new Progress();
-		ProgressTestUtils.setProgress(progress, Progress_Name, Board_Id);
+		TestUtils.setProgress(progress, Progress_Name, Board_Id);
 		when(boardRepository.findById(Board_Id)).thenThrow(
 			new IllegalArgumentException("작업공간이 존재하지 않습니다."));
 
@@ -101,8 +98,7 @@ public class ProgressServiceUnitTest implements CommonTest {
 	@DisplayName("컬럼 수정 테스트")
 	void 컬럼_수정_테스트() {
 		// given
-		Progress progress = new Progress();
-		ProgressTestUtils.setProgress(progress, Progress_Name, Board_Id);
+		Progress progress = Test_Progress;
 		given(progressRepository.findById(progress.getId())).willReturn(Optional.of(progress));
 
 		// when
@@ -112,5 +108,43 @@ public class ProgressServiceUnitTest implements CommonTest {
 		assertEquals("new name", progress.getClassification());
 
 	}
+
+	@Test
+	@DisplayName("컬럼 삭제 테스트")
+	void 컬럼_삭제_테스트() {
+		// given
+		Progress progress = Test_Progress;
+		given(progressRepository.findById(progress.getId())).willReturn(Optional.of(progress));
+
+		// when
+		progressService.deleteProgress(progress.getId());
+
+		// then
+	}
+
+//	@Test
+//	@DisplayName("컬럼 이동 테스트")
+//	void 컬럼_이동_테스트() {
+//		// given
+//		Progress progress1 = Test_Progress;
+//		Progress progress2 = Another_Test_Progress;
+//		Board board = testBoard();
+//
+//		given(progressRepository.findById(progress1.getId())).willReturn(Optional.of(progress1));
+//		given(progressRepository.findByPosition(progress2.getId())).willReturn(Optional.of(progress2));
+//		given(boardRepository.findById(board.getId())).willReturn(board);
+//
+//		// when
+//		progressService.move(progress1.getId(), board.getId(), 2L);
+//		// then
+//		// Verification
+//		verify(progressRepository).save(progress1);
+//		verify(progressRepository).save(progress2);
+//
+//		assertEquals(2L, progress1.getPosition());
+//		assertEquals(1L, progress2.getPosition());
+//		assertEquals(1L, progress1.getBoardId());
+//		assertEquals(1L, progress2.getBoardId());
+//	}
 
 }

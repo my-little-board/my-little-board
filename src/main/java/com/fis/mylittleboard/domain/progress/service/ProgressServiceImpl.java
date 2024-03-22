@@ -19,9 +19,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,9 @@ public class ProgressServiceImpl implements ProgressService {
 	private final CardRepository cardRepository;
 	private final BoardRepository boardRepository;
 	private final DateRepository dateRepository;
+	private final RedissonClient redissonClient;
+
+	private static final String LOCK_KEY = "progressLock";
 
 	public Progress getProgress(Long progressId) {
 		return progressRepository.findById(progressId)
@@ -68,21 +74,33 @@ public class ProgressServiceImpl implements ProgressService {
 		progressRepository.delete(progress);
 	}
 
-	@Transactional
 	public void move(Long progressId, Long boardId, Long position) {
-		Progress progress1 = getProgress(progressId);
+		RLock lock = redissonClient.getFairLock(LOCK_KEY);
 
-		Progress progress2 = progressRepository.findByPosition(position)
-			.orElseThrow(() -> new IllegalArgumentException("해당 위치의 분류는 존재하지 않습니다."));
+		try{
+			boolean isLocked = lock.tryLock(10, 60, TimeUnit.SECONDS);
+			if(isLocked) {
+				try{
+					Progress progress1 = getProgress(progressId);
 
-		Board board = boardRepository.findById(boardId);
+					Progress progress2 = progressRepository.findByPosition(position)
+						.orElseThrow(() -> new IllegalArgumentException("해당 위치의 분류는 존재하지 않습니다."));
 
-		Long progress1position = progress1.getPosition();
-		Long progress2position = progress2.getPosition();
+					Board board = boardRepository.findById(boardId);
 
-		progress1.movePosition(progress2position);
-		progress2.movePosition(progress1position);
-		progress1.moveBoard(board.getId());
+					Long progress1position = progress1.getPosition();
+					Long progress2position = progress2.getPosition();
+
+					progress1.movePosition(progress2position);
+					progress2.movePosition(progress1position);
+					progress1.moveBoard(board.getId());
+				} finally {
+					lock.unlock();
+				}
+			}
+		}catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 
 	}
 

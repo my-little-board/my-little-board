@@ -1,9 +1,12 @@
 package com.fis.mylittleboard.domain.board.repository;
 
 import com.fis.mylittleboard.domain.board.entity.Board;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public class BoardRepositoryImpl implements BoardRepository {
 
   private final BoardJpaRepository boardJpaRepository;
+  private final JPAQueryFactory jpaQueryFactory;
 
   @Override
   public Board save(Board board) {
@@ -23,8 +27,8 @@ public class BoardRepositoryImpl implements BoardRepository {
   }
 
   @Override
-  public List<Board> findAll() {
-    return boardJpaRepository.findAll();
+  public List<Board> findAllBoardsOrderByBoardStatusDesc() {
+    return boardJpaRepository.findAll(Sort.by(Direction.DESC, "boardStatus"));
   }
 
   @Override

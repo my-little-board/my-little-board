@@ -10,7 +10,7 @@ public interface BoardRepository {
 
   Optional<Board> findByBoardName(String boardName);
 
-  List<Board> findAll();
+  List<Board> findAllBoardsOrderByBoardStatusDesc();
 
   void deleteById(Long boardId);
 

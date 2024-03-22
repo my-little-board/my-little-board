@@ -11,7 +11,7 @@ public interface BoardService {
 
   List<BoardResponseDto> getBoardProgressing();
 
-  List<BoardResponseDto> getBoardClosing();
+//  List<BoardResponseDto> getBoardClosing();
 
   void updateBoard(Long boardId, BoardRequestDto requestDto, UserDetailsImpl userDetails);
 

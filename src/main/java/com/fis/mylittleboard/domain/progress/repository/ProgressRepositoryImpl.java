@@ -51,4 +51,9 @@ public class ProgressRepositoryImpl implements ProgressRepository {
         .fetch();
 
   }
+
+  @Override
+  public List<Progress> findAllProgressesByBoardId(Long boardId) {
+    return progressJpaRepository.findAllProgressesByBoardId(boardId);
+  }
 }

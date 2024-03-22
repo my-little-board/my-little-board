@@ -19,25 +19,19 @@ import org.springframework.data.annotation.CreatedDate;
 @Table(name = "boards")
 public class Board extends TimeStamp {
 
+  @Column(nullable = false)
+  private final Boolean boardStatus = true;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @Column(nullable = false)
   private String boardName;
-
   @Column(nullable = false)
   private String boardDescription;
-
   @Column(nullable = false)
   private String boardColor;
-
   @Column(nullable = false)
   private Long userId;
-
-  @Column(nullable = false)
-  private final Boolean boardStatus = true;
-
   @CreatedDate
   @Column(nullable = false)
   private LocalDateTime dueDate = LocalDateTime.now();

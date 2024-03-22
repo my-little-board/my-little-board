@@ -17,4 +17,6 @@ public interface ProgressRepository {
   Optional<Progress> findByPosition(Long position);
 
   List<Long> getProgressIds(Long boardId);
+
+  List<Progress> findAllProgressesByBoardId(Long boardId);
 }

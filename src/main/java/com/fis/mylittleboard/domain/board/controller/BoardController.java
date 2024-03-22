@@ -49,16 +49,16 @@ public class BoardController {
             .getData());
   }
 
-  @GetMapping("/close")
-  public ResponseEntity<List<BoardResponseDto>> getBoardClosing() {
-    List<BoardResponseDto> responseDtoList = boardService.getBoardClosing();
-
-    return ResponseEntity.ok()
-        .body(ResponseDto.<List<BoardResponseDto>>builder()
-            .data(responseDtoList)
-            .build()
-            .getData());
-  }
+//  @GetMapping("/close")
+//  public ResponseEntity<List<BoardResponseDto>> getBoardClosing() {
+//    List<BoardResponseDto> responseDtoList = boardService.getBoardClosing();
+//
+//    return ResponseEntity.ok()
+//        .body(ResponseDto.<List<BoardResponseDto>>builder()
+//            .data(responseDtoList)
+//            .build()
+//            .getData());
+//  }
 
   @PutMapping("/{boardId}")
   public ResponseEntity<MessageResponseDto> updateBoard(

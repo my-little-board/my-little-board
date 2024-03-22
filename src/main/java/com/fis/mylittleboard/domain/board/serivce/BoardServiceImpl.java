@@ -8,6 +8,10 @@ import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
 import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.hahaboard.entity.Hahaboard;
 import com.fis.mylittleboard.domain.hahaboard.repository.HahaboardRepository;
+import com.fis.mylittleboard.domain.hahacontent.entity.HahaContent;
+import com.fis.mylittleboard.domain.hahacontent.repository.HahaContentRepository;
+import com.fis.mylittleboard.domain.progress.entity.Progress;
+import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,8 @@ public class BoardServiceImpl implements BoardService {
   private final BoardRepository boardRepository;
   private final CollaborationRepository collaborationRepository;
   private final HahaboardRepository hahaboardRepository;
+  private final HahaContentRepository hahaContentRepository;
+  private final ProgressRepository progressRepository;
 
 
   @Override
@@ -46,8 +52,8 @@ public class BoardServiceImpl implements BoardService {
 
     Board newBoard = boardRepository.save(board); // 워크스페이스 생성
 
-    Hahaboard hahaboard = new Hahaboard(newBoard.getId());
-
+    String hahaboardName = requestDto.getHahaboardName();
+    Hahaboard hahaboard = new Hahaboard(newBoard.getId(), hahaboardName);
     hahaboardRepository.save(hahaboard); // 생성된 워크스페이스와 같은 하하 워크스페이스 생성
 
     Collaboration collaboration = new Collaboration(
@@ -60,35 +66,50 @@ public class BoardServiceImpl implements BoardService {
   @Transactional(readOnly = true)
   public List<BoardResponseDto> getBoardProgressing() {
     List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
-    for (Board board : boardRepository.findAll()) {
-      if (board.getBoardStatus()) {
+    for (Board board : boardRepository.findAllBoardsOrderByBoardStatusDesc()) {
+      List<Progress> progresses = findAllProgressesByBoardId(board.getId());
+      List<HahaContent> hahaContents = new ArrayList<>();
+      for (Hahaboard hahaboard : hahaboardRepository.findHahaboardByInBoardId(board.getId())) {
+        hahaContents.addAll(hahaContentRepository.findHahaContentsByHahaboardId(hahaboard.getId()));
         boardResponseDtoList.add(
             new BoardResponseDto(
                 board.getBoardName(),
                 board.getBoardDescription(),
                 board.getBoardColor(),
-                board.getDueDate()));
+                board.getDueDate(),
+                progresses,
+                hahaboard.getHahaboardName(),
+                hahaContents));
       }
     }
     return boardResponseDtoList;
   }
 
-  @Override
-  @Transactional(readOnly = true)
-  public List<BoardResponseDto> getBoardClosing() {
-    List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
-    for (Board board : boardRepository.findAll()) {
-      if (!board.getBoardStatus()) {
-        boardResponseDtoList.add(
-            new BoardResponseDto(
-                board.getBoardName(),
-                board.getBoardDescription(),
-                board.getBoardColor(),
-                board.getDueDate()));
-      }
-    }
-    return boardResponseDtoList;
-  }
+//  @Override
+//  @Transactional(readOnly = true)
+//  public List<BoardResponseDto> getBoardClosing() {
+//    List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
+//    for (Board board : boardRepository.findAllBoards()) {
+//      List<Progress> progresses = findAllProgressesByBoardId(board.getId());
+//      List<Hahaboard> hahaboards = hahaboardRepository.findHahaboardByInBoardId(board.getId());
+//      List<HahaContent> hahaContents = new ArrayList<>();
+//      for (Hahaboard hahaboard : hahaboards) {
+//        hahaContents.addAll(hahaContentRepository.findHahaContentsByHahaboardId(hahaboard.getId()));
+//      }
+//      if (!board.getBoardStatus()) {
+//        boardResponseDtoList.add(
+//            new BoardResponseDto(
+//                board.getBoardName(),
+//                board.getBoardDescription(),
+//                board.getBoardColor(),
+//                board.getDueDate(),
+//                progresses,
+//                hahaboards,
+//                hahaContents));
+//      }
+//    }
+//    return boardResponseDtoList;
+//  }
 
   @Override
   @Transactional
@@ -119,5 +140,9 @@ public class BoardServiceImpl implements BoardService {
 
   private Board findBoard(Long boardId) {
     return boardRepository.findById(boardId);
+  }
+
+  private List<Progress> findAllProgressesByBoardId(Long boardId) {
+    return progressRepository.findAllProgressesByBoardId(boardId);
   }
 }

@@ -25,4 +25,9 @@ public class DateRepositoryImpl implements DateRepository {
   public void delete(Date date) {
     dateJpaRepository.delete(date);
   }
+
+  @Override
+  public Optional<Date> findByCardId(Long cardId) {
+    return dateJpaRepository.findByCardId(cardId);
+  }
 }

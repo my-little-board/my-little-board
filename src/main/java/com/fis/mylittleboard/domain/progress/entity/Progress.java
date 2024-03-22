@@ -25,12 +25,28 @@ public class Progress {
   @Column(nullable = false)
   private String classification;
 
+  @Column(nullable = false)
+  private Long boardId;
+
+  @Column(nullable = false)
+  private Long position;
+
   @Builder
-  public Progress(String classification) {
+  public Progress(String classification, Long boardId, Long position) {
     this.classification = classification;
+    this.boardId = boardId;
+    this.position = position;
   }
 
   public void updateProgress(String newClassification) {
     this.classification = newClassification;
+  }
+
+  public void movePosition(Long position) {
+    this.position = position;
+  }
+
+  public void moveBoard(Long boardId) {
+    this.boardId = boardId;
   }
 }

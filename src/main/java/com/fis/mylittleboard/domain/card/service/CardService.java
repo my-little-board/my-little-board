@@ -5,13 +5,15 @@ import com.fis.mylittleboard.domain.card.dto.CardDatesRequestDto;
 import com.fis.mylittleboard.domain.card.dto.CardDatesResDto;
 import com.fis.mylittleboard.domain.card.dto.CardDescriptionResponseDto;
 import com.fis.mylittleboard.domain.card.dto.CardNameRequestDto;
+import com.fis.mylittleboard.domain.card.dto.CardNameResDto;
 import com.fis.mylittleboard.domain.card.dto.CardResponseDto;
 import com.fis.mylittleboard.domain.card.dto.MemberResDto;
 import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
+import java.util.List;
 
 public interface CardService {
 
-  void createCard(CardNameRequestDto cardNameRequestDto);
+  CardNameResDto createCard(CardNameRequestDto cardNameRequestDto);
 
 
   void deleteCard(Long cardId);
@@ -35,4 +37,6 @@ public interface CardService {
   LabelResponseDto addLabel(Long cardId, Long labelId);
 
   void deleteCardLabel(Long cardLabelId);
+
+  List<CardResponseDto> filterLabel(Long boardId, List<Long> filters);
 }

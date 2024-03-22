@@ -8,8 +8,10 @@ import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
 import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.hahaboard.entity.Hahaboard;
 import com.fis.mylittleboard.domain.hahaboard.repository.HahaboardRepository;
+import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,20 +30,18 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   @Transactional
-  public void createBoard(BoardRequestDto requestDto) {
-
-    Long userId = 1L;
-
+  public void createBoard(BoardRequestDto requestDto, UserDetailsImpl userDetails) {
     String boardName = requestDto.getBoardName();
-    Optional<Board> checkBoardName = boardRepository.findByBoardName(boardName);
-    if (checkBoardName.isPresent()) {
+    Optional<Board> checkBoard = boardRepository.findByBoardName(boardName);
+    if (checkBoard.isPresent() &&
+        Objects.equals(checkBoard.get().getUserId(), userDetails.getUser().getId())) {
       throw new IllegalArgumentException("사용중인 작업공간입니다.");
     }
     Board board = new Board(
         requestDto.getBoardName(),
         requestDto.getBoardDescription(),
         requestDto.getBoardColor(),
-        userId
+        userDetails.getUser().getId()
     );
 
     Board newBoard = boardRepository.save(board); // 워크스페이스 생성
@@ -50,7 +50,8 @@ public class BoardServiceImpl implements BoardService {
 
     hahaboardRepository.save(hahaboard); // 생성된 워크스페이스와 같은 하하 워크스페이스 생성
 
-    Collaboration collaboration = new Collaboration(newBoard.getId(), userId);
+    Collaboration collaboration = new Collaboration(
+        newBoard.getId(), userDetails.getUser().getId());
 
     collaborationRepository.save(collaboration); // 워크스페이스에 있는 유저들 관리공간 생성
   }
@@ -91,25 +92,32 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   @Transactional
-  public void updateBoard(Long boardId, BoardRequestDto requestDto) {
-    Board board = boardRepository.findById(boardId).orElseThrow(() ->
-        new IllegalArgumentException("일치하는 작업공간이 없습니다."));
+  public void updateBoard(Long boardId, BoardRequestDto requestDto, UserDetailsImpl userDetails) {
+    Board board = findBoard(boardId);
+    if (!Objects.equals(board.getUserId(), userDetails.getUser().getId())) {
+      throw new IllegalArgumentException("워크스페이스 생성자만 수정할 수 있습니다.");
+    }
+    if (!board.isClassification()) {
+      throw new IllegalArgumentException("마감된 워크스페이스는 수정할 수 없습니다.");
+    }
 
     board.update(requestDto);
   }
 
   @Override
   @Transactional
-  public void deleteBoard(Long boardId) {
+  public void deleteBoard(Long boardId, UserDetailsImpl userDetails) {
+    Board board = findBoard(boardId);
+    if (!Objects.equals(board.getUserId(), userDetails.getUser().getId())) {
+      throw new IllegalArgumentException("워크스페이스 생성자만 삭제할 수 있습니다.");
+    }
+
     boardRepository.deleteById(boardId);
+    collaborationRepository.deleteById(boardId);
+    hahaboardRepository.deleteById(boardId);
   }
 
-  /*
-  todo: 워크스페이스는 생성 시 진행상황은 무조건 진행중인 상황이 될테니 default로 true를 주는게 맞나?
-  todo: 워크스페이스에 다른 유저 초대하는 기능 구현
-  todo: 배경색상 처리하는 방법
-  todo: 마감기한 설정 및 마감기한 지나면 진행상황 false로 바꾸는 방법
-  todo: 워크스페이스 수정 및 삭제는 생성자만 할 수 있게 처리
-
-   */
+  private Board findBoard (Long boardId) {
+    return boardRepository.findById(boardId);
+  }
 }

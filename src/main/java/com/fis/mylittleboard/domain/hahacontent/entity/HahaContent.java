@@ -27,8 +27,13 @@ public class HahaContent extends TimeStamp {
   @Column
   private Long hahaboardId;
 
-  public HahaContent(Long hahaboardId, HahaContentRequestDto requestDto) {
+  @Column
+  private Long userId;
+
+  public HahaContent(Long hahaboardId, HahaContentRequestDto requestDto, Long userId) {
     this.content = requestDto.getContent();
     this.hahaboardId = hahaboardId;
+    this.userId = userId;
+
   }
 }

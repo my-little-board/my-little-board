@@ -18,15 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/labels")
 public class LabelController {
 
   private final LabelService labelService;
 
-  @PostMapping
-  public ResponseEntity<ResponseDto<LabelResponseDto>> createLabel(
+  @PostMapping("/api/boards/{boardId}/labels")
+  public ResponseEntity<ResponseDto<LabelResponseDto>> createLabel(@PathVariable Long boardId,
       @Valid @RequestBody LabelRequestDto labelRequestDto) {
-    LabelResponseDto labelResponseDto = labelService.createLabel(labelRequestDto.getTitle(),
+    LabelResponseDto labelResponseDto = labelService.createLabel(boardId, labelRequestDto.getTitle(),
         labelRequestDto.getColor());
 
     return ResponseEntity.ok()
@@ -36,7 +35,7 @@ public class LabelController {
             .build());
   }
 
-  @PutMapping("/{labelId}")
+  @PutMapping("/api/labels/{labelId}")
   public ResponseEntity<ResponseDto<LabelResponseDto>> updateLabel(
       @Valid @RequestBody LabelRequestDto labelRequestDto, @PathVariable Long labelId) {
     LabelResponseDto labelResponseDto = labelService.updateLabel(labelId,
@@ -50,7 +49,7 @@ public class LabelController {
             .build());
   }
 
-  @DeleteMapping("{labelId}")
+  @DeleteMapping("/api/labels/{labelId}")
   public ResponseEntity<MessageResponseDto> deleteLabel(@PathVariable Long labelId) {
     labelService.deleteLabel(labelId);
 

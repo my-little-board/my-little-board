@@ -10,6 +10,7 @@ public class ProgressTestUtils {
 
 
 	public static <T> void setProgress(T entity, String classification, Long boardId) {
+		ReflectionTestUtils.setField(entity, "id", 1L);
 		ReflectionTestUtils.setField(entity, "classification", classification);
 		ReflectionTestUtils.setField(entity, "boardId", boardId);
 		ReflectionTestUtils.setField(entity, "position", 1L);

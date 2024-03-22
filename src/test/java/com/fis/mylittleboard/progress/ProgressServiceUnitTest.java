@@ -8,6 +8,7 @@ import com.fis.mylittleboard.domain.progress.dto.ProgressResDto;
 import com.fis.mylittleboard.domain.progress.entity.Progress;
 import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import com.fis.mylittleboard.domain.progress.service.ProgressServiceImpl;
+import java.util.Optional;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -87,13 +88,28 @@ public class ProgressServiceUnitTest implements CommonTest {
 			new IllegalArgumentException("작업공간이 존재하지 않습니다."));
 
 		// when
-		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			progressService.createProgress(Board_Id, Progress_Name);
-		});
+		Exception exception = assertThrows(IllegalArgumentException.class,
+			() -> progressService.createProgress(Board_Id, Progress_Name));
 
 		// then
 		assertEquals("작업공간이 존재하지 않습니다.", exception.getMessage());
 
+
+	}
+
+	@Test
+	@DisplayName("컬럼 수정 테스트")
+	void 컬럼_수정_테스트() {
+		// given
+		Progress progress = new Progress();
+		ProgressTestUtils.setProgress(progress, Progress_Name, Board_Id);
+		given(progressRepository.findById(progress.getId())).willReturn(Optional.of(progress));
+
+		// when
+		progressService.updateProgress(progress.getId(), "new name");
+
+		// then
+		assertEquals("new name", progress.getClassification());
 
 	}
 

@@ -61,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
   public List<BoardResponseDto> getBoardProgressing() {
     List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
     for (Board board : boardRepository.findAll()) {
-      if (board.isClassification()) {
+      if (board.getBoardStatus()) {
         boardResponseDtoList.add(
             new BoardResponseDto(
                 board.getBoardName(),
@@ -78,7 +78,7 @@ public class BoardServiceImpl implements BoardService {
   public List<BoardResponseDto> getBoardClosing() {
     List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
     for (Board board : boardRepository.findAll()) {
-      if (!board.isClassification()) {
+      if (!board.getBoardStatus()) {
         boardResponseDtoList.add(
             new BoardResponseDto(
                 board.getBoardName(),
@@ -97,7 +97,7 @@ public class BoardServiceImpl implements BoardService {
     if (!Objects.equals(board.getUserId(), userDetails.getUser().getId())) {
       throw new IllegalArgumentException("워크스페이스 생성자만 수정할 수 있습니다.");
     }
-    if (!board.isClassification()) {
+    if (!board.getBoardStatus()) {
       throw new IllegalArgumentException("마감된 워크스페이스는 수정할 수 없습니다.");
     }
 
@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
     hahaboardRepository.deleteById(boardId);
   }
 
-  private Board findBoard (Long boardId) {
+  private Board findBoard(Long boardId) {
     return boardRepository.findById(boardId);
   }
 }

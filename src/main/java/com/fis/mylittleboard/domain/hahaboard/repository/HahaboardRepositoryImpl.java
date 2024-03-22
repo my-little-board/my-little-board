@@ -16,7 +16,8 @@ public class HahaboardRepositoryImpl implements HahaboardRepository {
   }
 
   @Override
-  public void deleteById (Long boardId) {
+  public void deleteById(Long boardId) {
     hahaboardJpaRepository.deleteById(boardId);
   }
+
 }

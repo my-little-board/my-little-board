@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProgressJpaRepository extends JpaRepository<Progress, Long> {
 
-	Optional<Progress> findByPosition(Long position);
+  Optional<Progress> findByPosition(Long position);
 }

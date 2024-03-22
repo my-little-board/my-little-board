@@ -13,7 +13,8 @@ public class HahaContentServiceImpl implements HahaContentService {
 
   private final HahaContentRepository hahaContentRepository;
 
-  public void createHahaContent(Long hahaboardId, HahaContentRequestDto requestDto,
+  public void createHahaContent(
+      Long hahaboardId, HahaContentRequestDto requestDto,
       UserDetailsImpl details) {
     HahaContent content = new HahaContent(hahaboardId, requestDto, details.getUser().getId());
 

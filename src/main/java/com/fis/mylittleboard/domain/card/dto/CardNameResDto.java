@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public class CardNameResDto {
 
-	private String name;
+  private final String name;
 
-	public CardNameResDto(String cardname) {
-		this.name = cardname;
-	}
+  public CardNameResDto(String cardname) {
+    this.name = cardname;
+  }
 
 }

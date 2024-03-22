@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 public class ProgressAllList {
 
-	private List<ProgressListResDto> cards;
+  private final List<ProgressListResDto> cards;
 
-	public ProgressAllList(List<ProgressListResDto> progressListResDtos) {
-		this.cards = progressListResDtos;
-	}
+  public ProgressAllList(List<ProgressListResDto> progressListResDtos) {
+    this.cards = progressListResDtos;
+  }
 }

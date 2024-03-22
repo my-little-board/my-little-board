@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class HahaContentRepositoryImpl implements HahaContentRepository{
+public class HahaContentRepositoryImpl implements HahaContentRepository {
 
   private final HahaContentJpaRepository hahacontentJpaRepository;
 

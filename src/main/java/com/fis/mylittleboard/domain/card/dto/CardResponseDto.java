@@ -17,16 +17,11 @@ public class CardResponseDto {
   private final String description;
 
   private final String color;
-
-  private LocalDate dueDate;
-
   private final Long boardId;
-
   private final Long progressId;
-
   private final List<Long> members;
-
   private final List<Long> labels;
+  private final LocalDate dueDate;
 
   @Builder
   public CardResponseDto(Card card, List<Long> members, List<Long> labels, LocalDate dueDate) {
@@ -43,8 +38,12 @@ public class CardResponseDto {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     CardResponseDto that = (CardResponseDto) o;
     return Objects.equals(cardId, that.cardId);
   }

@@ -11,7 +11,9 @@ import com.fis.mylittleboard.domain.progress.service.ProgressServiceImpl;
 import java.util.stream.LongStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,14 +23,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
-public class ProgressServiceUnitTest implements CommonTest{
+public class ProgressServiceUnitTest implements CommonTest {
 
 	@Mock
 	ProgressRepository progressRepository;
@@ -72,5 +77,24 @@ public class ProgressServiceUnitTest implements CommonTest{
 
 	}
 
+	@Test
+	@DisplayName("컬럼 생성 실패 테스트")
+	void 컬럼_생성_실패() {
+		// given
+		Progress progress = new Progress();
+		ProgressTestUtils.setProgress(progress, Progress_Name, Board_Id);
+		when(boardRepository.findById(Board_Id)).thenThrow(
+			new IllegalArgumentException("작업공간이 존재하지 않습니다."));
+
+		// when
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+			progressService.createProgress(Board_Id, Progress_Name);
+		});
+
+		// then
+		assertEquals("작업공간이 존재하지 않습니다.", exception.getMessage());
+
+
+	}
 
 }

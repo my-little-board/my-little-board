@@ -1,8 +1,9 @@
 package com.fis.mylittleboard.domain.user.repository;
 
-import com.fis.mylittleboard.domain.user.dto.SignupRequestDto;
+import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
 import com.fis.mylittleboard.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
@@ -17,8 +18,11 @@ public class UserRepositoryImpl implements UserRepository {
     return userJpaRepository.findBySignupId(signupId).isPresent();
   }
 
+
+
+
   @Override
-  public void signIn(SignupRequestDto signupRequestDto) {
+  public void signIn(UserRequestDto signupRequestDto) {
     userJpaRepository.save(UserEntity.of(signupRequestDto.getSignupId(),
         passwordEncoder.encode(signupRequestDto.getPassword()), signupRequestDto.getEmail(),
         signupRequestDto.getUsername()));

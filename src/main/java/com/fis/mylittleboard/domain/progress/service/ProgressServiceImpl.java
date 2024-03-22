@@ -94,6 +94,8 @@ public class ProgressServiceImpl implements ProgressService {
 					progress1.movePosition(progress2position);
 					progress2.movePosition(progress1position);
 					progress1.moveBoard(board.getId());
+					progressRepository.save(progress1);
+					progressRepository.save(progress2);
 				} finally {
 					lock.unlock();
 				}

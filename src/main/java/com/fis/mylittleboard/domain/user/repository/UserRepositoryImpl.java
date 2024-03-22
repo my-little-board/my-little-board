@@ -26,8 +26,6 @@ public class UserRepositoryImpl implements UserRepository {
         passwordEncoder.encode(signupRequestDto.getPassword()), signupRequestDto.getEmail(),
         signupRequestDto.getUsername()));
   }
-
-
 	@Override
 	public User findByUsername(String username) {
 		UserEntity userEntity = userJpaRepository.findByUsername(username)

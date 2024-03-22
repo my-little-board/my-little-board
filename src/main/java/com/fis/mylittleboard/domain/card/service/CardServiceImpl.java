@@ -20,6 +20,7 @@ import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
 import com.fis.mylittleboard.domain.user.model.User;
+import com.fis.mylittleboard.domain.user.repository.UserJpaRepository;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class CardServiceImpl implements CardService {
   private final CardLabelRepository cardLabelRepository;
   private final DateRepository dateRepository;
   private final UserRepository userRepository;
+  private final UserJpaRepository userJpaRepository;
 
   public Card findCard(Long cardId) {
     return cardRepository.findById(cardId)

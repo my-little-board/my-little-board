@@ -1,5 +1,7 @@
 package com.fis.mylittleboard.progress;
 
+import com.fis.mylittleboard.CommonTest;
+import com.fis.mylittleboard.TestUtils;
 import com.fis.mylittleboard.domain.board.entity.Board;
 import com.fis.mylittleboard.domain.board.repository.BoardRepository;
 import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
@@ -29,7 +31,6 @@ import static org.mockito.Mockito.when;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
-@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 public class ProgressServiceUnitTest implements CommonTest {
 

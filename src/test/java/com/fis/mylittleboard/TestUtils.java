@@ -1,13 +1,14 @@
-package com.fis.mylittleboard.progress;
+package com.fis.mylittleboard;
 
 
+import com.fis.mylittleboard.CommonTest;
 import com.fis.mylittleboard.domain.card.entity.Card;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.test.util.ReflectionTestUtils;
 
-public class TestUtils implements CommonTest{
+public class TestUtils implements CommonTest {
 	//String boardName, String boardDescription, String boardColor, Long userId
 
 

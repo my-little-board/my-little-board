@@ -1,4 +1,4 @@
-package com.fis.mylittleboard.progress;
+package com.fis.mylittleboard;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.progress.entity.Progress;

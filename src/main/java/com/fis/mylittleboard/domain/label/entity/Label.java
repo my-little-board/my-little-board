@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,7 @@ public class Label {
   @Column(nullable = false)
   private Long boardId;
 
+  @Builder
   public Label(Long boardId, String title, String color) {
     this.boardId = boardId;
     this.title = title;

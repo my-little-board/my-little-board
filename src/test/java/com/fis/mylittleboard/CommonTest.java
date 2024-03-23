@@ -1,6 +1,7 @@
 package com.fis.mylittleboard;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
+import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.progress.entity.Progress;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 public interface CommonTest {
 
 	String Progress_Name = "BackLog";
+
+	String Label_Title = "Study";
 	Long Board_Id = 1L;
 
 	Long Progress_Id = 1L;
@@ -25,6 +28,11 @@ public interface CommonTest {
 		.classification(Progress_Name)
 		.position(2L)
 		.build();
+
+	Label Test_Label = Label.builder()
+		.boardId(Board_Id)
+		.title(Label_Title)
+		.color("default color").build();
 
 	Card Test_Card = Card.builder()
 		.name("이름")

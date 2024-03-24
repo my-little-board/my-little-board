@@ -72,7 +72,7 @@ public class CardController {
 
     return ResponseEntity.ok()
         .body(ResponseDto.<MemberResDto>builder()
-            .message("DueDate 등록에 성공하였습니다.")
+            .message("멤버 등록에 성공하였습니다.")
             .data(memberResDto)
             .build());
   }

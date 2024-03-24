@@ -8,15 +8,18 @@ import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
 import com.fis.mylittleboard.domain.label.service.LabelServiceImpl;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -56,4 +59,19 @@ public class LabelServiceUnitTest implements CommonTest {
 		assertEquals(result.getColor(), expect.getColor());
 	}
 
+	@Test
+	@DisplayName("라벨 수정 테스트")
+	void 라벨_수정_테스트() {
+		// given
+		Label label = Test_Label;
+		given(labelRepository.findById(label.getId())).willReturn(Optional.of(label));
+
+		// when
+		LabelResponseDto labelResponseDto = labelService.updateLabel(label.getId(), "new title",
+			"new color");
+
+		// then
+		assertEquals("new title", labelResponseDto.getTitle());
+		assertEquals("new color", labelResponseDto.getColor());
+	}
 }

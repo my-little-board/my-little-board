@@ -30,6 +30,7 @@ public interface CommonTest {
 		.build();
 
 	Label Test_Label = Label.builder()
+		.id(1L)
 		.boardId(Board_Id)
 		.title(Label_Title)
 		.color("default color").build();

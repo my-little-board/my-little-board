@@ -7,10 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @NoArgsConstructor
@@ -23,9 +21,13 @@ public class Hahaboard extends TimeStamp {
   private Long id;
 
   @Column(nullable = false)
-  private Long InBoardId;
+  private String hahaboardName;
 
-  public Hahaboard(Long id) {
-    this.InBoardId = id;
+  @Column(nullable = false)
+  private Long inBoardId;
+
+  public Hahaboard(Long id, String hahaboardName) {
+    this.inBoardId = id;
+    this.hahaboardName = hahaboardName;
   }
 }

@@ -44,7 +44,6 @@ public class JwtProvider {
     byte[] bytes = Base64.getDecoder().decode(secretKey);
     key = Keys.hmacShaKeyFor(bytes);
   }
-
   public String generateAccessToken(final String userId) {
     return generateToken(userId, ACCESS_TOKEN_VALID_TIME);
   }
@@ -82,10 +81,6 @@ public class JwtProvider {
   }
 
   public String substringToken(final String tokenValue) {
-//    if (!StringUtils.hasText(tokenValue) || !tokenValue.startsWith(BEARER_PREFIX)) {
-//      throw new CustomJwtException(JwtError.INVALID_TOKEN);
-//    }
-
     return tokenValue.substring(BEARER_PREFIX_LENGTH);
   }
 
@@ -135,8 +130,11 @@ public class JwtProvider {
   public Claims getUserInfoFromExpiredToken(String token) {
     try {
       return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+      // 만료 토큰을 가져오는 이유가 삭제해줄때 데이터를 가져오기위해서
     } catch (ExpiredJwtException e) {
       return e.getClaims();
     }
   }
+
+
 }

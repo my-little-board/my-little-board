@@ -6,13 +6,15 @@ import java.util.Optional;
 
 public interface BoardRepository {
 
-  Board save (Board board);
+  Board save(Board board);
 
   Optional<Board> findByBoardName(String boardName);
 
   List<Board> findAll();
 
-  void deleteById (Long boardId);
+  List<Board> findAllBoardsOrderByBoardStatusDesc();
 
-  Board findById (Long boardId);
+  void deleteById(Long boardId);
+
+  Board findById(Long boardId);
 }

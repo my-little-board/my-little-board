@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class ProgressMoveDto {
 
-	@NotNull
-	private Long boardId;
+  @NotNull
+  private Long boardId;
 
-	@NotNull
-	private Long position;
+  @NotNull
+  private Long position;
 
 }

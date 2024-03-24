@@ -1,18 +1,27 @@
 package com.fis.mylittleboard.domain.board.serivce;
 
 import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
+import com.fis.mylittleboard.domain.board.dto.BoardAllResponseDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.entity.Board;
 import com.fis.mylittleboard.domain.board.repository.BoardRepository;
+import com.fis.mylittleboard.domain.card.entity.Card;
+import com.fis.mylittleboard.domain.card.repository.card.CardRepository;
 import com.fis.mylittleboard.domain.collaboration.entity.Collaboration;
 import com.fis.mylittleboard.domain.collaboration.repository.CollaborationRepository;
 import com.fis.mylittleboard.domain.hahaboard.entity.Hahaboard;
 import com.fis.mylittleboard.domain.hahaboard.repository.HahaboardRepository;
+import com.fis.mylittleboard.domain.hahacontent.entity.HahaContent;
+import com.fis.mylittleboard.domain.hahacontent.repository.HahaContentRepository;
+import com.fis.mylittleboard.domain.progress.entity.Progress;
+import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.swing.ListModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +35,9 @@ public class BoardServiceImpl implements BoardService {
   private final BoardRepository boardRepository;
   private final CollaborationRepository collaborationRepository;
   private final HahaboardRepository hahaboardRepository;
+  private final HahaContentRepository hahaContentRepository;
+  private final ProgressRepository progressRepository;
+  private final CardRepository cardRepository;
 
 
   @Override
@@ -46,8 +58,8 @@ public class BoardServiceImpl implements BoardService {
 
     Board newBoard = boardRepository.save(board); // 워크스페이스 생성
 
-    Hahaboard hahaboard = new Hahaboard(newBoard.getId());
-
+    String hahaboardName = requestDto.getHahaboardName();
+    Hahaboard hahaboard = new Hahaboard(newBoard.getId(), hahaboardName);
     hahaboardRepository.save(hahaboard); // 생성된 워크스페이스와 같은 하하 워크스페이스 생성
 
     Collaboration collaboration = new Collaboration(
@@ -58,36 +70,28 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<BoardResponseDto> getBoardProgressing() {
-    List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
-    for (Board board : boardRepository.findAll()) {
-      if (board.isClassification()) {
-        boardResponseDtoList.add(
-            new BoardResponseDto(
-                board.getBoardName(),
-                board.getBoardDescription(),
-                board.getBoardColor(),
-                board.getDueDate()));
-      }
-    }
-    return boardResponseDtoList;
+  public BoardResponseDto getBoard(Long boardId) {
+    Board board = findBoard(boardId);
+    BoardResponseDto boardResponseDto = new BoardResponseDto(
+        board.getBoardStatus(),
+        board.getBoardName(),
+        board.getBoardDescription(),
+        board.getBoardColor());
+
+    return boardResponseDto;
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<BoardResponseDto> getBoardClosing() {
-    List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
+  public List<BoardAllResponseDto> getBoardAllList() {
+    List<BoardAllResponseDto> boardAllResponseDtoList = new ArrayList<>();
     for (Board board : boardRepository.findAll()) {
-      if (!board.isClassification()) {
-        boardResponseDtoList.add(
-            new BoardResponseDto(
-                board.getBoardName(),
-                board.getBoardDescription(),
-                board.getBoardColor(),
-                board.getDueDate()));
-      }
+      boardAllResponseDtoList.add(
+          new BoardAllResponseDto(
+              board.getBoardStatus(),
+              board.getBoardName()));
     }
-    return boardResponseDtoList;
+    return boardAllResponseDtoList;
   }
 
   @Override
@@ -97,7 +101,7 @@ public class BoardServiceImpl implements BoardService {
     if (!Objects.equals(board.getUserId(), userDetails.getUser().getId())) {
       throw new IllegalArgumentException("워크스페이스 생성자만 수정할 수 있습니다.");
     }
-    if (!board.isClassification()) {
+    if (!board.getBoardStatus()) {
       throw new IllegalArgumentException("마감된 워크스페이스는 수정할 수 없습니다.");
     }
 
@@ -112,12 +116,15 @@ public class BoardServiceImpl implements BoardService {
       throw new IllegalArgumentException("워크스페이스 생성자만 삭제할 수 있습니다.");
     }
 
-    boardRepository.deleteById(boardId);
-    collaborationRepository.deleteById(boardId);
+    cardRepository.deleteAllCard(boardId);
+    progressRepository.deleteAllProgress(boardId);
+    hahaContentRepository.deleteAllHahaContent(boardId);
     hahaboardRepository.deleteById(boardId);
+    collaborationRepository.deleteById(boardId);
+    boardRepository.deleteById(boardId);
   }
 
-  private Board findBoard (Long boardId) {
+  private Board findBoard(Long boardId) {
     return boardRepository.findById(boardId);
   }
 }

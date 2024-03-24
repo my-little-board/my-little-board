@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 public interface TokenRepository {
 
 
-  void signup(Long id, String refreshToken);
+  void addRefreshToken(Long id,Long tokenId, String refreshToken);
 
   RefreshTokenEntity findByUserId(Long id);
 
-  void deleteToken(RefreshTokenEntity refreshToken);
+  void deleteTokenByUserId(Long id);
 }

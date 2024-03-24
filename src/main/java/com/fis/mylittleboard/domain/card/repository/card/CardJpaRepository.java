@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CardJpaRepository extends JpaRepository<Card, Long> {
 
   List<Card> findByProgressId(Long progressId);
+
+  void deleteAllById (Long boardId);
 }

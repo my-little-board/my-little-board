@@ -22,12 +22,13 @@ public class RefreshTokenEntity {
 
   }
 
-  private RefreshTokenEntity(Long userId, String token) {
+  private RefreshTokenEntity(Long id,Long userId, String token) {
+    this.id = id;
     this.userId = userId;
     this.token = token;
   }
 
-  public static RefreshTokenEntity of(Long userId, String token) {
-    return new RefreshTokenEntity(userId, token);
+  public static RefreshTokenEntity of(Long id,Long userId, String token) {
+    return new RefreshTokenEntity(id, userId, token);
   }
 }

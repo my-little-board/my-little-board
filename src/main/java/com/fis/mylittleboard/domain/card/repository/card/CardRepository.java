@@ -1,6 +1,7 @@
 package com.fis.mylittleboard.domain.card.repository.card;
 
 import com.fis.mylittleboard.domain.card.entity.Card;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +21,8 @@ public interface CardRepository {
   List<Card> findByProgressId(Long progressId);
 
   List<Card> getCardByboard(Long boardId, Long cardId);
+
+  void deleteAllCard(Long boardId);
+
+  List<Card> findAllCard (Long progressId);
 }

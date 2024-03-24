@@ -20,9 +20,9 @@ import com.fis.mylittleboard.domain.label.dto.LabelResponseDto;
 import com.fis.mylittleboard.domain.label.entity.Label;
 import com.fis.mylittleboard.domain.label.repository.LabelRepository;
 import com.fis.mylittleboard.domain.user.model.User;
+import com.fis.mylittleboard.domain.user.repository.UserJpaRepository;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -39,11 +39,13 @@ public class CardServiceImpl implements CardService {
   private final CardLabelRepository cardLabelRepository;
   private final DateRepository dateRepository;
   private final UserRepository userRepository;
+  private final UserJpaRepository userJpaRepository;
 
   public Card findCard(Long cardId) {
     return cardRepository.findById(cardId)
         .orElseThrow(() -> new IllegalArgumentException("해당 카드가 존재하지 않습니다."));
   }
+
   @Transactional
   public CardNameResDto createCard(CardNameRequestDto cardNameRequestDto) {
     Card card = new Card(cardNameRequestDto);
@@ -163,12 +165,12 @@ public class CardServiceImpl implements CardService {
   @Transactional
   public List<CardResponseDto> filterLabel(Long boardId, List<Long> filters) {
 
-	  return filters.stream()
+    return filters.stream()
         .flatMap(l -> labelRepository.findByIds(boardId, l).stream())
         .flatMap(m -> cardLabelRepository.findByLabelId(m).stream())
         .map(this::getCard)
-          .distinct()
-          .collect(Collectors.toList());
+        .distinct()
+        .collect(Collectors.toList());
   }
 
 }

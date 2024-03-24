@@ -1,7 +1,6 @@
 package com.fis.mylittleboard.domain.progress.service;
 
 import com.fis.mylittleboard.domain.progress.dto.ProgressAllList;
-import com.fis.mylittleboard.domain.progress.dto.ProgressListResDto;
 import com.fis.mylittleboard.domain.progress.dto.ProgressResDto;
 
 public interface ProgressService {

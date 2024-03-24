@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class CardListResDto {
 
-	private List<CardResponseDto> cardResponseDtos;
+  private final List<CardResponseDto> cardResponseDtos;
 
-	public CardListResDto(List<CardResponseDto> cardResponseDtos) {
-		this.cardResponseDtos = cardResponseDtos;
-	}
+  public CardListResDto(List<CardResponseDto> cardResponseDtos) {
+    this.cardResponseDtos = cardResponseDtos;
+  }
 
 }

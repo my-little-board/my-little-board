@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,9 +22,11 @@ public class LabelController {
   private final LabelService labelService;
 
   @PostMapping("/api/boards/{boardId}/labels")
-  public ResponseEntity<ResponseDto<LabelResponseDto>> createLabel(@PathVariable Long boardId,
+  public ResponseEntity<ResponseDto<LabelResponseDto>> createLabel(
+      @PathVariable Long boardId,
       @Valid @RequestBody LabelRequestDto labelRequestDto) {
-    LabelResponseDto labelResponseDto = labelService.createLabel(boardId, labelRequestDto.getTitle(),
+    LabelResponseDto labelResponseDto = labelService.createLabel(boardId,
+        labelRequestDto.getTitle(),
         labelRequestDto.getColor());
 
     return ResponseEntity.ok()

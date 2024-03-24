@@ -12,13 +12,16 @@ public class TokenRepositoryImpl implements TokenRepository {
 
 
   @Override
-  public void deleteToken(RefreshTokenEntity token) {
-    refreshTokenJpaRepository.deleteByToken(token.getToken());
+  public void deleteTokenByUserId(Long userId) {
+    RefreshTokenEntity refreshToken = findByUserId(userId);
+    if (refreshToken != null) {
+      refreshTokenJpaRepository.deleteById(refreshToken.getId());
+    }
   }
 
   @Override
-  public void signup(Long userId, String refreshToken) {
-    RefreshTokenEntity entity = RefreshTokenEntity.of(userId, refreshToken);
+  public void addRefreshToken(Long id,Long userId, String refreshToken) {
+    RefreshTokenEntity entity = RefreshTokenEntity.of(id,userId, refreshToken);
     refreshTokenJpaRepository.save(entity);
   }
 

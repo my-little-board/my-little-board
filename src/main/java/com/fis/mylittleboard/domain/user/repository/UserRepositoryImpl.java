@@ -1,6 +1,6 @@
 package com.fis.mylittleboard.domain.user.repository;
 
-import com.fis.mylittleboard.domain.user.dto.SignupRequestDto;
+import com.fis.mylittleboard.domain.user.dto.UserRequestDto;
 import com.fis.mylittleboard.domain.user.entity.UserEntity;
 import com.fis.mylittleboard.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +20,16 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public void signIn(SignupRequestDto signupRequestDto) {
+  public void signIn(UserRequestDto signupRequestDto) {
     userJpaRepository.save(UserEntity.of(signupRequestDto.getSignupId(),
         passwordEncoder.encode(signupRequestDto.getPassword()), signupRequestDto.getEmail(),
         signupRequestDto.getUsername()));
   }
 
-  @Override
-  public User findByUsername(String username) {
-    UserEntity userEntity = userJpaRepository.findByUsername(username)
-        .orElseThrow(() -> new IllegalArgumentException("해당 이름의 유저는 없습니다."));
-    return User.builder().username(userEntity.getUsername()).build();
-  }
+	@Override
+	public User findByUsername(String username) {
+		UserEntity userEntity = userJpaRepository.findByUsername(username)
+			.orElseThrow(() -> new IllegalArgumentException("해당 이름의 유저는 없습니다."));
+		return User.builder().username(userEntity.getUsername()).build();
+	}
 }

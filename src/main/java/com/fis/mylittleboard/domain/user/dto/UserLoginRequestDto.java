@@ -1,17 +1,12 @@
 package com.fis.mylittleboard.domain.user.dto;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Builder
-public class SignupRequestDto {
+@Setter
+public class UserLoginRequestDto {
 
   private String signupId;
-
   private String password;
-
-  private String email;
-
-  private String username;
 }

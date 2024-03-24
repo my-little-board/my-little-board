@@ -6,17 +6,17 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class CollaborationRepositoryImpl implements CollaborationRepository{
+public class CollaborationRepositoryImpl implements CollaborationRepository {
 
   private final CollaborationJpaRepository collaborationJpaRepository;
 
   @Override
-  public void save (Collaboration collaboration) {
+  public void save(Collaboration collaboration) {
     collaborationJpaRepository.save(collaboration);
   }
 
   @Override
-  public void deleteById (Long boardId) {
+  public void deleteById(Long boardId) {
     collaborationJpaRepository.deleteById(boardId);
   }
 }

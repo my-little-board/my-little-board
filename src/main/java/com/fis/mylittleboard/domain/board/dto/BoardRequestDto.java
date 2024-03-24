@@ -8,4 +8,5 @@ public class BoardRequestDto {
   private String boardName;
   private String boardDescription;
   private String boardColor;
+  private String hahaboardName;
 }

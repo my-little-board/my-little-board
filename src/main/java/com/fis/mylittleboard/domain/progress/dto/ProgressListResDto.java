@@ -7,13 +7,13 @@ import lombok.Getter;
 @Getter
 public class ProgressListResDto {
 
-	private String classification;
+  private final String classification;
 
-	private List<CardResponseDto> cards;
+  private final List<CardResponseDto> cards;
 
-	public ProgressListResDto(String classification, List<CardResponseDto> cards) {
-		this.classification = classification;
-		this.cards = cards;
-	}
+  public ProgressListResDto(String classification, List<CardResponseDto> cards) {
+    this.classification = classification;
+    this.cards = cards;
+  }
 
 }

@@ -3,8 +3,10 @@ package com.fis.mylittleboard.domain.comment.controller;
 import com.fis.mylittleboard.domain.comment.dto.CommentRequestDto;
 import com.fis.mylittleboard.domain.comment.service.CommentService;
 import com.fis.mylittleboard.global.common.MessageResponseDto;
+import com.fis.mylittleboard.global.jwt.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +25,9 @@ public class CommentController {
   @PostMapping("/{cardId}/comments")
   public ResponseEntity<MessageResponseDto> createComment(
       @RequestBody CommentRequestDto requestDto,
-      @PathVariable Long cardId) {
-    commentService.createCommnet(requestDto, cardId);
+      @PathVariable Long cardId,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    commentService.createComment(requestDto, cardId, userDetails);
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()
@@ -35,8 +38,9 @@ public class CommentController {
   @PutMapping("/comments/{commentId}")
   public ResponseEntity<MessageResponseDto> updateComment(
       @PathVariable Long commentId,
-      @RequestBody CommentRequestDto requestDto) {
-    commentService.updateComment(commentId, requestDto);
+      @RequestBody CommentRequestDto requestDto,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    commentService.updateComment(commentId, requestDto, userDetails);
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()
@@ -46,8 +50,9 @@ public class CommentController {
 
   @DeleteMapping("/comments/{commentId}")
   public ResponseEntity<MessageResponseDto> deleteComment(
-      @PathVariable Long commentId) {
-    commentService.deleteComment(commentId);
+      @PathVariable Long commentId,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    commentService.deleteComment(commentId, userDetails);
 
     return ResponseEntity.ok()
         .body(MessageResponseDto.builder()

@@ -1,16 +1,20 @@
 package com.fis.mylittleboard.domain.board.repository;
 
 import com.fis.mylittleboard.domain.board.entity.Board;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class BoardRepositoryImpl implements BoardRepository{
+public class BoardRepositoryImpl implements BoardRepository {
 
   private final BoardJpaRepository boardJpaRepository;
+  private final JPAQueryFactory jpaQueryFactory;
 
   @Override
   public Board save(Board board) {
@@ -28,6 +32,11 @@ public class BoardRepositoryImpl implements BoardRepository{
   }
 
   @Override
+  public List<Board> findAllBoardsOrderByBoardStatusDesc() {
+    return boardJpaRepository.findAll(Sort.by(Direction.DESC, "boardStatus"));
+  }
+
+  @Override
   public void deleteById(Long boardId) {
     boardJpaRepository.deleteById(boardId);
   }
@@ -37,4 +46,5 @@ public class BoardRepositoryImpl implements BoardRepository{
     return boardJpaRepository.findById(boardId).orElseThrow(() ->
         new IllegalArgumentException("작업공간이 존재하지 않습니다."));
   }
+
 }

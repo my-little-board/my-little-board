@@ -8,4 +8,6 @@ public interface BoardJpaRepository extends JpaRepository<Board, Long> {
 
   Optional<Board> findByBoardName(String boardName);
 
+//  List<Board> findAllBoardsOrderByBoardStatus();
+
 }

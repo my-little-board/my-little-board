@@ -21,9 +21,13 @@ public class Hahaboard extends TimeStamp {
   private Long id;
 
   @Column(nullable = false)
-  private Long InBoardId;
+  private String hahaboardName;
 
-  public Hahaboard(Long id) {
-    this.InBoardId = id;
+  @Column(nullable = false)
+  private Long inBoardId;
+
+  public Hahaboard(Long id, String hahaboardName) {
+    this.inBoardId = id;
+    this.hahaboardName = hahaboardName;
   }
 }

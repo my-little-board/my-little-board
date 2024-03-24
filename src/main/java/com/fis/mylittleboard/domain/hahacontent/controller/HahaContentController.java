@@ -1,6 +1,5 @@
 package com.fis.mylittleboard.domain.hahacontent.controller;
 
-import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.hahacontent.dto.HahaContentRequestDto;
 import com.fis.mylittleboard.domain.hahacontent.service.HahaContentService;
 import com.fis.mylittleboard.global.common.MessageResponseDto;

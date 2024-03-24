@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CardLabelReqDto {
 
-	private List<Long> labelId;
+  private List<Long> labelId;
 }

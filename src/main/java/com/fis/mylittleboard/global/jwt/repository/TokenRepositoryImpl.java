@@ -20,8 +20,8 @@ public class TokenRepositoryImpl implements TokenRepository {
   }
 
   @Override
-  public void addRefreshToken(Long id,Long userId, String refreshToken) {
-    RefreshTokenEntity entity = RefreshTokenEntity.of(id,userId, refreshToken);
+  public void addRefreshToken(Long id, Long userId, String refreshToken) {
+    RefreshTokenEntity entity = RefreshTokenEntity.of(id, userId, refreshToken);
     refreshTokenJpaRepository.save(entity);
   }
 

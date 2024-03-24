@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
     commentRepository.deleteById(commentId);
   }
 
-  private Comment findComment (Long commentId) {
+  private Comment findComment(Long commentId) {
     return commentRepository.findById(commentId).orElseThrow(() ->
         new IllegalArgumentException("댓글이 존재하지 않습니다."));
   }

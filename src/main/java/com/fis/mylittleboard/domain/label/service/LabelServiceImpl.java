@@ -16,10 +16,10 @@ public class LabelServiceImpl implements LabelService {
   private final LabelRepository labelRepository;
   private final BoardRepository boardRepository;
 
-	@Transactional
-	@Override
-	public LabelResponseDto createLabel(Long boardId, String title, String color) {
-		Board board = boardRepository.findById(boardId);
+  @Transactional
+  @Override
+  public LabelResponseDto createLabel(Long boardId, String title, String color) {
+    Board board = boardRepository.findById(boardId);
 
     Label label = new Label(board.getId(), title, color);
 

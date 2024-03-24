@@ -13,7 +13,7 @@ public interface UserService {
   UserResponseDto signup(UserRequestDto userRequestDto);
 
 
-  UserPasswordResponseDto updatePassword(Long id,PasswordRequestDto passwordRequestDto);
+  UserPasswordResponseDto updatePassword(Long id, PasswordRequestDto passwordRequestDto);
 
   UserEmailResponseDto updateEmail(Long id, UserEmailRequestDto userEmailRequestDto);
 

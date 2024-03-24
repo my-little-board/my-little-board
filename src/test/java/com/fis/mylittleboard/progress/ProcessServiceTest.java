@@ -19,33 +19,33 @@ import org.springframework.test.context.ActiveProfiles;
 public class ProcessServiceTest implements CommonTest {
 
 
-	@Autowired
-	ProgressRepository progressRepository;
-	@Autowired
-	CardRepository cardRepository;
-	@Autowired
-	BoardRepository boardRepository;
-	@Autowired
-	DateRepository dateRepository;
+  @Autowired
+  ProgressRepository progressRepository;
+  @Autowired
+  CardRepository cardRepository;
+  @Autowired
+  BoardRepository boardRepository;
+  @Autowired
+  DateRepository dateRepository;
 
-	@Autowired
-	ProgressServiceImpl progressService;
+  @Autowired
+  ProgressServiceImpl progressService;
 
-	void testProgress() {
-		LongStream.range(0L, 5L)
-			.forEach(i -> {
-				Progress progress = new Progress();
-				TestUtils.setProgress(progress, Progress_Name, Board_Id);
-				progressRepository.save(progress);
-			});
+  void testProgress() {
+    LongStream.range(0L, 5L)
+        .forEach(i -> {
+          Progress progress = new Progress();
+          TestUtils.setProgress(progress, Progress_Name, Board_Id);
+          progressRepository.save(progress);
+        });
 
-	}
+  }
 
-	void testBoard() {
-		Board board = new Board();
-		TestUtils.setBoard(board, "workspaceA", "내용", "skyblue", 1L);
-		boardRepository.save(board);
-	}
+  void testBoard() {
+    Board board = new Board();
+    TestUtils.setBoard(board, "workspaceA", "내용", "skyblue", 1L);
+    boardRepository.save(board);
+  }
 
 
 }

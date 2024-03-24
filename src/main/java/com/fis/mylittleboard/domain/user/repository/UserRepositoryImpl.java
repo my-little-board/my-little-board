@@ -26,10 +26,10 @@ public class UserRepositoryImpl implements UserRepository {
         signupRequestDto.getUsername()));
   }
 
-	@Override
-	public User findByUsername(String username) {
-		UserEntity userEntity = userJpaRepository.findByUsername(username)
-			.orElseThrow(() -> new IllegalArgumentException("해당 이름의 유저는 없습니다."));
-		return User.builder().username(userEntity.getUsername()).build();
-	}
+  @Override
+  public User findByUsername(String username) {
+    UserEntity userEntity = userJpaRepository.findByUsername(username)
+        .orElseThrow(() -> new IllegalArgumentException("해당 이름의 유저는 없습니다."));
+    return User.builder().username(userEntity.getUsername()).build();
+  }
 }

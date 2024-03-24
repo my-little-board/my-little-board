@@ -1,5 +1,11 @@
 package com.fis.mylittleboard.progress;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+
 import com.fis.mylittleboard.CommonTest;
 import com.fis.mylittleboard.TestUtils;
 import com.fis.mylittleboard.domain.board.entity.Board;
@@ -12,116 +18,104 @@ import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import com.fis.mylittleboard.domain.progress.service.ProgressServiceImpl;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class ProgressServiceUnitTest implements CommonTest {
 
-	@Mock
-	ProgressRepository progressRepository;
-	@Mock
-	CardRepository cardRepository;
-	@Mock
-	BoardRepository boardRepository;
-	@Mock
-	DateRepository dateRepository;
+  @Mock
+  ProgressRepository progressRepository;
+  @Mock
+  CardRepository cardRepository;
+  @Mock
+  BoardRepository boardRepository;
+  @Mock
+  DateRepository dateRepository;
 
-	@InjectMocks
-	ProgressServiceImpl progressService;
+  @InjectMocks
+  ProgressServiceImpl progressService;
 
-	Board testBoard() {
-		Board board = new Board();
-		TestUtils.setBoard(board, "workspaceA", "내용", "skyblue", 1L);
-		return board;
-	}
+  Board testBoard() {
+    Board board = new Board();
+    TestUtils.setBoard(board, "workspaceA", "내용", "skyblue", 1L);
+    return board;
+  }
 
-	private <T> void setDto(T dto, String username, String password) {
-		ReflectionTestUtils.setField(dto, "username", username);
-		ReflectionTestUtils.setField(dto, "password", password);
-	}
+  private <T> void setDto(T dto, String username, String password) {
+    ReflectionTestUtils.setField(dto, "username", username);
+    ReflectionTestUtils.setField(dto, "password", password);
+  }
 
-	@Test
-	@DisplayName("컬럼 생성 성공 테스트")
-	void 컬럼_생성_성공() {
-		// given
-		Board board = testBoard();
-		Progress progress = new Progress();
-		TestUtils.setProgress(progress, Progress_Name, Board_Id);
-		given(boardRepository.findById(any(Long.class))).willReturn(board);
-		given(progressRepository.save(any(Progress.class))).willReturn(progress);
+  @Test
+  @DisplayName("컬럼 생성 성공 테스트")
+  void 컬럼_생성_성공() {
+    // given
+    Board board = testBoard();
+    Progress progress = new Progress();
+    TestUtils.setProgress(progress, Progress_Name, Board_Id);
+    given(boardRepository.findById(any(Long.class))).willReturn(board);
+    given(progressRepository.save(any(Progress.class))).willReturn(progress);
 
-		//when
-		ProgressResDto result = progressService.createProgress(Board_Id, Progress_Name);
+    //when
+    ProgressResDto result = progressService.createProgress(Board_Id, Progress_Name);
 
-		// then
-		ProgressResDto expect = new ProgressResDto(progress);
-		assertEquals(result.getClassification(), expect.getClassification());
+    // then
+    ProgressResDto expect = new ProgressResDto(progress);
+    assertEquals(result.getClassification(), expect.getClassification());
 
-	}
+  }
 
-	@Test
-	@DisplayName("컬럼 생성 실패 테스트")
-	void 컬럼_생성_실패() {
-		// given
-		Progress progress = new Progress();
-		TestUtils.setProgress(progress, Progress_Name, Board_Id);
-		when(boardRepository.findById(Board_Id)).thenThrow(
-			new IllegalArgumentException("작업공간이 존재하지 않습니다."));
+  @Test
+  @DisplayName("컬럼 생성 실패 테스트")
+  void 컬럼_생성_실패() {
+    // given
+    Progress progress = new Progress();
+    TestUtils.setProgress(progress, Progress_Name, Board_Id);
+    when(boardRepository.findById(Board_Id)).thenThrow(
+        new IllegalArgumentException("작업공간이 존재하지 않습니다."));
 
-		// when
-		Exception exception = assertThrows(IllegalArgumentException.class,
-			() -> progressService.createProgress(Board_Id, Progress_Name));
+    // when
+    Exception exception = assertThrows(IllegalArgumentException.class,
+        () -> progressService.createProgress(Board_Id, Progress_Name));
 
-		// then
-		assertEquals("작업공간이 존재하지 않습니다.", exception.getMessage());
+    // then
+    assertEquals("작업공간이 존재하지 않습니다.", exception.getMessage());
 
 
-	}
+  }
 
-	@Test
-	@DisplayName("컬럼 수정 테스트")
-	void 컬럼_수정_테스트() {
-		// given
-		Progress progress = Test_Progress;
-		given(progressRepository.findById(progress.getId())).willReturn(Optional.of(progress));
+  @Test
+  @DisplayName("컬럼 수정 테스트")
+  void 컬럼_수정_테스트() {
+    // given
+    Progress progress = Test_Progress;
+    given(progressRepository.findById(progress.getId())).willReturn(Optional.of(progress));
 
-		// when
-		progressService.updateProgress(progress.getId(), "new name");
+    // when
+    progressService.updateProgress(progress.getId(), "new name");
 
-		// then
-		assertEquals("new name", progress.getClassification());
+    // then
+    assertEquals("new name", progress.getClassification());
 
-	}
+  }
 
-	@Test
-	@DisplayName("컬럼 삭제 테스트")
-	void 컬럼_삭제_테스트() {
-		// given
-		Progress progress = Test_Progress;
-		given(progressRepository.findById(progress.getId())).willReturn(Optional.of(progress));
+  @Test
+  @DisplayName("컬럼 삭제 테스트")
+  void 컬럼_삭제_테스트() {
+    // given
+    Progress progress = Test_Progress;
+    given(progressRepository.findById(progress.getId())).willReturn(Optional.of(progress));
 
-		// when
-		progressService.deleteProgress(progress.getId());
+    // when
+    progressService.deleteProgress(progress.getId());
 
-		// then
-	}
+    // then
+  }
 
 //	@Test
 //	@DisplayName("컬럼 이동 테스트")

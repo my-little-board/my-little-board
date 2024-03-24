@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public class UserEmailResponseDto {
+
   private String newEmail;
 
 

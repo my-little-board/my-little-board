@@ -28,18 +28,21 @@ public class UserController {
   }
 
   @PutMapping("/users/{id}/password")
-  public String updatePassword(@PathVariable Long id,@RequestBody PasswordRequestDto passwordRequestDto)
-  {
-    userService.updatePassword(id,passwordRequestDto);
+  public String updatePassword(
+      @PathVariable Long id, @RequestBody PasswordRequestDto passwordRequestDto) {
+    userService.updatePassword(id, passwordRequestDto);
     return "비밀번호 변경 성공";
   }
+
   @PutMapping("/users/{id}/email")
-  public String updateEmail(@PathVariable Long id,@RequestBody UserEmailRequestDto userEmailRequestDto){
-    userService.updateEmail(id,userEmailRequestDto);
+  public String updateEmail(
+      @PathVariable Long id, @RequestBody UserEmailRequestDto userEmailRequestDto) {
+    userService.updateEmail(id, userEmailRequestDto);
     return "이메일 변경 성공";
   }
+
   @DeleteMapping("/users/{id}/secession")
-  public String deleteUser(@PathVariable Long id){
+  public String deleteUser(@PathVariable Long id) {
     userService.deleteUser(id);
     return "회원이 탈퇴 되었습니다";
   }

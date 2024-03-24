@@ -10,5 +10,6 @@ public interface UserRepository {
   boolean checksignupId(String signupId);
 
   void signIn(UserRequestDto userRequestDto);
+
   User findByUsername(String username);
 }

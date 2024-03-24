@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UserPasswordResponseDto {
+
   private String newPassword;
 }

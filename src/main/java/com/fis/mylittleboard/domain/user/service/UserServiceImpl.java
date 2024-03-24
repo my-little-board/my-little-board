@@ -12,17 +12,12 @@ import com.fis.mylittleboard.domain.user.entity.UserEntity;
 import com.fis.mylittleboard.domain.user.model.User;
 import com.fis.mylittleboard.domain.user.repository.UserJpaRepository;
 import com.fis.mylittleboard.domain.user.repository.UserRepository;
-import com.fis.mylittleboard.global.jwt.entity.TokenEntity;
 import com.fis.mylittleboard.global.jwt.exception.CustomError;
 import com.fis.mylittleboard.global.jwt.exception.CustomException;
-import com.fis.mylittleboard.global.jwt.repository.TokenJpaRepository;
 import com.fis.mylittleboard.global.jwt.repository.TokenRepository;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +26,9 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final UserJpaRepository userJpaRepository;
   private final TokenRepository tokenRepository;
-  private final TokenJpaRepository tokenJpaRepository;
   private final PasswordEncoder passwordEncoder;
 
   @Override
-  @Transactional
   public UserResponseDto signup(UserRequestDto signupRequestDto) {
     User user = User.builder()
         .signupId(signupRequestDto.getSignupId())
@@ -59,7 +52,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
   public UserPasswordResponseDto updatePassword(Long id, PasswordRequestDto passwordRequestDto) {
 
     UserEntity user = findByUserId(id);
@@ -79,7 +71,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
   public UserEmailResponseDto updateEmail(Long id, UserEmailRequestDto userEmailRequestDto) {
     UserEntity user = findByUserId(id);
 
@@ -95,7 +86,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @Transactional
   public void deleteUser(Long id) {
 
     UserEntity user = findByUserId(id);
@@ -103,30 +93,6 @@ public class UserServiceImpl implements UserService {
     tokenRepository.deleteTokenByUserId(id);
   }
 
-  @Override
-  public void logout(String token) {
-    String extractedToken = extractToken(token);
-    if (extractedToken != null) {
-      // 실제 토큰 값을 찾은 경우
-      Optional<TokenEntity> optionalTokenEntity = tokenJpaRepository.findByToken(extractedToken);
-      if (optionalTokenEntity.isPresent()) {
-        TokenEntity tokenEntity = optionalTokenEntity.get();
-        tokenEntity.expireToken();
-        tokenRepository.update(tokenEntity);
-      } else {
-        throw new NoSuchElementException("토큰을 찾을 수 없습니다");
-      }
-    } else {
-      throw new IllegalArgumentException("Bearer 토큰이 올바르지 않습니다");
-    }
-  }
-  // Bearer 접두어를 제거하여 실제 토큰 값을 추출하는 메서드
-  private String extractToken(String authorizationHeader) {
-    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-      return authorizationHeader.substring(7); // "Bearer " 부분을 제외한 나머지 문자열을 반환
-    }
-    return null; // Bearer 접두어가 없는 경우 null 반환
-  }
   private UserEntity findByUserId(Long id) {
     return userJpaRepository.findById(id)
         .orElseThrow(() -> new CustomException(CustomError.MEMBER_NOT_EXISTS));

@@ -1,6 +1,7 @@
 package com.fis.mylittleboard.global.jwt.config;
 
 import com.fis.mylittleboard.global.jwt.JwtProvider;
+import com.fis.mylittleboard.global.jwt.repository.RefreshTokenJpaRepository;
 import com.fis.mylittleboard.global.jwt.repository.TokenRepository;
 import com.fis.mylittleboard.global.jwt.security.JwtAuthenticationFilter;
 import com.fis.mylittleboard.global.jwt.security.JwtAuthorizationFilter;
@@ -26,6 +27,7 @@ public class SecurityConfig {
 
   private final JwtProvider jwtProvider;
   private final TokenRepository tokenRepository;
+  private final RefreshTokenJpaRepository tokenJpaRepository;
   private final UserDetailsServiceImpl userDetailsService;
   private final AuthenticationConfiguration authenticationConfiguration;
 
@@ -49,7 +51,7 @@ public class SecurityConfig {
 
   @Bean
   public JwtAuthorizationFilter jwtAuthorizationFilter() {
-    return new JwtAuthorizationFilter(jwtProvider, tokenRepository,userDetailsService);
+    return new JwtAuthorizationFilter(jwtProvider, tokenRepository, tokenJpaRepository,userDetailsService);
   }
 
   @Bean

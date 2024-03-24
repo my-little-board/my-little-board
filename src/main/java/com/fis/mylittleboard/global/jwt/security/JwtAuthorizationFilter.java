@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fis.mylittleboard.global.jwt.JwtProvider;
 import com.fis.mylittleboard.global.jwt.TokenState;
 import com.fis.mylittleboard.global.jwt.dto.CommonResponseDto;
-import com.fis.mylittleboard.global.jwt.entity.TokenEntity;
+import com.fis.mylittleboard.global.jwt.entity.RefreshTokenEntity;
 import com.fis.mylittleboard.global.jwt.exception.CustomError;
+import com.fis.mylittleboard.global.jwt.repository.RefreshTokenJpaRepository;
 import com.fis.mylittleboard.global.jwt.repository.TokenRepository;
 import com.fis.mylittleboard.global.jwt.success.SuccessCode;
 import io.jsonwebtoken.Claims;
@@ -32,6 +33,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
   private final JwtProvider jwtProvider;
   private final TokenRepository tokenRepository;
+  private final RefreshTokenJpaRepository tokenJpaRepository;
   private final UserDetailsServiceImpl userDetailsService;
 
   ObjectMapper objectMapper = new ObjectMapper();
@@ -47,22 +49,16 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     if (StringUtils.hasText(tokenValue)) { // 공백 x , null x
       TokenState state = jwtProvider.validateToken(tokenValue);
 
-
-
-
       if (state.equals(TokenState.EXPIRED)) {
         try {
           Claims info = jwtProvider.getUserInfoFromExpiredToken(tokenValue);
           UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(
               info.getSubject());
-          TokenEntity refreshTokenEntity = tokenRepository.findByUserId(
+          RefreshTokenEntity refreshToken = tokenRepository.findByUserId(
               userDetails.getUser().getId());
-          log.info("RefreshToken : {}", refreshTokenEntity.getToken());
+          log.info("RefreshToken : {}",refreshToken.getToken());
 
-          TokenState refreshState = jwtProvider.validateToken(refreshTokenEntity.getToken());
-          if (req.getRequestURL().toString().endsWith("/users/logout") && !refreshState.equals(TokenState.EXPIRED)) {
-            refreshState = TokenState.EXPIRED;
-          }
+          TokenState refreshState = jwtProvider.validateToken(refreshToken.getToken());
           if (refreshState.equals(TokenState.VALID)) {
             String newAccessToken = jwtProvider.generateRefreshToken(userDetails.getUsername());
             res.addHeader(JwtProvider.AUTHORIZATION_ACCESS_TOKEN_HEADER_KEY, newAccessToken);
@@ -73,12 +69,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             res.setContentType("application/json");
             res.setCharacterEncoding("UTF-8");
             res.getWriter().write(jsonResponse);
-          }
-          else if (refreshState.equals(TokenState.EXPIRED)){
-            log.error("Token Expired");
-            return;
-          }
-          else {
+          } else {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
             String jsonResponse = objectMapper.writeValueAsString(
@@ -89,19 +80,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             res.getWriter().write(jsonResponse);
             return;
           }
-
         } catch (Exception e) {
           e.printStackTrace();
           return;
         }
-      }
-
-      else if (state.equals(TokenState.INVALID)) {
+      } else if (state.equals(TokenState.INVALID)) {
         log.error("Token Error");
         return;
-
       }
-
 
       Claims info = jwtProvider.getUserInfoFromToken(tokenValue);
 
@@ -112,7 +98,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         return;
       }
     }
-      filterChain.doFilter(req, res);
+
+    filterChain.doFilter(req, res);
   }
 
   // 인증 처리

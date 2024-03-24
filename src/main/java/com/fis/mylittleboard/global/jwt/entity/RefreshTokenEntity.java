@@ -10,30 +10,25 @@ import lombok.Getter;
 @Getter
 @Table(name = "refresh_token")
 @Entity
-public class TokenEntity {
+public class RefreshTokenEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private Long userId;
   private String token;
-  private Boolean isExpired;
 
-  protected TokenEntity() {
+  protected RefreshTokenEntity() {
 
   }
 
-  private TokenEntity(Long id,Long userId, String token) {
+  private RefreshTokenEntity(Long id,Long userId, String token) {
     this.id = id;
     this.userId = userId;
     this.token = token;
   }
 
-  public static TokenEntity of(Long id,Long userId, String token) {
-    return new TokenEntity(id, userId, token);
-  }
-
-  public void expireToken() {
-    isExpired = true;
+  public static RefreshTokenEntity of(Long id,Long userId, String token) {
+    return new RefreshTokenEntity(id, userId, token);
   }
 }

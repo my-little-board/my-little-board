@@ -1,6 +1,6 @@
 package com.fis.mylittleboard.global.jwt.repository;
 
-import com.fis.mylittleboard.global.jwt.entity.RefreshTokenEntity;
+import com.fis.mylittleboard.global.jwt.entity.TokenEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -8,25 +8,33 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class TokenRepositoryImpl implements TokenRepository {
 
-  private final RefreshTokenJpaRepository refreshTokenJpaRepository;
+  private final TokenJpaRepository tokenJpaRepository;
 
 
   @Override
   public void deleteTokenByUserId(Long userId) {
-    RefreshTokenEntity refreshToken = findByUserId(userId);
-    if (refreshToken != null) {
-      refreshTokenJpaRepository.deleteById(refreshToken.getId());
+    TokenEntity refreshTokenEntity = findByUserId(userId);
+    if (refreshTokenEntity != null) {
+      tokenJpaRepository.deleteById(refreshTokenEntity.getId());
     }
   }
 
   @Override
+  public void update(TokenEntity token) {
+    tokenJpaRepository.saveAndFlush(token);
+  }
+
+
+
+  @Override
   public void addRefreshToken(Long id,Long userId, String refreshToken) {
-    RefreshTokenEntity entity = RefreshTokenEntity.of(id,userId, refreshToken);
-    refreshTokenJpaRepository.save(entity);
+    TokenEntity entity = TokenEntity.of(id,userId, refreshToken);
+    tokenJpaRepository.save(entity);
   }
 
   @Override
-  public RefreshTokenEntity findByUserId(Long userId) {
-    return refreshTokenJpaRepository.findByUserId(userId);
+  public TokenEntity findByUserId(Long userId) {
+    return tokenJpaRepository.findByUserId(userId);
   }
+
 }

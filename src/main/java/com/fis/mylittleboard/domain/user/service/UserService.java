@@ -18,4 +18,6 @@ public interface UserService {
   UserEmailResponseDto updateEmail(Long id, UserEmailRequestDto userEmailRequestDto);
 
   void deleteUser(Long id);
+
+  void logout(String token);
 }

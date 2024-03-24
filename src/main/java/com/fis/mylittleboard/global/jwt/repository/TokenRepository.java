@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 public interface TokenRepository {
 
 
-  void addRefreshToken(Long id,Long tokenId, String refreshToken);
+  void addRefreshToken(Long id, Long tokenId, String refreshToken);
 
   RefreshTokenEntity findByUserId(Long id);
 

@@ -11,14 +11,11 @@ import com.fis.mylittleboard.domain.progress.dto.ProgressAllList;
 import com.fis.mylittleboard.domain.progress.dto.ProgressListResDto;
 import com.fis.mylittleboard.domain.progress.dto.ProgressResDto;
 import com.fis.mylittleboard.domain.progress.entity.Progress;
-import com.fis.mylittleboard.domain.progress.repository.ProgressJpaRepository;
 import com.fis.mylittleboard.domain.progress.repository.ProgressRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -29,24 +26,23 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProgressServiceImpl implements ProgressService {
 
-	private final ProgressRepository progressRepository;
-	private final CardRepository cardRepository;
-	private final BoardRepository boardRepository;
-	private final DateRepository dateRepository;
-	private final RedissonClient redissonClient;
-
-	private static final String LOCK_KEY = "progressLock";
+  private static final String LOCK_KEY = "progressLock";
+  private final ProgressRepository progressRepository;
+  private final CardRepository cardRepository;
+  private final BoardRepository boardRepository;
+  private final DateRepository dateRepository;
+  private final RedissonClient redissonClient;
 
   public Progress getProgress(Long progressId) {
     return progressRepository.findById(progressId)
         .orElseThrow(() -> new IllegalArgumentException("해당 분류는 존재하지 않습니다."));
   }
 
-	@Transactional
-	public ProgressResDto createProgress(Long boardId, String classification) {
-		Board board = boardRepository.findById(boardId);
-		Long count = progressRepository.find();
-		Progress progress = new Progress(classification, board.getId(), count + 1);
+  @Transactional
+  public ProgressResDto createProgress(Long boardId, String classification) {
+    Board board = boardRepository.findById(boardId);
+    Long count = progressRepository.find();
+    Progress progress = new Progress(classification, board.getId(), count + 1);
 
     return new ProgressResDto(progressRepository.save(progress));
 
@@ -71,35 +67,35 @@ public class ProgressServiceImpl implements ProgressService {
     progressRepository.delete(progress);
   }
 
-	public void move(Long progressId, Long boardId, Long position) {
-		RLock lock = redissonClient.getFairLock(LOCK_KEY);
+  public void move(Long progressId, Long boardId, Long position) {
+    RLock lock = redissonClient.getFairLock(LOCK_KEY);
 
-		try{
-			boolean isLocked = lock.tryLock(10, 60, TimeUnit.SECONDS);
-			if(isLocked) {
-				try{
-					Progress progress1 = getProgress(progressId);
+    try {
+      boolean isLocked = lock.tryLock(10, 60, TimeUnit.SECONDS);
+      if (isLocked) {
+        try {
+          Progress progress1 = getProgress(progressId);
 
-					Progress progress2 = progressRepository.findByPosition(position)
-						.orElseThrow(() -> new IllegalArgumentException("해당 위치의 분류는 존재하지 않습니다."));
+          Progress progress2 = progressRepository.findByPosition(position)
+              .orElseThrow(() -> new IllegalArgumentException("해당 위치의 분류는 존재하지 않습니다."));
 
-					Board board = boardRepository.findById(boardId);
+          Board board = boardRepository.findById(boardId);
 
-					Long progress1position = progress1.getPosition();
-					Long progress2position = progress2.getPosition();
+          Long progress1position = progress1.getPosition();
+          Long progress2position = progress2.getPosition();
 
-					progress1.movePosition(progress2position);
-					progress2.movePosition(progress1position);
-					progress1.moveBoard(board.getId());
-					progressRepository.save(progress1);
-					progressRepository.save(progress2);
-				} finally {
-					lock.unlock();
-				}
-			}
-		}catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
+          progress1.movePosition(progress2position);
+          progress2.movePosition(progress1position);
+          progress1.moveBoard(board.getId());
+          progressRepository.save(progress1);
+          progressRepository.save(progress2);
+        } finally {
+          lock.unlock();
+        }
+      }
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 
   @Transactional(readOnly = true)

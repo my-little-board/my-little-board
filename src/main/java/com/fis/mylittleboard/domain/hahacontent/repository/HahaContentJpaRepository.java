@@ -8,5 +8,5 @@ public interface HahaContentJpaRepository extends JpaRepository<HahaContent, Lon
 
   List<HahaContent> findByHahaboardId(Long hahaboardId);
 
-  void deleteAllById (Long boardId);
+  void deleteAllById(Long boardId);
 }

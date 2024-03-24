@@ -22,7 +22,7 @@ public class HahaContentRepositoryImpl implements HahaContentRepository {
   }
 
   @Override
-  public void deleteAllHahaContent (Long boardId) {
+  public void deleteAllHahaContent(Long boardId) {
     hahacontentJpaRepository.deleteAllById(boardId);
   }
 

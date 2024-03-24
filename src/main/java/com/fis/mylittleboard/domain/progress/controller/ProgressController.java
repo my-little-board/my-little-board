@@ -51,7 +51,6 @@ public class ProgressController {
 
   }
 
-
   @PostMapping("api/progresses/{progressId}")
   public ResponseEntity<ResponseDto<ProgressAllList>> move(
       @PathVariable Long progressId, @RequestBody
@@ -67,7 +66,6 @@ public class ProgressController {
             .message("move 성공하였습니다.")
             .data(progressAllList)
             .build());
-
   }
 
   @DeleteMapping("/api/progresses/{progressId}")

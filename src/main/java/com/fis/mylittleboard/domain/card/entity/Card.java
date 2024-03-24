@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,8 +39,6 @@ public class Card {
   @Column(nullable = false)
   private Long progressId;
 
-
-  @Builder
   public Card(CardNameRequestDto cardNameRequestDto) {
     this.name = cardNameRequestDto.getName();
     this.color = "default color";

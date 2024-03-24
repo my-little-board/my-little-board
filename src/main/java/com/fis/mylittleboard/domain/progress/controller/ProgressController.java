@@ -56,12 +56,6 @@ public class ProgressController {
 	public ResponseEntity<ResponseDto<ProgressAllList>> move(@PathVariable Long progressId, @RequestBody
 	ProgressMoveDto progressMoveDto) {
 
-  @PostMapping("api/progresses/{progressId}")
-  public ResponseEntity<MessageResponseDto> move(
-      @PathVariable Long progressId, @RequestBody
-  ProgressMoveDto progressMoveDto) {
-
-
     progressService.move(progressId, progressMoveDto.getBoardId(),
         progressMoveDto.getPosition());
 
@@ -73,12 +67,6 @@ public class ProgressController {
 				.message("move 성공하였습니다.")
 				.data(progressAllList)
 				.build());
-
-    return ResponseEntity.ok()
-        .body(MessageResponseDto.builder()
-            .message("move 성공하였습니다.")
-            .build());
-
 
   }
 

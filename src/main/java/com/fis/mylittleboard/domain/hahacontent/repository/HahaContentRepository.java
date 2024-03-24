@@ -9,4 +9,6 @@ public interface HahaContentRepository {
 
   List<HahaContent> findHahaContentsByHahaboardId(Long hahaboardId);
 
+  void deleteAllHahaContent(Long boardId);
+
 }

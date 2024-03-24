@@ -1,9 +1,5 @@
 package com.fis.mylittleboard.domain.board.dto;
 
-import com.fis.mylittleboard.domain.hahacontent.entity.HahaContent;
-import com.fis.mylittleboard.domain.progress.entity.Progress;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.Getter;
 
 @Getter
@@ -11,23 +7,19 @@ public class BoardResponseDto {
 
   private final String boardName;
   private final String boardDescription;
-  private final String boardColor;
-  private final LocalDateTime dueDate;
+  private final String boardStatus;
 
-  private final String hahaboardName;
-  private final List<HahaContent> hahaContents;
-  private final List<Progress> progresses;
+  private final String boardColor;
 
   public BoardResponseDto(
-      String boardName, String boardDescription, String boardColor, LocalDateTime dueDate,
-      List<Progress> progresses, String hahaboardName, List<HahaContent> hahaContents
-  ) {
+      Boolean boardStatus, String boardName, String boardDescription, String boardColor) {
+    if (boardStatus) {
+      this.boardStatus = "작업 중인 워크스페이스";
+    } else {
+      this.boardStatus = "마감된 워크스페이스";
+    }
     this.boardName = boardName;
     this.boardDescription = boardDescription;
     this.boardColor = boardColor;
-    this.dueDate = dueDate;
-    this.progresses = progresses;
-    this.hahaboardName = hahaboardName;
-    this.hahaContents = hahaContents;
   }
 }

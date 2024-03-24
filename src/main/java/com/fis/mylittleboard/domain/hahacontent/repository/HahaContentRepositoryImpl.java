@@ -21,4 +21,9 @@ public class HahaContentRepositoryImpl implements HahaContentRepository {
     return hahacontentJpaRepository.findByHahaboardId(hahaboardId);
   }
 
+  @Override
+  public void deleteAllHahaContent (Long boardId) {
+    hahacontentJpaRepository.deleteAllById(boardId);
+  }
+
 }

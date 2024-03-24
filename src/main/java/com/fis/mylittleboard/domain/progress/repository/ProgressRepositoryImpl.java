@@ -56,4 +56,9 @@ public class ProgressRepositoryImpl implements ProgressRepository {
   public List<Progress> findAllProgressesByBoardId(Long boardId) {
     return progressJpaRepository.findAllProgressesByBoardId(boardId);
   }
+
+  @Override
+  public void deleteAllProgress (Long boardId) {
+    progressJpaRepository.deleteAllById(boardId);
+  }
 }

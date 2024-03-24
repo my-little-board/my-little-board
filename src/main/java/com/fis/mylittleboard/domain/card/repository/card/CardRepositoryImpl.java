@@ -6,6 +6,7 @@ import static com.fis.mylittleboard.domain.card.entity.QMember.member;
 import com.fis.mylittleboard.domain.card.entity.Card;
 import com.fis.mylittleboard.domain.card.entity.QCard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -62,5 +63,15 @@ public class CardRepositoryImpl implements CardRepository {
     return jpaQueryFactory.selectFrom(QCard.card)
         .where(QCard.card.boardId.eq(boardId), QCard.card.id.eq(cardId))
         .fetch();
+  }
+
+  @Override
+  public void deleteAllCard (Long boardId) {
+    cardJpaRepository.deleteAllById(boardId);
+  }
+
+  @Override
+  public List<Card> findAllCard (Long progressId) {
+    return cardJpaRepository.findByProgressId(progressId);
   }
 }

@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface HahaContentJpaRepository extends JpaRepository<HahaContent, Long> {
 
   List<HahaContent> findByHahaboardId(Long hahaboardId);
+
+  void deleteAllById (Long boardId);
 }

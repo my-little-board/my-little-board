@@ -10,4 +10,6 @@ public interface ProgressJpaRepository extends JpaRepository<Progress, Long> {
   Optional<Progress> findByPosition(Long position);
 
   List<Progress> findAllProgressesByBoardId(Long boardId);
+
+  void deleteAllById (Long boardId);
 }

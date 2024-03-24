@@ -27,6 +27,11 @@ public class BoardRepositoryImpl implements BoardRepository {
   }
 
   @Override
+  public List<Board> findAll() {
+    return boardJpaRepository.findAll();
+  }
+
+  @Override
   public List<Board> findAllBoardsOrderByBoardStatusDesc() {
     return boardJpaRepository.findAll(Sort.by(Direction.DESC, "boardStatus"));
   }
@@ -41,4 +46,5 @@ public class BoardRepositoryImpl implements BoardRepository {
     return boardJpaRepository.findById(boardId).orElseThrow(() ->
         new IllegalArgumentException("작업공간이 존재하지 않습니다."));
   }
+
 }

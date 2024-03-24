@@ -58,7 +58,7 @@ public class ProgressRepositoryImpl implements ProgressRepository {
   }
 
   @Override
-  public void deleteAllProgress (Long boardId) {
+  public void deleteAllProgress(Long boardId) {
     progressJpaRepository.deleteAllById(boardId);
   }
 }

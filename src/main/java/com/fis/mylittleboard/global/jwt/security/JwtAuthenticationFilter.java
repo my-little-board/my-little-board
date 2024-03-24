@@ -34,6 +34,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     setFilterProcessesUrl("/api/users/login");
 
   }
+
   @Override
   public Authentication attemptAuthentication(
       HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -65,11 +66,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String token = jwtUtil.generateAccessToken(user.getSignupId());
     String refreshToken = jwtUtil.generateRefreshToken(user.getSignupId());
     refreshToken = jwtUtil.substringToken(refreshToken);
-    log.info("refreshToken입니다 : {}",refreshToken);
+    log.info("refreshToken입니다 : {}", refreshToken);
     // access token 유효시간이 끝나면 실행되도록
 
-    if (StringUtils.isEmpty(tokenRepository.findByUserId(user.getId()))){
-      tokenRepository.addRefreshToken(null,user.getId(), refreshToken);
+    if (StringUtils.isEmpty(tokenRepository.findByUserId(user.getId()))) {
+      tokenRepository.addRefreshToken(null, user.getId(), refreshToken);
     }
 
     response.addHeader(JwtProvider.AUTHORIZATION_ACCESS_TOKEN_HEADER_KEY, token);

@@ -11,5 +11,5 @@ public interface ProgressJpaRepository extends JpaRepository<Progress, Long> {
 
   List<Progress> findAllProgressesByBoardId(Long boardId);
 
-  void deleteAllById (Long boardId);
+  void deleteAllById(Long boardId);
 }

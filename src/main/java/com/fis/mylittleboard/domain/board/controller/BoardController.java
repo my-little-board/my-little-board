@@ -1,7 +1,7 @@
 package com.fis.mylittleboard.domain.board.controller;
 
-import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardAllResponseDto;
+import com.fis.mylittleboard.domain.board.dto.BoardRequestDto;
 import com.fis.mylittleboard.domain.board.dto.BoardResponseDto;
 import com.fis.mylittleboard.domain.board.serivce.BoardService;
 import com.fis.mylittleboard.global.common.MessageResponseDto;

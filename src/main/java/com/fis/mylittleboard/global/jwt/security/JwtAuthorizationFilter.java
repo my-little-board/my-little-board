@@ -56,13 +56,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
               info.getSubject());
           RefreshTokenEntity refreshToken = tokenRepository.findByUserId(
               userDetails.getUser().getId());
-          log.info("RefreshToken : {}",refreshToken.getToken());
+          log.info("RefreshToken : {}", refreshToken.getToken());
 
           TokenState refreshState = jwtProvider.validateToken(refreshToken.getToken());
           if (refreshState.equals(TokenState.VALID)) {
             String newAccessToken = jwtProvider.generateRefreshToken(userDetails.getUsername());
             res.addHeader(JwtProvider.AUTHORIZATION_ACCESS_TOKEN_HEADER_KEY, newAccessToken);
-              res.setStatus(HttpServletResponse.SC_OK);
+            res.setStatus(HttpServletResponse.SC_OK);
             String jsonResponse = objectMapper.writeValueAsString(
                 CommonResponseDto.ok(SuccessCode.SUCCESS_NEW_TOKEN, null));
 
@@ -115,6 +115,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   // 인증 객체 생성
   private Authentication createAuthentication(String signupId) {
     UserDetails userDetails = userDetailsService.loadUserByUsername(signupId);
-    return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+    return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),
+        userDetails.getAuthorities());
   }
 }

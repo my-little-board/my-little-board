@@ -44,6 +44,7 @@ public class JwtProvider {
     byte[] bytes = Base64.getDecoder().decode(secretKey);
     key = Keys.hmacShaKeyFor(bytes);
   }
+
   public String generateAccessToken(final String userId) {
     return generateToken(userId, ACCESS_TOKEN_VALID_TIME);
   }

@@ -20,5 +20,5 @@ public interface ProgressRepository {
 
   List<Progress> findAllProgressesByBoardId(Long boardId);
 
-  void deleteAllProgress (Long boardId);
+  void deleteAllProgress(Long boardId);
 }

@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,10 +57,12 @@ public class UserEntity extends TimeStamp {
         .username(username)
         .build();
   }
+
   public void changePassword(String newPassword) {
     this.password = newPassword;
   }
-  public void changeEmail(String newEmail){
+
+  public void changeEmail(String newEmail) {
     this.email = newEmail;
   }
 }

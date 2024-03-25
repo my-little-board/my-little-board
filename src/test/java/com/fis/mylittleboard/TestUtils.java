@@ -28,11 +28,5 @@ public class TestUtils implements CommonTest {
     ReflectionTestUtils.setField(entity, "dueDate", LocalDateTime.now());
   }
 
-  public static List<Card> getCards() {
-    List<Card> cards = new ArrayList<>();
-    cards.add(Test_Card);
-    cards.add(Another_Test_Card);
-    return cards;
-  }
 
 }

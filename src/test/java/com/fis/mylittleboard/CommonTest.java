@@ -13,18 +13,11 @@ public interface CommonTest {
 
   Long Progress_Id = 1L;
 
-  Long Another_Progress_Id = 2L;
 
   Progress Test_Progress = Progress.builder()
       .boardId(Board_Id)
       .classification(Progress_Name)
       .position(1L)
-      .build();
-
-  Progress Another_Test_Progress = Progress.builder()
-      .boardId(Board_Id)
-      .classification(Progress_Name)
-      .position(2L)
       .build();
 
   Label Test_Label = Label.builder()

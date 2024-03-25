@@ -31,11 +31,7 @@ public class ProgressServiceUnitTest implements CommonTest {
   @Mock
   ProgressRepository progressRepository;
   @Mock
-  CardRepository cardRepository;
-  @Mock
   BoardRepository boardRepository;
-  @Mock
-  DateRepository dateRepository;
 
   @InjectMocks
   ProgressServiceImpl progressService;
